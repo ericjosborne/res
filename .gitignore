@@ -11,3 +11,7 @@ pfml/data/raw/ipums_cps_asec.csv
 pfml/data/raw/ipums_cps_basic.dta
 pfml/data/raw/monthly/*.csv
 pfml/output/logs/
+# IPUMS raw extracts (release assets, >100 MB): never committed
+pfml/data/raw/cps_*.csv
+pfml/data/raw/cps_*.csv.gz
+pfml/data/raw/cps_*.dat*
