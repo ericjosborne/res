@@ -1,0 +1,8 @@
+# Large binary survey files are downloaded by code/00_download.sh, not committed
+data/raw/policyengine/h5
+data/raw/policyengine/*.h5
+data/clean/*.h5
+data/clean/cps_pe_*.csv.gz
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

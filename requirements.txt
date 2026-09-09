@@ -1,0 +1,11 @@
+pandas>=2.2
+numpy>=1.26
+scipy>=1.12
+statsmodels>=0.14
+matplotlib>=3.8
+pyfixest>=0.30
+linearmodels>=6.0
+h5py>=3.10
+wooldridge>=0.4
+requests>=2.31
+ipumspy>=0.5   # only needed for code/90_ipums_extract.py (run locally with an IPUMS API key)
