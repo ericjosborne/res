@@ -20,7 +20,8 @@ tempfile policy
 save `policy'
 
 *---------------------------------------------------------------- extract
-import delimited "$RAW/ipums_cps_asec.csv", clear varnames(1) case(lower)
+* the extract may be named cps_NNNNN.csv; set $ASEC in 00_master.do if so
+import delimited "$ASEC", clear varnames(1) case(lower)
 keep if sex == 2 & inrange(age, 18, 44) & asecwt > 0
 rename asecwt wt
 gen year_survey = year

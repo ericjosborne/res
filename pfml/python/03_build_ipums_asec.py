@@ -17,13 +17,26 @@ import pandas as pd
 PF = Path(__file__).resolve().parents[1]
 RAW = PF / "data" / "raw"; OUT = PF / "data" / "clean"; OUT.mkdir(parents=True, exist_ok=True)
 
-USECOLS = ["YEAR", "SERIAL", "PERNUM", "ASECWT", "STATEFIP", "METRO", "AGE", "SEX", "RACE", "MARST",
+USECOLS = ["YEAR", "SERIAL", "PERNUM", "ASECWT", "STATEFIP", "METRO", "HFLAG", "MOMLOC", "AGE", "SEX", "RACE", "MARST",
            "HISPAN", "EDUC", "NCHILD", "NCHLT5", "YNGCH", "ELDCH", "EMPSTAT", "LABFORCE", "UHRSWORKT",
            "WORKLY", "WKSWORK1", "WKSWORK2", "UHRSWORKLY", "FULLPART", "INCWAGE", "INCBUS", "NATIVITY"]
 WKS2_MID = {0: 0, 1: 7, 2: 20, 3: 33, 4: 43.5, 5: 48.5, 6: 51}
 
 
-def build(path=RAW / "ipums_cps_asec.csv.gz"):
+def find_extract():
+    """ipums_cps_asec.csv(.gz) if present, else the newest cps_NNNNN.csv(.gz) in data/raw."""
+    for cand in [RAW / "ipums_cps_asec.csv.gz", RAW / "ipums_cps_asec.csv"]:
+        if cand.exists():
+            return cand
+    found = sorted(RAW.glob("cps_*.csv*"))
+    if not found:
+        raise FileNotFoundError("no IPUMS extract in pfml/data/raw (see IPUMS_EXTRACT_SPEC.md)")
+    return found[-1]
+
+
+def build(path=None):
+    path = path or find_extract()
+    print("reading", path)
     df = pd.read_csv(path, usecols=lambda c: c.upper() in USECOLS)
     df.columns = [c.upper() for c in df.columns]
     df = df[(df["SEX"] == 2) & df["AGE"].between(18, 44) & (df["ASECWT"] > 0)].copy()
@@ -69,11 +82,14 @@ def build(path=RAW / "ipums_cps_asec.csv.gz"):
     d["gvar"] = d["state_fips"].map(pol["cohort_asec_refyear"]).fillna(0).astype(int)
     d["gvar_full"] = d["state_fips"].map(pol["first_full_ref_year"]).fillna(0).astype(int)
     d["treated_now"] = ((d["gvar"] > 0) & (d["year"] >= d["gvar"])).astype(int)
+    d["metro"] = df["METRO"].astype(int) if "METRO" in df else -1
+    d["hflag"] = df["HFLAG"].fillna(-1).astype(int) if "HFLAG" in df else -1   # 2014: two ASEC subsamples, both kept
     return d
 
 
 if __name__ == "__main__":
-    d = build()
+    import sys
+    d = build(Path(sys.argv[1]) if len(sys.argv) > 1 else None)
     print("rows:", len(d), " years:", d["year"].min(), "-", d["year"].max())
     print("mothers of under-6s per year (mean):", round(d.groupby("year")["mother_lt6"].sum().mean()))
     print(d.groupby("gvar").size())

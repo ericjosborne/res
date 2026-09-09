@@ -43,7 +43,10 @@ log using "$LOG/master_`c(current_date)'.log", replace text
 do "$PF/stata/90_prelim_csdid.do"
 
 * Full pipeline: ASEC extract (required, see data/raw/IPUMS_EXTRACT_SPEC.md)
-capture confirm file "$RAW/ipums_cps_asec.csv"
+global ASEC "$RAW/cps_00090.csv"        // IPUMS extract (women 18-44 or all persons; the build filters)
+capture confirm file "$ASEC"
+if _rc != 0  global ASEC "$RAW/ipums_cps_asec.csv"
+capture confirm file "$ASEC"
 if _rc == 0 {
     do "$PF/stata/01_build_cps_asec.do"
     global DATA "$CLEAN/cps_women_1844_asec.dta"
@@ -53,7 +56,7 @@ if _rc == 0 {
     do "$PF/stata/04_tables.do"
 }
 else {
-    display as error "ASEC extract not found at $RAW/ipums_cps_asec.csv (gunzip the .csv.gz); only the preliminary demo ran."
+    display as error "ASEC extract not found ($ASEC); only the preliminary demo ran."
 }
 * Optional: basic monthly extract for month-level timing (extract B in the spec)
 capture confirm file "$RAW/ipums_cps_basic.dta"
