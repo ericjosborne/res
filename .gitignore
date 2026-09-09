@@ -15,3 +15,4 @@ pfml/output/logs/
 pfml/data/raw/cps_*.csv
 pfml/data/raw/cps_*.csv.gz
 pfml/data/raw/cps_*.dat*
+pfml/data/clean/cps_asec_women_1844.dta

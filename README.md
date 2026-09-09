@@ -22,13 +22,14 @@ Preliminary results: `pfml/docs/preliminary_results.md`.
 
 ### Status of the preliminary run
 
-Only two cohorts (Massachusetts 2021, Connecticut 2022) fall inside the CPS
-window reachable from this environment, with 60-150 treated mothers per cell.
-Point estimates for mothers of under-6s are positive (+3 to +8 points on
-employment) but imprecise, and the childless-women placebo moves, so the window
-cannot identify the policy effect. The paper needs the IPUMS-CPS ASEC extract specified in
-`pfml/data/raw/IPUMS_EXTRACT_SPEC.md` (women 18-44, 1990-2025); the Python
-and Stata builds for it are written and the estimator is validated.
+**Full-window results are in `pfml/docs/full_results.md`** (IPUMS-CPS ASEC
+1990-2025, 1.2 million women 18-44, nine cohorts): PFML has no detectable
+effect on the employment, hours or full-time work of mothers of under-6s in the
+first five years (simple ATT on employment +0.021, s.e. 0.014), with flat
+pre-trends and a zero childless placebo; a late rise in years 7-10 is a
+California/New Jersey pattern. The IPUMS extract (`cps_00090.csv`, 1 GB) is a
+GitHub release asset (tag `data-v1`), not committed; `pfml/docs/preliminary_results.md`
+keeps the earlier 2021-23 pilot.
 
 ## Data provenance
 

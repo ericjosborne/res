@@ -49,12 +49,14 @@ specification when the placebo shows movement.
 
 ## 3. Data
 
-* **Paper:** IPUMS-CPS basic monthly files, January 2000 to December 2024,
-  women aged 18-44: roughly 12 million person-months, 250,000 per year of
-  mothers with a child under 6. Variables: labour force status, employment,
-  usual hours, presence and age of own children (NCHILD, YNGCH, NCHLT5),
-  demographics, state, final weights. Outgoing rotation groups add earnings.
-  The build is `pfml/stata/01_build_cps.do`.
+* **Paper (in hand):** IPUMS-CPS ASEC extract `cps_00090`, survey years
+  1990-2025, women aged 18-44: 1,216,812 person-years, about 10,500 mothers of
+  under-6s per reference year. Variables: worked / weeks / hours last year,
+  March labour-force status, presence and age of own children (NCHILD, YNGCH,
+  NCHLT5), demographics, state, ASEC weights. Builds:
+  `pfml/python/03_build_ipums_asec.py`, `pfml/stata/01_build_cps_asec.do`.
+  A basic-monthly extract (optional, `01_build_cps_monthly.do`) would add
+  month-level timing.
 * **Policy panel:** `pfml/data/raw/pfml_policy_dates.csv`, enactment,
   contribution and benefit start dates for every programme, compiled without
   web access and to be verified against the Department of Labor summary and
@@ -95,7 +97,13 @@ specification when the placebo shows movement.
 | Composition: who becomes a mother changes with leave policy | Condition on age at first birth; fertility as an outcome |
 | Contamination by earlier state programmes (TDI in CA/NJ/RI/NY) | Cohort-specific effects; early vs late generation comparison |
 
-## 6. Why the preliminary window cannot answer the question
+## 6. Status
+
+The full-window estimation on the IPUMS-CPS ASEC extract is done in Python
+(`full_results.md`); the Stata pipeline reproduces it with covariates and the
+wild cluster bootstrap and adds the robustness set.
+
+## 7. Why the preliminary window could not answer the question
 
 Reference years 2020-2022 are three pandemic-shaped years; two treated cohorts
 have one and two pre-periods; the treated cells contain 60-150 mothers. The
