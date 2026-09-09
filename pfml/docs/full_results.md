@@ -26,6 +26,7 @@ design with doubly-robust covariate adjustment and a wild cluster bootstrap.
 | Mothers of under-6s | Full time | 0.003 (0.015) | | 0.005 | -0.010 |
 | Mothers of under-6s | In labour force (March) | 0.024 (0.015) | | 0.003 | 0.010 |
 | All mothers | Worked last year | 0.007 (0.009) | | 0.002 | -0.004 |
+| All mothers | In labour force (March) | 0.011 (0.009) | | 0.002 | 0.002 |
 | Childless women (placebo) | Worked last year | 0.011 (0.010) | | 0.002 | 0.010 |
 | Childless women (placebo) | Usual weekly hours | -0.03 (0.50) | | 0.12 | 0.07 |
 
