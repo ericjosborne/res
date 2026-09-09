@@ -6,3 +6,8 @@ data/clean/cps_pe_*.csv.gz
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+# IPUMS extracts: keep the gzipped CSV + DDI codebook in the repo, not the unzipped CSV
+pfml/data/raw/ipums_cps_asec.csv
+pfml/data/raw/ipums_cps_basic.dta
+pfml/data/raw/monthly/*.csv
+pfml/output/logs/

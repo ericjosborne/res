@@ -14,9 +14,10 @@
 *   net install honestdid, from("https://raw.githubusercontent.com/mcaceresb/stata-honestdid/main") replace
 *   ssc install coefplot, replace
 *
-* Data: an IPUMS-CPS basic-monthly extract 2000m1-2024m12 (see 01_build_cps.do
-* for the variable list) saved as pfml/data/raw/ipums_cps_basic.dta, plus the
-* policy file pfml/data/raw/pfml_policy_dates.csv.
+* Data: the IPUMS-CPS ASEC extract (women 18-44, 1990-2025) described in
+* pfml/data/raw/IPUMS_EXTRACT_SPEC.md, saved as pfml/data/raw/ipums_cps_asec.csv,
+* plus the policy file pfml/data/raw/pfml_policy_dates.csv.  A basic-monthly
+* extract (optional) adds month-level timing.
 *==============================================================================
 version 16
 clear all
@@ -41,15 +42,23 @@ log using "$LOG/master_`c(current_date)'.log", replace text
 * (pfml/data/clean/cps_women_1844.dta); does not need the IPUMS extract.
 do "$PF/stata/90_prelim_csdid.do"
 
-* Full pipeline (requires the IPUMS-CPS extract)
-capture confirm file "$RAW/ipums_cps_basic.dta"
+* Full pipeline: ASEC extract (required, see data/raw/IPUMS_EXTRACT_SPEC.md)
+capture confirm file "$RAW/ipums_cps_asec.csv"
 if _rc == 0 {
-    do "$PF/stata/01_build_cps.do"
+    do "$PF/stata/01_build_cps_asec.do"
+    global DATA "$CLEAN/cps_women_1844_asec.dta"
+    global TVAR "year"
     do "$PF/stata/02_csdid.do"
     do "$PF/stata/03_robustness.do"
     do "$PF/stata/04_tables.do"
 }
 else {
-    display as error "IPUMS-CPS extract not found at $RAW/ipums_cps_basic.dta; only the preliminary demo ran."
+    display as error "ASEC extract not found at $RAW/ipums_cps_asec.csv (gunzip the .csv.gz); only the preliminary demo ran."
+}
+* Optional: basic monthly extract for month-level timing (extract B in the spec)
+capture confirm file "$RAW/ipums_cps_basic.dta"
+if _rc == 0 {
+    do "$PF/stata/01_build_cps_monthly.do"
+    do "$PF/stata/02b_csdid_monthly.do"
 }
 log close

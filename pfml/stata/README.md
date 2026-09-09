@@ -20,7 +20,8 @@ check on first run:
 | File | Purpose |
 |---|---|
 | `00_master.do` | paths, logging, runs everything |
-| `01_build_cps.do` | IPUMS-CPS basic monthly 2000-2024 to the estimation file and state-cell panels |
+| `01_build_cps_asec.do` | IPUMS-CPS ASEC extract (women 18-44, 1990-2025; see `../data/raw/IPUMS_EXTRACT_SPEC.md`) to the estimation file and state-cell panels |
+| `01_build_cps_monthly.do`, `02b_csdid_monthly.do` | optional basic-monthly extract for month-level timing |
 | `02_csdid.do` | main Callaway-Sant'Anna estimates (yearly and monthly cohorts, drimp, wild cluster bootstrap) |
 | `03_robustness.do` | not-yet-treated controls, triple difference, BJS, Sun-Abraham, dCDH, HonestDiD, placebo, alternative cohort timing |
 | `04_tables.do` | esttab tables |

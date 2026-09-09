@@ -26,8 +26,9 @@ Only two cohorts (Massachusetts 2021, Connecticut 2022) fall inside the CPS
 window reachable from this environment, with 60-150 treated mothers per cell.
 Point estimates for mothers of under-6s are positive (+3 to +8 points on
 employment) but imprecise, and the childless-women placebo moves, so the window
-cannot identify the policy effect. The paper needs the IPUMS-CPS basic monthly
-files 2000-2024; the Stata build for them is written.
+cannot identify the policy effect. The paper needs the IPUMS-CPS ASEC extract specified in
+`pfml/data/raw/IPUMS_EXTRACT_SPEC.md` (women 18-44, 1990-2025); the Python
+and Stata builds for it are written and the estimator is validated.
 
 ## Data provenance
 

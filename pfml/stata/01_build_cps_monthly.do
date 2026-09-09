@@ -1,5 +1,5 @@
 *==============================================================================
-* 01_build_cps.do -- build the estimation file from an IPUMS-CPS basic monthly
+* 01_build_cps_monthly.do -- (optional) IPUMS-CPS basic monthly extract B,
 *                    extract, 2000m1-2024m12.
 *
 * Request the extract at cps.ipums.org (basic monthly samples, all months) with
