@@ -28,7 +28,7 @@ SPECS = [("mothers_lt6", "worked", "Mothers of under-6s: worked last year"), ("m
          ("all", "has_infant", "All women 18-44: birth last year")]
 BASE = {("mothers_lt6", "worked"): "mothers_lt6_worked", ("mothers_lt6", "hours"): "mothers_lt6_hours", ("all", "has_infant"): "all_has_infant"}
 
-d = pd.read_csv(CLEAN, usecols=["mother_lt6", "weight", "educ3", "ofi_tercile", "married", "race4", "worked", "has_infant", "gvar", "year"])
+d = pd.read_csv(CLEAN, usecols=["mother_lt6", "weight", "educ3", "ofi_tercile", "married", "race4", "worked", "hours", "has_infant", "gvar", "year"])
 rows = []
 for s, y, lab in SPECS:
     base = pd.read_csv(TAB / f"{BASE[(s, y)]}_simple.csv").iloc[0]
@@ -58,7 +58,7 @@ print(to_markdown(out, ".3f", index=False))
 for s, y, lab in SPECS:
     h = H[(H.spec == lab) & (H.group != "All")].copy()
     fams = list(dict.fromkeys(h["family"]))
-    fig, ax = plt.subplots(figsize=(7.6, 5.2))
+    fig, ax = plt.subplots(figsize=(7.6, 5.6))
     yy = np.arange(len(h))[::-1]
     for i, fam in enumerate(fams):
         m = (h["family"] == fam).to_numpy()
@@ -66,7 +66,7 @@ for s, y, lab in SPECS:
     base = H[(H.spec == lab) & (H.group == "All")].iloc[0]
     ax.axvline(base["simple ATT"], color=INK2, linewidth=1, linestyle="--"); ax.axvline(0, color=INK2, linewidth=1)
     ax.set_yticks(yy); ax.set_yticklabels(h["group"]); ax.set_xlabel("Simple ATT, 95% CI (dashed: full-sample estimate)")
-    ax.set_title(lab, fontsize=11, loc="left"); ax.legend(frameon=False, fontsize=8, loc="lower right")
+    ax.set_title(lab, fontsize=11, loc="left"); ax.legend(frameon=False, fontsize=8, loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=4)
     style_axes(ax); ax.xaxis.grid(True, color=GRID); ax.yaxis.grid(False)
     fig.tight_layout(); fig.savefig(FIG / f"het_{y}.png", dpi=200); plt.close(fig)
 print("figures written")

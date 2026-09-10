@@ -141,3 +141,66 @@ decline (and possibly out-migration of families) showing up against the
 never-treated states. Cohorts 2009-2024 are all zero. See the chat note of
 2026-09-10 for the design that would be needed to ask the fertility question
 properly.
+
+## 7. Heterogeneous effects
+
+`python/05_heterogeneity.sh` re-estimates the headline specification within
+subgroups (B = 199); `06_summarise_het.py` collects them in
+`output/tables/het_summary.md` and `output/figures/het_worked.png`,
+`het_hours.png`, `het_has_infant.png`. Income is measured two ways that are
+not outcomes: education (earnings potential, which also determines where a
+woman sits relative to each programme's benefit cap) and other family income,
+family income minus the woman's own labour income, in within-year terciles.
+Stata: `stata/05_heterogeneity.do`.
+
+![het](../output/figures/het_worked.png)
+
+| Group | Share | Pre-mean, treated | Worked: ATT (s.e.) | Hours: ATT (s.e.) | Pre-trend (worked) |
+|---|---|---|---|---|---|
+| All mothers of under-6s | 1.00 | | 0.021 (0.014) | 0.53 (0.57) | 0.004 |
+| Education: HS or less | 0.42 | 0.525 | 0.010 (0.021) | 0.10 (0.84) | 0.002 |
+| Education: some college | 0.29 | 0.667 | 0.033 (0.026) | 0.07 (1.01) | 0.000 |
+| Education: BA or more | 0.29 | 0.744 | 0.022 (0.020) | 1.23 (0.86) | 0.004 |
+| Other family income: bottom tercile | 0.29 | 0.680 | 0.039 (0.028) | 0.97 (1.17) | 0.001 |
+| Other family income: middle | 0.38 | 0.604 | 0.003 (0.025) | -0.03 (1.01) | 0.007 |
+| Other family income: top tercile | 0.33 | 0.662 | 0.021 (0.021) | 0.45 (0.87) | 0.003 |
+| Married | 0.72 | 0.631 | 0.020 (0.017) | 0.61 (0.71) | 0.004 |
+| Not married | 0.28 | 0.692 | 0.017 (0.026) | 0.02 (1.05) | 0.005 |
+| White, non-Hispanic | 0.60 | 0.684 | 0.054*** (0.019) | 2.23*** (0.80) | 0.001 |
+| Black | 0.13 | 0.690 | -0.003 (0.048) | -0.56 (1.97) | -0.012 |
+| Hispanic | 0.20 | 0.576 | -0.006 (0.025) | -0.49 (0.98) | 0.008 |
+| Other race | 0.07 | 0.638 | -0.002 (0.039) | 0.06 (1.56) | 0.013 |
+
+**Income, education, marital status: no heterogeneity.** Every education,
+other-family-income and marital-status subgroup gives an employment effect
+between 0 and +4 points with standard errors of 2 to 3 points, and pre-trends
+within 0.01 of zero. The bottom income tercile and women with some college
+have the largest point estimates, but none differs from the others by more
+than one standard error. If PFML's cash value mattered most where the
+replacement rate is highest (low earners) or where a spouse's income makes
+leave affordable (high other income), it does not show in employment.
+
+**Race and ethnicity: the whole effect sits with white non-Hispanic
+mothers.** +5.4 points on employment (s.e. 1.9) and +2.2 hours (s.e. 0.8),
+with flat pre-trends, versus zero for Black, Hispanic and other mothers. The
+white effect grows with exposure (+3 points in year 0, +5 to +9 points in
+years 5 to 10) and is concentrated in the first two cohorts: California
++7.5 (2.7), New Jersey +4.7 (4.4), with later cohorts imprecise. The
+white-minus-Hispanic difference is 6 points (s.e. 3.1). Hispanic mothers show
+negative point estimates in years 2 to 6 (-3 to -6 points, s.e. 3), not
+significant.
+
+**Reading.** The aggregate near-null is an average of a positive effect for
+white mothers and nothing for everyone else, which is the group least likely
+to be covered by the programmes' eligibility (earnings history) and most
+exposed to job loss after leave. Two explanations need separating before this
+becomes a claim: (i) eligibility and take-up, which the CPS cannot observe
+directly but can be proxied by prior-year employment and job tenure in the
+ORG files; (ii) differential trends by race within California and New Jersey
+(housing costs, out-migration of white families with children), which the
+childless-women placebo by race would test. Both are one run each with the
+existing scripts.
+
+**Fertility by group.** Births show no heterogeneity: every education,
+income, marital and racial subgroup is within 1 point of zero (the Hispanic
++1.4, s.e. 0.7, is one of twelve estimates at the 10 percent level).

@@ -17,7 +17,10 @@ mothers of children under 6 in the first five years after benefits become
 available. Simple ATT on employment: +0.021 (s.e. 0.014), a 95 percent
 interval of -0.7 to +4.9 points; pre-trends flat; childless-women placebo
 zero. A rise to +4 points in years 7-10 is identified by California and New
-Jersey alone. Details in `docs/results.md`.
+Jersey alone. By subgroup (section 7 of `docs/results.md`): no heterogeneity
+by education, other family income or marital status; the effect is confined to
+white non-Hispanic mothers (+5.4 points, +2.2 hours) with zero for Black,
+Hispanic and other mothers. Births do not respond for any group.
 
 ## Data
 
@@ -34,6 +37,7 @@ pip install -r requirements.txt
 python python/01_build_ipums_asec.py        # extract -> data/clean/cps_asec_women_1844.{csv.gz,dta}
 bash   python/03_run_all.sh                 # 13 Callaway-Sant'Anna runs (samples x outcomes), ~30 min
 python python/04_summarise.py               # summary tables and the three main figures
+bash   python/05_heterogeneity.sh           # 36 subgroup runs; then python python/06_summarise_het.py
 ```
 
 Stata 16, from the repository root, after installing the packages listed at the
@@ -54,8 +58,8 @@ build environment); `stata/README.md` lists the two things to check first.
 ## Layout
 
 ```
-python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  aelib.py
-stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do
+python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  05_heterogeneity.sh  06_summarise_het.py  aelib.py
+stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do  05_heterogeneity.do
           01_build_cps_monthly.do  02b_csdid_monthly.do   (optional monthly extract)
 data/     raw/ (policy dates, extract spec)   clean/ (analysis file)
 output/   tables/ (per-run event/group/calendar/simple/attgt CSVs; summary_*.md)   figures/
