@@ -1,18 +1,11 @@
-# Large binary survey files are downloaded by code/00_download.sh, not committed
-data/raw/policyengine/h5
-data/raw/policyengine/*.h5
-data/clean/*.h5
-data/clean/cps_pe_*.csv.gz
+# IPUMS extract (1 GB, GitHub release asset data-v1) and derived Stata file are not committed
+data/raw/cps_*.csv
+data/raw/cps_*.csv.gz
+data/raw/cps_*.xml
+data/raw/ipums_cps_asec.csv
+data/raw/ipums_cps_basic.dta
+data/raw/monthly/
+data/clean/*.dta
+output/logs/
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
-# IPUMS extracts: keep the gzipped CSV + DDI codebook in the repo, not the unzipped CSV
-pfml/data/raw/ipums_cps_asec.csv
-pfml/data/raw/ipums_cps_basic.dta
-pfml/data/raw/monthly/*.csv
-pfml/output/logs/
-# IPUMS raw extracts (release assets, >100 MB): never committed
-pfml/data/raw/cps_*.csv
-pfml/data/raw/cps_*.csv.gz
-pfml/data/raw/cps_*.dat*
-pfml/data/clean/cps_asec_women_1844.dta

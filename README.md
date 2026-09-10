@@ -1,62 +1,71 @@
-# Female labour force participation: research projects
+# Paid family and medical leave and mothers' labour supply
 
-Two designs live in this repository. The active one is the policy evaluation
-in `pfml/`, written for Stata 16 with Callaway and Sant'Anna's `csdid`. The
-first project, the Angrist-Evans same-sex instrument, is kept in `code/` and
-`docs/` as a complete, reproducible appendix.
+Staggered adoption of state paid family and medical leave (PFML) across nine
+states and DC, 2004-2024, estimated with Callaway and Sant'Anna (2021)
+group-time average treatment effects on IPUMS-CPS ASEC repeated cross sections,
+1990-2025. Written for Stata 16 (`stata/`), with an executed Python pipeline
+(`python/`) that produced the current results.
 
-## Active project: state paid family and medical leave and mothers' labour supply (`pfml/`)
+* `docs/research_design.md` – question, identification, data, specification, threats.
+* `docs/results.md` – results with tables and figures (`docs/results.html` is the same as a page).
+* `output/tables/`, `output/figures/` – every number and plot the write-up cites.
 
-Staggered adoption of paid family and medical leave across nine states and DC
-(2004-2024), estimated with Callaway and Sant'Anna (2021) group-time ATTs on
-CPS repeated cross sections. Design memo: `pfml/docs/research_design.md`.
-Preliminary results: `pfml/docs/preliminary_results.md`.
+## Headline
 
-| Path | Contents |
-|---|---|
-| `pfml/stata/` | Stata 16 do-files: master, IPUMS-CPS build, `csdid` main estimates, robustness (not-yet-treated, triple difference, BJS, Sun-Abraham, dCDH, HonestDiD, placebo), tables, and a preliminary do-file that runs on the data shipped here. **Untested: no Stata in the build environment.** |
-| `pfml/python/` | Executed pipeline: CPS ASEC 2021-23 sample build (`01_build_cps_sample.py`) and a Callaway-Sant'Anna demonstration (`02_csdid_prelim.py`) that cross-checks the `csdid` Python port against a cell-mean implementation. |
-| `pfml/data/raw/pfml_policy_dates.csv` | Enactment, contribution and benefit start dates by state (compiled from memory; verify). |
-| `pfml/data/clean/cps_women_1844.dta` | Women 18-44, reference years 2020-2022, with linked children and cohort variable, Stata 16 format. |
-| `pfml/output/` | Tables and figures from the preliminary run. |
+PFML has no detectable effect on the employment, hours or full-time work of
+mothers of children under 6 in the first five years after benefits become
+available. Simple ATT on employment: +0.021 (s.e. 0.014), a 95 percent
+interval of -0.7 to +4.9 points; pre-trends flat; childless-women placebo
+zero. A rise to +4 points in years 7-10 is identified by California and New
+Jersey alone. Details in `docs/results.md`.
 
-### Status of the preliminary run
+## Data
 
-**Full-window results are in `pfml/docs/full_results.md`** (IPUMS-CPS ASEC
-1990-2025, 1.2 million women 18-44, nine cohorts): PFML has no detectable
-effect on the employment, hours or full-time work of mothers of under-6s in the
-first five years (simple ATT on employment +0.021, s.e. 0.014), with flat
-pre-trends and a zero childless placebo; a late rise in years 7-10 is a
-California/New Jersey pattern. The IPUMS extract (`cps_00090.csv`, 1 GB) is a
-GitHub release asset (tag `data-v1`), not committed; `pfml/docs/preliminary_results.md`
-keeps the earlier 2021-23 pilot.
-
-## Data provenance
-
-The build environment blocks every statistical-agency host (Census Bureau,
-IPUMS, NBER, BLS, FRED, World Bank, OECD, ILO). Reachable: PyPI, conda-forge,
-GitHub raw content, GitHub release assets, git clones.
-
-| Data | Source used | Original provenance |
+| File | What | Where it comes from |
 |---|---|---|
-| CPS ASEC 2021, 2022, 2023 person records | PolicyEngine `cps_YYYY.h5` GitHub release assets (`code/00_download.sh`) | Census Bureau CPS ASEC public-use files, renamed by PolicyEngine, no reweighting |
-| 1980 Census Angrist-Evans samples | Rdatasets GitHub mirror; `wooldridge` PyPI package | Stock & Watson (2007); Wooldridge, from Angrist & Evans (1998) |
-| Long-run FLFP series | `owid/owid-datasets` GitHub repo | Olivetti (2013); OECD via OWID (2017) |
+| `data/raw/cps_00090.csv` (1 GB, not committed) | IPUMS-CPS ASEC 1990-2025, all persons; the spec is `data/raw/IPUMS_EXTRACT_SPEC.md` | GitHub release `data-v1` of this repository: `https://github.com/ericjosborne/res/releases/download/data-v1/cps_00090.csv` |
+| `data/raw/pfml_policy_dates.csv` | Enactment, contribution and benefit start dates by state; cohort definitions | Compiled from memory, **verify before use** (`data/raw/README.md`) |
+| `data/clean/cps_asec_women_1844.csv.gz` | Women 18-44, 1,216,812 person-years, outcomes, family structure, cohorts | `python/01_build_ipums_asec.py` (the `.dta` twin is rebuilt locally, not committed) |
 
 ## How to run
 
 ```bash
 pip install -r requirements.txt
-bash code/00_download.sh                 # PolicyEngine CPS release assets (not committed)
-python pfml/python/01_build_cps_sample.py
-python pfml/python/02_csdid_prelim.py
-# Stata 16, from the repository root, after installing the packages listed in pfml/stata/00_master.do:
-#   do pfml/stata/00_master.do
+python python/01_build_ipums_asec.py        # extract -> data/clean/cps_asec_women_1844.{csv.gz,dta}
+bash   python/03_run_all.sh                 # 13 Callaway-Sant'Anna runs (samples x outcomes), ~30 min
+python python/04_summarise.py               # summary tables and the three main figures
 ```
 
-## Appendix project: children and mothers' labour supply, 1980 vs 2020s (`code/`, `docs/`)
+Stata 16, from the repository root, after installing the packages listed at the
+top of `stata/00_master.do` (`csdid`, `drdid`, `estout`, `coefplot`, `reghdfe`,
+`did_imputation`, `eventstudyinteract`, `did_multiplegt_dyn`, `honestdid`):
 
-Angrist-Evans (1998) sibling-sex instrument replicated on the 1980 Census
-(254,654 married mothers) and re-estimated on the 2021-23 CPS; heterogeneity,
-two-boys vs two-girls LATEs, distributional LATE, complier profile, Kitagawa
-validity check. See `docs/research_design.md` and `docs/preliminary_results.md`.
+```stata
+do stata/00_master.do
+```
+
+`00_master.do` builds the file from the extract, runs the main `csdid`
+estimates (doubly robust, covariates, state-clustered wild bootstrap), the
+robustness set (not-yet-treated controls, triple difference, Sun-Abraham, BJS
+imputation, de Chaisemartin-D'Haultfoeuille, HonestDiD, childless placebo) and
+the esttab tables. **The do-files have not been executed** (no Stata in the
+build environment); `stata/README.md` lists the two things to check first.
+
+## Layout
+
+```
+python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  aelib.py
+stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do
+          01_build_cps_monthly.do  02b_csdid_monthly.do   (optional monthly extract)
+data/     raw/ (policy dates, extract spec)   clean/ (analysis file)
+output/   tables/ (per-run event/group/calendar/simple/attgt CSVs; summary_*.md)   figures/
+docs/     research_design.md  results.md  results.html
+```
+
+Output file names are `<sample>_<outcome>[_notyet]_<aggregation>.csv` with
+samples `mothers_lt6`, `mothers`, `childless` and outcomes `worked`, `hours`,
+`fulltime`, `inlf`.
+
+The earlier project on this branch (Angrist-Evans same-sex instrument) and the
+2021-23 pilot on PolicyEngine files were removed in the restructuring commit;
+they remain in the git history before it.
