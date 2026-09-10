@@ -9,3 +9,4 @@ data/clean/*.dta
 output/logs/
 __pycache__/
 *.pyc
+data/raw/brfss/

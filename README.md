@@ -25,6 +25,16 @@ white-mother effect passes a childless-women placebo by race but is absent in
 the ASEC-to-ASEC linked (address-stayer) sample and does not line up with
 prior-year work, so migration composition is the open question (section 7.1).
 
+## Next: paid leave and maternal mental health (BRFSS)
+
+The labour-supply and fertility results are precise nulls, so the paper is
+being re-centred on mothers' mental health in the BRFSS (1993-2024), extending
+Bullinger's single-cohort California result to all nine cohorts with the same
+Callaway-Sant'Anna design. Design memo: `docs/brfss_design.md`. Data
+instructions: `data/raw/BRFSS_SPEC.md`. Build: `python/10_build_brfss.py`,
+`stata/10_build_brfss.do`. Estimation: `python/02_csdid.py --data brfss ...`,
+`stata/11_csdid_brfss.do`. Waiting on the BRFSS files.
+
 ## Data
 
 | File | What | Where it comes from |
@@ -62,10 +72,12 @@ build environment); `stata/README.md` lists the two things to check first.
 ## Layout
 
 ```
-python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  05_heterogeneity.sh  06_summarise_het.py  07_link_lag.py  aelib.py
+python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  05_heterogeneity.sh  06_summarise_het.py  07_link_lag.py
+          08_checks_race.sh  10_build_brfss.py  aelib.py
 stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do  05_heterogeneity.do
+          10_build_brfss.do  11_csdid_brfss.do   (BRFSS mental-health design)
           01_build_cps_monthly.do  02b_csdid_monthly.do   (optional monthly extract)
-data/     raw/ (policy dates, extract spec)   clean/ (analysis file)
+data/     raw/ (policy dates, extract specs; brfss/ XPT files not committed)   clean/ (analysis files)
 output/   tables/ (per-run event/group/calendar/simple/attgt CSVs; summary_*.md)   figures/
 docs/     research_design.md  results.md  results.html
 ```

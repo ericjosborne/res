@@ -55,6 +55,12 @@ if _rc == 0 {
 else {
     display as error "ASEC extract not found ($ASEC); nothing was run."
 }
+* BRFSS mental-health design (data/raw/BRFSS_SPEC.md)
+capture confirm file "$RAW/brfss/LLCP2023.XPT"
+if _rc == 0 {
+    do "$PF/stata/10_build_brfss.do"
+    do "$PF/stata/11_csdid_brfss.do"
+}
 * Optional: basic monthly extract for month-level timing (extract B in the spec)
 capture confirm file "$RAW/ipums_cps_basic.dta"
 if _rc == 0 {

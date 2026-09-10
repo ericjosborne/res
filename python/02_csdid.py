@@ -32,8 +32,20 @@ PF = Path(__file__).resolve().parents[1]
 CLEAN = PF / "data" / "clean"; TAB = PF / "output" / "tables"; FIG = PF / "output" / "figures"
 
 
-def load():
-    return pd.read_csv(CLEAN / "cps_asec_women_1844.csv.gz"), "ipums"
+DATASETS = {"cps": "cps_asec_women_1844.csv.gz", "brfss": "brfss_adults_1844.csv.gz"}
+
+
+def load(which="cps"):
+    return pd.read_csv(CLEAN / DATASETS[which]), which
+
+
+def sample_masks(d0, which):
+    if which == "brfss":
+        return {"mothers": d0.mother == 1, "mothers_young": d0.mother_young == 1,
+                "childless_w": (d0.female == 1) & (d0.parent == 0), "childless_m": (d0.female == 0) & (d0.parent == 0),
+                "fathers": (d0.female == 0) & (d0.parent == 1), "pregnant": d0.pregnant == 1,
+                "women": d0.female == 1, "all": d0.age >= 0}
+    return {"mothers_lt6": d0.mother_lt6 == 1, "mothers": d0.mother == 1, "childless": d0.mother == 0, "all": d0.age >= 0}
 
 
 def wmean(x, w):
@@ -133,7 +145,8 @@ def run(d, y, sample, notyet, window, B, seed=20260909):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--sample", default="mothers_lt6", choices=["mothers_lt6", "mothers", "childless", "all"])
+    ap.add_argument("--data", default="cps", choices=list(DATASETS))
+    ap.add_argument("--sample", default=None, help="cps: mothers_lt6 (default) | mothers | childless | all; brfss: mothers (default) | mothers_young | childless_w | childless_m | fathers | pregnant | women | all")
     ap.add_argument("--outcome", default="worked")
     ap.add_argument("--notyet", action="store_true")
     ap.add_argument("--window", nargs=2, type=int, default=[-8, 8])
@@ -141,12 +154,15 @@ if __name__ == "__main__":
     ap.add_argument("--query", default=None, help="pandas query applied after the sample filter, e.g. \"educ3=='college'\"")
     ap.add_argument("--tag", default=None, help="name for output files (default: sample_outcome)")
     a = ap.parse_args()
-    d0, src = load()
-    mask = {"mothers_lt6": d0.mother_lt6 == 1, "mothers": d0.mother == 1, "childless": d0.mother == 0, "all": d0.age >= 0}[a.sample]
-    d = d0[mask].copy()
+    d0, src = load(a.data)
+    a.sample = a.sample or ("mothers" if a.data == "brfss" else "mothers_lt6")
+    d = d0[sample_masks(d0, a.data)[a.sample]].copy()
+    d = d[d[a.outcome].notna()]
+    if a.data == "brfss":
+        d = d[d["year"].between(1993, 2024)]
     if a.query:
         d = d.query(a.query).copy()
-    tag = a.tag or (f"{a.sample}_{a.outcome}" + ("_notyet" if a.notyet else ""))
+    tag = a.tag or ((f"{a.data}_" if a.data != "cps" else "") + f"{a.sample}_{a.outcome}" + ("_notyet" if a.notyet else ""))
     print(f"source={src} sample={a.sample} n={len(d):,} years {d.year.min()}-{d.year.max()} outcome={a.outcome}")
     cs, att, E, G, C, S = run(d, a.outcome, a.sample, a.notyet, a.window, a.B)
     print("cohorts:", cs.groups)
