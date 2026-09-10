@@ -19,7 +19,7 @@ RAW = PF / "data" / "raw"; OUT = PF / "data" / "clean"; OUT.mkdir(parents=True, 
 
 USECOLS = ["YEAR", "SERIAL", "PERNUM", "ASECWT", "STATEFIP", "METRO", "HFLAG", "MOMLOC", "AGE", "SEX", "RACE", "MARST",
            "HISPAN", "EDUC", "NCHILD", "NCHLT5", "YNGCH", "ELDCH", "EMPSTAT", "LABFORCE", "UHRSWORKT",
-           "WORKLY", "WKSWORK1", "WKSWORK2", "UHRSWORKLY", "FULLPART", "INCWAGE", "INCBUS", "NATIVITY", "FTOTVAL", "INCTOT"]
+           "WORKLY", "WKSWORK1", "WKSWORK2", "UHRSWORKLY", "FULLPART", "INCWAGE", "INCBUS", "NATIVITY", "FTOTVAL", "INCTOT", "CPSIDP", "CLASSWKR"]
 WKS2_MID = {0: 0, 1: 7, 2: 20, 3: 33, 4: 43.5, 5: 48.5, 6: 51}
 
 
@@ -47,6 +47,7 @@ def build(path=None):
         "state_fips": df["STATEFIP"].astype(int),
         "weight": df["ASECWT"].astype(float),
         "age": df["AGE"].astype(int),
+        "serial": df["SERIAL"].astype(np.int64), "pernum": df["PERNUM"].astype(int), "cpsidp": df["CPSIDP"].astype(np.int64),
     })
     # outcomes, previous calendar year
     d["worked"] = (df["WORKLY"] == 2).astype(int)

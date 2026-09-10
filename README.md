@@ -20,7 +20,10 @@ zero. A rise to +4 points in years 7-10 is identified by California and New
 Jersey alone. By subgroup (section 7 of `docs/results.md`): no heterogeneity
 by education, other family income or marital status; the effect is confined to
 white non-Hispanic mothers (+5.4 points, +2.2 hours) with zero for Black,
-Hispanic and other mothers. Births do not respond for any group.
+Hispanic and other mothers. Births do not respond for any group. The
+white-mother effect passes a childless-women placebo by race but is absent in
+the ASEC-to-ASEC linked (address-stayer) sample and does not line up with
+prior-year work, so migration composition is the open question (section 7.1).
 
 ## Data
 
@@ -38,6 +41,7 @@ python python/01_build_ipums_asec.py        # extract -> data/clean/cps_asec_wom
 bash   python/03_run_all.sh                 # 13 Callaway-Sant'Anna runs (samples x outcomes), ~30 min
 python python/04_summarise.py               # summary tables and the three main figures
 bash   python/05_heterogeneity.sh           # 36 subgroup runs; then python python/06_summarise_het.py
+python python/07_link_lag.py                # ASEC-to-ASEC link (prior-year work); then the elig_* runs in docs/results.md 7.1
 ```
 
 Stata 16, from the repository root, after installing the packages listed at the
@@ -58,7 +62,7 @@ build environment); `stata/README.md` lists the two things to check first.
 ## Layout
 
 ```
-python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  05_heterogeneity.sh  06_summarise_het.py  aelib.py
+python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  05_heterogeneity.sh  06_summarise_het.py  07_link_lag.py  aelib.py
 stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do  05_heterogeneity.do
           01_build_cps_monthly.do  02b_csdid_monthly.do   (optional monthly extract)
 data/     raw/ (policy dates, extract spec)   clean/ (analysis file)

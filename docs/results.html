@@ -28,7 +28,7 @@ h1{font-family:var(--sans);font-weight:600;font-size:34px;line-height:1.15;lette
 .meta{font-family:var(--sans);font-size:13px;color:var(--ink-3);margin:0 0 28px}
 h2{font-family:var(--sans);font-weight:600;font-size:21px;margin:44px 0 10px;letter-spacing:-.005em;text-wrap:balance;display:flex;gap:12px;align-items:baseline}
 h2 .num{color:var(--ink-3);font-weight:500;font-variant-numeric:tabular-nums;font-size:15px}
-h3{font-family:var(--sans);font-weight:600;font-size:15px;margin:22px 0 6px}
+h3{font-family:var(--sans);font-weight:600;font-size:16px;margin:26px 0 8px}
 p{max-width:66ch;margin:0 0 14px}
 ul{max-width:66ch;padding-left:1.2em;margin:0 0 14px}li{margin-bottom:6px}
 strong{font-weight:600}
@@ -205,8 +205,27 @@ a{color:var(--accent)}
 <ul>
 <li><strong>Income, education, marital status: no heterogeneity.</strong> Every subgroup sits between 0 and +4 points with standard errors of 2 to 3 points and flat pre-trends; no pair differs by more than one standard error.</li>
 <li><strong>Race and ethnicity: the whole effect is white non-Hispanic mothers.</strong> +5.4 points and +2.2 hours, growing with exposure (+3 in year 0, +5 to +9 in years 5 to 10) and concentrated in California (+7.5, s.e. 2.7) and New Jersey (+4.7, s.e. 4.4); zero for Black, Hispanic and other mothers. The white-minus-Hispanic gap is 6 points (s.e. 3.1).</li>
-<li><strong>Before this becomes a claim,</strong> two explanations need separating: eligibility and take-up (proxied by prior-year employment and tenure in the ORG files), and differential trends by race within California and New Jersey (tested by the childless-women placebo by race). Each is one run with the existing scripts.</li>
 <li><strong>Births</strong> show no heterogeneity: every subgroup is within one point of zero.</li>
+</ul>
+<h3>Two checks on the white-mother effect</h3>
+<div class="tblwrap"><table>
+<caption>Table 6. Placebo by race (childless women) and eligibility splits (ASEC-to-ASEC linked mothers of under-6s)</caption>
+<thead><tr><th>Sample</th><th>Worked: ATT (s.e.)</th><th>Pre-trend</th><th>CA cohort</th></tr></thead>
+<tbody>
+<tr><td>Childless, white non-Hispanic</td><td>0.006 (0.013)</td><td>0.001</td><td>0.015 (0.019)</td></tr>
+<tr><td>Childless, Black</td><td>−0.004 (0.034)</td><td>0.009</td><td>−0.042 (0.057)</td></tr>
+<tr><td>Childless, Hispanic</td><td>0.000 (0.022)</td><td>0.000</td><td>0.001 (0.028)</td></tr>
+<tr><td>Linked mothers of under-6s, all</td><td>0.014 (0.022)</td><td>0.006</td><td>0.015 (0.029)</td></tr>
+<tr><td>… worked in prior year (eligible, 69%)</td><td>−0.024 (0.020)</td><td>0.004</td><td>−0.023 (0.028)</td></tr>
+<tr><td>… did not work in prior year (31%)</td><td>0.045 (0.032)</td><td>−0.007</td><td>0.036 (0.040)</td></tr>
+<tr class="hl"><td>… white, linked</td><td>0.014 (0.036)</td><td>0.005</td><td>0.001 (0.050)</td></tr>
+<tr><td>… white, eligible</td><td>−0.032 (0.025)</td><td>0.000</td><td>−0.041 (0.041)</td></tr>
+<tr><td>… Hispanic, eligible</td><td>−0.006 (0.040)</td><td>0.009</td><td>0.009 (0.046)</td></tr>
+</tbody></table></div>
+<ul>
+<li><strong>Placebo passes.</strong> Childless white women in California and New Jersey show no change, so the white-mother effect is not a white-population trend. The implied triple difference for white mothers is +4.8 points.</li>
+<li><strong>Eligibility does not explain it.</strong> Prior-year work rates are 0.73 for white and 0.72 for Black mothers, so take-up cannot produce the white-Black gap; and among linked mothers the effect sits with prior non-workers (+4.5, s.e. 3.2), not prior workers (−2.4, s.e. 2.0), the opposite of a take-up mechanism.</li>
+<li><strong>Open question: migration.</strong> The linked sample is address-stayers, and in it the white-mother effect is absent (+1.4, s.e. 3.6; California +0.1). The gap to the full-sample +5.4 is within noise, but a composition effect from recent movers into CA and NJ is open. The direct test is the ACS, which records state of residence one year earlier.</li>
 </ul>
 
 <h2 id="s9"><span class="num">9</span>Reading</h2>

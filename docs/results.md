@@ -204,3 +204,64 @@ existing scripts.
 **Fertility by group.** Births show no heterogeneity: every education,
 income, marital and racial subgroup is within 1 point of zero (the Hispanic
 +1.4, s.e. 0.7, is one of twelve estimates at the 10 percent level).
+
+### 7.1 Two checks on the white-mother effect
+
+**Placebo by race (childless women).** If the white-mother effect were a
+white-population trend in California and New Jersey (housing costs,
+out-migration), childless white women would show it too. They do not:
+
+| Childless women | Worked: ATT (s.e.) | Pre-trend | CA cohort | NJ cohort |
+|---|---|---|---|---|
+| White, non-Hispanic | 0.006 (0.013) | 0.001 | 0.015 (0.019) | -0.008 (0.032) |
+| Black | -0.004 (0.034) | 0.009 | -0.042 (0.057) | 0.091 (0.071) |
+| Hispanic | 0.000 (0.022) | 0.000 | 0.001 (0.028) | 0.008 (0.055) |
+| Other | 0.036 (0.031) | 0.002 | 0.048 (0.041) | 0.064 (0.096) |
+
+Hours are likewise zero (white: -0.10, s.e. 0.65). The implied triple
+difference for white mothers of under-6s is +4.8 points. Differential trends
+by race are not the explanation.
+
+**Eligibility (prior-year work), via the ASEC-to-ASEC link.** Benefits require
+an earnings history, so if take-up drives the race gap the effect should sit
+with mothers who worked in the year before the reference year. About 28
+percent of women link to the previous March through `CPSIDP`
+(`python/07_link_lag.py`; households are re-interviewed at the same address,
+so the linked sample is address-stayers). Prior-year work rates among mothers
+of under-6s: white 0.73, Black 0.72, Hispanic 0.57, other 0.65, so eligibility
+cannot explain the white-Black gap at all and only part of the white-Hispanic
+gap. Estimates on the linked sample (about 3,000 mothers of under-6s per
+year):
+
+| Linked mothers of under-6s | Share | P(worked) | Worked: ATT (s.e.) | Pre-trend | CA cohort |
+|---|---|---|---|---|---|
+| All linked | 1.00 | 0.68 | 0.014 (0.022) | 0.006 | 0.015 (0.029) |
+| Worked in prior year (eligible) | 0.69 | 0.89 | -0.024 (0.020) | 0.004 | -0.023 (0.028) |
+| Did not work in prior year | 0.31 | 0.22 | 0.045 (0.032) | -0.007 | 0.036 (0.040) |
+| White, linked | | | 0.014 (0.036) | 0.005 | 0.001 (0.050) |
+| White, eligible | | | -0.032 (0.025) | 0.000 | -0.041 (0.041) |
+| White, not eligible | | | 0.011 (0.053) | 0.009 | -0.022 (0.065) |
+| Black, eligible | | | -0.016 (0.075) | 0.025 | -0.028 (0.107) |
+| Hispanic, eligible | | | -0.006 (0.040) | 0.009 | 0.009 (0.046) |
+| Hispanic, not eligible | | | 0.050 (0.044) | -0.011 | 0.072 (0.048) |
+
+Two things follow. First, the effect is not where a take-up mechanism puts
+it: prior-year workers show -2.4 points (s.e. 2.0), prior non-workers +4.5
+(3.2); the same pattern holds for white mothers. Hours among the eligible are
+-1.1 (0.9). An eligibility story is not supported. Second, and more
+important, the white-mother effect is absent in the linked sample as a whole
+(+1.4, s.e. 3.6; California +0.1, s.e. 5.0) versus +5.4 (1.9) in the full
+sample. The difference (4 points, s.e. 4) is within noise, but the linked
+sample is address-stayers, so a reading in which the full-sample effect comes
+from recent movers into California and New Jersey is open. Conditioning on
+prior-year work in post-treatment years is also conditioning on a variable the
+policy could affect, which is a further reason to treat this table as
+descriptive.
+
+**Where this leaves the race result.** It survives the placebo, so it is not a
+trend in white women's employment; it does not line up with eligibility; and
+it may be a migration-composition effect. The direct test is the ACS
+(`MIGRATE1`: moved in the last year, and state of residence one year ago),
+which is fifteen times the CPS sample and would let the estimate condition on
+being in the state before the policy. That is the next data request, and the
+build for it is a small change to `01_build_ipums_asec.py`.
