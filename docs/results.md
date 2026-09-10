@@ -120,3 +120,24 @@ and more years for the late cohorts.
    two ASEC subsamples that are pooled with their weights; standard errors
    come from a state block bootstrap and should be compared with `csdid`'s
    wild cluster bootstrap.
+
+## 6. Exploratory: fertility outcomes (all women 18-44)
+
+Same estimator, sample = all women 18-44 (motherhood is the outcome, so the
+sample cannot condition on it), B = 199. Tables `output/tables/all_*`.
+
+| Outcome | Mean | Simple ATT | Mean pre e=-5..-1 | e=0..5 | e=7..10 | CA cohort |
+|---|---|---|---|---|---|---|
+| Own child under 1 (birth last year) | 0.06 | -0.002 (0.004) | 0.000 | -0.001 | -0.004 | -0.001 (0.005) |
+| Any own child | 0.55 | -0.024** (0.009) | 0.001 | -0.010 | -0.031 | -0.034*** (0.011) |
+| Number of own children | 1.05 | -0.075*** (0.022) | -0.003 | -0.027 | -0.086 | -0.102*** (0.029) |
+
+The birth proxy is a precise zero at every horizon (s.e. 0.004 on a base of
+6 percent). The negative effects on the stock of children appear only from
+year 7 on and only in California, the one cohort observed that long; pre-trends
+are flat. A drop in the stock without a drop in the flow of births is not a
+fertility response to the policy; it is California's post-2008 fertility
+decline (and possibly out-migration of families) showing up against the
+never-treated states. Cohorts 2009-2024 are all zero. See the chat note of
+2026-09-10 for the design that would be needed to ask the fertility question
+properly.
