@@ -50,6 +50,7 @@ if _rc == 0 {
     do "$PF/stata/02_csdid.do"
     do "$PF/stata/03_robustness.do"
     do "$PF/stata/04_tables.do"
+    do "$PF/stata/05_heterogeneity.do"
 }
 else {
     display as error "ASEC extract not found ($ASEC); nothing was run."

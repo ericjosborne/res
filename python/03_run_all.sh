@@ -12,10 +12,15 @@ for s in mothers_lt6 childless mothers; do
     jobs+=($!)
   done
 done
+# fertility outcomes on all women
+for y in has_infant nkids mother nkids_lt6; do
+  python3 python/02_csdid.py --sample all --outcome $y --B $B --window -10 10 > output/logs/all_${y}.log 2>&1 &
+  jobs+=($!)
+done
 # not-yet-treated controls for the headline
 python3 python/02_csdid.py --sample mothers_lt6 --outcome worked --notyet --B $B --window -10 10 > output/logs/mothers_lt6_worked_notyet.log 2>&1 &
 jobs+=($!)
 fail=0
 for j in "${jobs[@]}"; do wait "$j" || fail=1; done
-echo "all runs finished (fail=$fail)"
+echo "all runs finished (fail=$fail); next: bash python/05_heterogeneity.sh && python3 python/04_summarise.py && python3 python/06_summarise_het.py"
 exit $fail

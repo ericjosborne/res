@@ -24,3 +24,4 @@ check on first run:
 | `02_csdid.do` | main Callaway-Sant'Anna estimates (yearly and monthly cohorts, drimp, wild cluster bootstrap) |
 | `03_robustness.do` | not-yet-treated controls, triple difference, BJS, Sun-Abraham, dCDH, HonestDiD, placebo, alternative cohort timing |
 | `04_tables.do` | esttab tables |
+| `05_heterogeneity.do` | effects by education, other family income tercile, marital status, race/ethnicity |

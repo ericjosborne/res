@@ -60,6 +60,19 @@ gen other      = race > 200 & !hispanic
 gen college    = educ >= 111
 gen hs_or_less = educ <= 73
 gen agegrp     = floor(age / 5) * 5
+gen educ3      = cond(educ <= 73, 1, cond(educ >= 111, 3, 2))
+label define educ3 1 "HS or less" 2 "Some college" 3 "BA or more"
+label values educ3 educ3
+gen race4      = cond(hispanic, 3, cond(black, 2, cond(other, 4, 1)))
+label define race4 1 "White non-Hispanic" 2 "Black" 3 "Hispanic" 4 "Other"
+label values race4 race4
+* other family income = family income minus own labour income ($1000s), terciles within survey year
+gen other_faminc = (cond(inlist(ftotval, 99999999, 999999999), ., ftotval) - labinc * 1000) / 1000
+bysort year_survey: egen ofi_p33 = pctile(other_faminc), p(33.33)
+bysort year_survey: egen ofi_p67 = pctile(other_faminc), p(66.67)
+gen ofi_tercile = cond(other_faminc <= ofi_p33, 1, cond(other_faminc <= ofi_p67, 2, 3))
+label define ofi 1 "Low" 2 "Middle" 3 "High"
+label values ofi_tercile ofi
 
 * treatment
 merge m:1 statefip using `policy', keep(master match) nogen

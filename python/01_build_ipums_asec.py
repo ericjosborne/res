@@ -19,7 +19,7 @@ RAW = PF / "data" / "raw"; OUT = PF / "data" / "clean"; OUT.mkdir(parents=True, 
 
 USECOLS = ["YEAR", "SERIAL", "PERNUM", "ASECWT", "STATEFIP", "METRO", "HFLAG", "MOMLOC", "AGE", "SEX", "RACE", "MARST",
            "HISPAN", "EDUC", "NCHILD", "NCHLT5", "YNGCH", "ELDCH", "EMPSTAT", "LABFORCE", "UHRSWORKT",
-           "WORKLY", "WKSWORK1", "WKSWORK2", "UHRSWORKLY", "FULLPART", "INCWAGE", "INCBUS", "NATIVITY"]
+           "WORKLY", "WKSWORK1", "WKSWORK2", "UHRSWORKLY", "FULLPART", "INCWAGE", "INCBUS", "NATIVITY", "FTOTVAL", "INCTOT"]
 WKS2_MID = {0: 0, 1: 7, 2: 20, 3: 33, 4: 43.5, 5: 48.5, 6: 51}
 
 
@@ -77,6 +77,17 @@ def build(path=None):
     d["hs_or_less"] = (df["EDUC"] <= 73).astype(int)
     d["foreign_born"] = df["NATIVITY"].eq(5).astype(int)
     d["agegrp"] = (d["age"] // 5) * 5
+    d["educ3"] = np.select([df["EDUC"] <= 73, df["EDUC"] >= 111], ["hs_or_less", "college"], "some_college")
+    d["race4"] = np.select([d["hispanic"] == 1, d["black"] == 1, d["other"] == 1], ["hispanic", "black", "other"], "white")
+    # other family income = family income minus the woman's own labour income (nominal $); terciles within survey year
+    fam = df["FTOTVAL"].replace({99999999: np.nan, 999999999: np.nan})
+    d["other_faminc"] = (fam - inc) / 1000.0
+    def wtercile(g):
+        x, w = g["other_faminc"].to_numpy(), g["weight"].to_numpy()
+        o = np.argsort(x); cw = np.cumsum(w[o]) / w.sum()
+        cut = np.empty(len(x), dtype=object); r = np.empty(len(x)); r[o] = cw
+        return pd.Series(np.select([r <= 1/3, r <= 2/3], ["low", "mid"], "high"), index=g.index)
+    d["ofi_tercile"] = d.groupby("survey_year", group_keys=False).apply(wtercile)
     # treatment cohorts
     pol = pd.read_csv(RAW / "pfml_policy_dates.csv").set_index("state_fips")
     d["gvar"] = d["state_fips"].map(pol["cohort_asec_refyear"]).fillna(0).astype(int)
