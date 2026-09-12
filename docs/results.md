@@ -265,3 +265,28 @@ it may be a migration-composition effect. The direct test is the ACS
 which is fifteen times the CPS sample and would let the estimate condition on
 being in the state before the policy. That is the next data request, and the
 build for it is a small change to `01_build_ipums_asec.py`.
+
+### 7.2 Take-up check: parents of infants absent from work in the March survey week
+
+`python/09_takeup_check.py`. Time = survey year, cohort = first March survey
+week with benefits available. Outcome: has a job but not at work last week
+(EMPSTAT 12), the CPS category that a parent on paid leave falls into.
+
+| Sample | Outcome | Pre mean | Simple ATT | s.e. | n |
+|---|---|---|---|---|---|
+| Mothers of infants (18-44) | Employed, absent | 0.084 | +0.023 | 0.018 | 72,897 |
+| Mothers of infants | Absent, given employed | 0.172 | +0.032 | 0.036 | 38,463 |
+| Mothers of infants | At work | 0.403 | -0.008 | 0.035 | 72,897 |
+| Mothers of infants | Employed | 0.487 | +0.016 | 0.035 | 72,897 |
+| Fathers of infants (18-54) | Employed, absent | 0.026 | -0.011 | 0.017 | 61,637 |
+| Mothers, youngest aged 1 | Employed | 0.525 | +0.003 | 0.030 | 78,450 |
+| Mothers, youngest aged 2 | Employed | 0.559 | +0.043 | 0.031 | 67,889 |
+| Childless women (placebo) | Employed, absent | 0.021 | +0.003 | 0.003 | 486,039 |
+
+By cohort, mothers of infants absent: CA +0.9 (2.3), NJ +5.3 (4.4), RI +12.7
+(3.6), NY +9.1 (3.7), WA -3.6 (6.6), DC/MA +2.9 (6.6), CT -9.4 (16.2), OR/CO
++15.0 (6.6). The pooled estimate is a 28 percent rise on the base but has a
+t-ratio of 1.3; the CPS has about 1,800 mothers of infants a year and 40 to
+120 per treated state-year. Rhode Island and New York show it clearly,
+California does not, and the childless placebo is a precise zero. Fathers
+show nothing (base 2.6 percent). Full tables: `output/tables/takeup_*`.
