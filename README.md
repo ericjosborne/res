@@ -25,15 +25,19 @@ white-mother effect passes a childless-women placebo by race but is absent in
 the ASEC-to-ASEC linked (address-stayer) sample and does not line up with
 prior-year work, so migration composition is the open question (section 7.1).
 
-## Next: paid leave and maternal mental health (BRFSS)
+## Next: paid leave and parents' mental health beyond the leave (NSCH)
 
-The labour-supply and fertility results are precise nulls, so the paper is
-being re-centred on mothers' mental health in the BRFSS (1993-2024), extending
-Bullinger's single-cohort California result to all nine cohorts with the same
-Callaway-Sant'Anna design. Design memo: `docs/brfss_design.md`. Data
-instructions: `data/raw/BRFSS_SPEC.md`. Build: `python/10_build_brfss.py`,
-`stata/10_build_brfss.do`. Estimation: `python/02_csdid.py --data brfss ...`,
-`stata/11_csdid_brfss.do`. Waiting on the BRFSS files.
+The labour-supply and fertility results are precise nulls. Wells et al. (2026,
+AJE) already estimate postpartum depression effects with PRAMS and the same
+estimator, so the paper is being re-centred on the NSCH (2016-2024): exposure
+to paid leave at the child's birth and the parent's mental health one to five
+years later, fathers included, with the newest cohorts. Design memo:
+`docs/nsch_design.md`. Data instructions: `data/raw/NSCH_SPEC.md`. Build:
+`python/20_build_nsch.py`, `stata/20_build_nsch.do`. Estimation:
+`python/02_csdid.py --data nsch ...`, `stata/21_csdid_nsch.do`. Waiting on the
+NSCH files. (The BRFSS scripts, `10_*`/`11_*`, are parked: BRFSS cannot
+identify new mothers, so it would be a diluted replication of Wells et al.;
+a pregnant-women prenatal analysis remains a possible section.)
 
 ## Data
 
@@ -73,11 +77,12 @@ build environment); `stata/README.md` lists the two things to check first.
 
 ```
 python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  05_heterogeneity.sh  06_summarise_het.py  07_link_lag.py
-          08_checks_race.sh  10_build_brfss.py  aelib.py
+          08_checks_race.sh  10_build_brfss.py (parked)  20_build_nsch.py  aelib.py
 stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do  05_heterogeneity.do
-          10_build_brfss.do  11_csdid_brfss.do   (BRFSS mental-health design)
+          10_build_brfss.do  11_csdid_brfss.do   (BRFSS, parked)
+          20_build_nsch.do  21_csdid_nsch.do    (NSCH mental-health design)
           01_build_cps_monthly.do  02b_csdid_monthly.do   (optional monthly extract)
-data/     raw/ (policy dates, extract specs; brfss/ XPT files not committed)   clean/ (analysis files)
+data/     raw/ (policy dates, extract specs; brfss/ and nsch/ raw files not committed)   clean/ (analysis files)
 output/   tables/ (per-run event/group/calendar/simple/attgt CSVs; summary_*.md)   figures/
 docs/     research_design.md  results.md  results.html
 ```

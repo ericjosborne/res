@@ -32,7 +32,7 @@ PF = Path(__file__).resolve().parents[1]
 CLEAN = PF / "data" / "clean"; TAB = PF / "output" / "tables"; FIG = PF / "output" / "figures"
 
 
-DATASETS = {"cps": "cps_asec_women_1844.csv.gz", "brfss": "brfss_adults_1844.csv.gz"}
+DATASETS = {"cps": "cps_asec_women_1844.csv.gz", "brfss": "brfss_adults_1844.csv.gz", "nsch": "nsch_children.csv.gz"}
 
 
 def load(which="cps"):
@@ -45,6 +45,11 @@ def sample_masks(d0, which):
                 "childless_w": (d0.female == 1) & (d0.parent == 0), "childless_m": (d0.female == 0) & (d0.parent == 0),
                 "fathers": (d0.female == 0) & (d0.parent == 1), "pregnant": d0.pregnant == 1,
                 "women": d0.female == 1, "all": d0.age >= 0}
+    if which == "nsch":
+        return {"mothers_0_5": (d0.mother == 1) & (d0.child_age <= 5), "mothers_0_1": (d0.mother == 1) & (d0.child_age <= 1),
+                "mothers_2_3": (d0.mother == 1) & d0.child_age.between(2, 3), "mothers_4_5": (d0.mother == 1) & d0.child_age.between(4, 5),
+                "fathers_0_5": (d0.father == 1) & (d0.child_age <= 5), "mothers_6_17": (d0.mother == 1) & (d0.child_age >= 6),
+                "all": d0.child_age >= 0}
     return {"mothers_lt6": d0.mother_lt6 == 1, "mothers": d0.mother == 1, "childless": d0.mother == 0, "all": d0.age >= 0}
 
 
@@ -155,11 +160,13 @@ if __name__ == "__main__":
     ap.add_argument("--tag", default=None, help="name for output files (default: sample_outcome)")
     a = ap.parse_args()
     d0, src = load(a.data)
-    a.sample = a.sample or ("mothers" if a.data == "brfss" else "mothers_lt6")
+    a.sample = a.sample or {"brfss": "mothers", "nsch": "mothers_0_5"}.get(a.data, "mothers_lt6")
     d = d0[sample_masks(d0, a.data)[a.sample]].copy()
     d = d[d[a.outcome].notna()]
     if a.data == "brfss":
         d = d[d["year"].between(1993, 2024)]
+    if a.data == "nsch":  # time = birth year; keep births 2010+ so every cohort has pre-period births observed
+        d = d[d["year"].between(2010, 2024)]
     if a.query:
         d = d.query(a.query).copy()
     tag = a.tag or ((f"{a.data}_" if a.data != "cps" else "") + f"{a.sample}_{a.outcome}" + ("_notyet" if a.notyet else ""))

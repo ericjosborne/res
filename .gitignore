@@ -10,3 +10,4 @@ output/logs/
 __pycache__/
 *.pyc
 data/raw/brfss/
+data/raw/nsch/
