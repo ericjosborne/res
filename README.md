@@ -46,6 +46,8 @@ a pregnant-women prenatal analysis remains a possible section.)
 | `data/raw/cps_00090.csv` (1 GB, not committed) | IPUMS-CPS ASEC 1990-2025, all persons; the spec is `data/raw/IPUMS_EXTRACT_SPEC.md` | GitHub release `data-v1` of this repository: `https://github.com/ericjosborne/res/releases/download/data-v1/cps_00090.csv` |
 | `data/raw/pfml_policy_dates.csv` | Enactment, contribution and benefit start dates by state; cohort definitions | Compiled from memory, **verify before use** (`data/raw/README.md`) |
 | `data/clean/cps_asec_women_1844.csv.gz` | Women 18-44, 1,216,812 person-years, outcomes, family structure, cohorts | `python/01_build_ipums_asec.py` (the `.dta` twin is rebuilt locally, not committed) |
+| `data/raw/nsch/nsch_YYYYe_topical.dta` (not committed) | NSCH 2016-2024 topical files, one sampled child per household; spec `data/raw/NSCH_SPEC.md` | GitHub release `data-nsch`: `https://github.com/ericjosborne/res/releases/tag/data-nsch` |
+| `data/clean/nsch_children.csv.gz` | 386,083 children, parent and child outcomes, birth year, PFML cohort at birth | `python/20_build_nsch.py` |
 
 ## How to run
 
@@ -56,6 +58,9 @@ bash   python/03_run_all.sh                 # 13 Callaway-Sant'Anna runs (sample
 python python/04_summarise.py               # summary tables and the three main figures
 bash   python/05_heterogeneity.sh           # 36 subgroup runs; then python python/06_summarise_het.py
 python python/07_link_lag.py                # ASEC-to-ASEC link (prior-year work); then the elig_* runs in docs/results.md 7.1
+python python/20_build_nsch.py              # NSCH topical files (data/raw/nsch/) -> data/clean/nsch_children.{csv.gz,dta}
+python python/21_run_nsch.py --B 299 --P 4  # 55 Callaway-Sant'Anna runs on the NSCH file, ~20 min
+python python/22_summarise_nsch.py          # output/tables/nsch_summary.md and the nsch_* figures
 ```
 
 Stata 16, from the repository root, after installing the packages listed at the
@@ -77,14 +82,14 @@ build environment); `stata/README.md` lists the two things to check first.
 
 ```
 python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  05_heterogeneity.sh  06_summarise_het.py  07_link_lag.py
-          08_checks_race.sh  10_build_brfss.py (parked)  20_build_nsch.py  aelib.py
+          08_checks_race.sh  10_build_brfss.py (parked)  20_build_nsch.py  21_run_nsch.py  22_summarise_nsch.py  aelib.py
 stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do  05_heterogeneity.do
           10_build_brfss.do  11_csdid_brfss.do   (BRFSS, parked)
           20_build_nsch.do  21_csdid_nsch.do    (NSCH mental-health design)
           01_build_cps_monthly.do  02b_csdid_monthly.do   (optional monthly extract)
 data/     raw/ (policy dates, extract specs; brfss/ and nsch/ raw files not committed)   clean/ (analysis files)
 output/   tables/ (per-run event/group/calendar/simple/attgt CSVs; summary_*.md)   figures/
-docs/     research_design.md  results.md  results.html
+docs/     research_design.md  results.md  results.html  nsch_design.md  nsch_results.md
 ```
 
 Output file names are `<sample>_<outcome>[_notyet]_<aggregation>.csv` with
