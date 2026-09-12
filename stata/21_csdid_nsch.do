@@ -45,12 +45,18 @@ keep if mother == 1 & a2_father == 1 & child_age <= 5
 csdid a2_ment `xvars' [iw = weight], time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(23) reps(499)
 estat simple, estore(ns_father_a2)
 
-* (d) placebo: parents of children born before the policy but surveyed after (ages 6-17)
+* (d) placebo in calendar time: mothers of children aged 6-17, not exposed at birth, time = survey year
+*     (gvar is also the first calendar year with >= 6 months of benefits); and the same for mothers of 0-5
 use `all', clear
 replace gvar = 0 if gvar > 2024
 keep if mother == 1 & child_age >= 6
-csdid a1_ment `xvars' [iw = weight], time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(24) reps(499)
-estat event, window(-5 5) estore(ns_placebo_older)
+csdid a1_ment i.child_age a1_age a1_married i.race4 fpl_lt200 [iw = weight], time(survey_year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(24) reps(499)
+estat simple, estore(ns_placebo_older)
+use `all', clear
+replace gvar = 0 if gvar > 2024
+keep if mother == 1 & child_age <= 5
+csdid a1_ment i.child_age a1_age a1_married i.race4 fpl_lt200 [iw = weight], time(survey_year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(31) reps(499)
+estat simple, estore(ns_calendar_0_5)
 
 * (e) child outcomes and breastfeeding (0-5)
 use `all', clear
@@ -79,7 +85,7 @@ esttab ns_a1_ment_simple ns_a1_ment_fairpoor_simple ns_a1_ment_excellent_simple 
     title("PFML exposure at birth and mothers' health, NSCH 2016-2024, children 0-5")
 esttab ns_band01 ns_band23 ns_band45 ns_father_resp ns_father_a2 ns_placebo_older ///
     using "$TAB/t12_nsch_bands_fathers.tex", replace se star(* 0.10 ** 0.05 *** 0.01) booktabs ///
-    mtitles("Age 0-1" "Age 2-3" "Age 4-5" "Fathers (resp.)" "Fathers (A2)" "Placebo 6-17")
+    mtitles("Age 0-1" "Age 2-3" "Age 4-5" "Fathers (resp.)" "Fathers (A2)" "Placebo 6-17, calendar")
 
 * (g) robustness: base period g-2 (births in g-1 can still take bonding leave in g), not-yet-treated controls,
 *     birth year = survey year minus age everywhere, pandemic surveys dropped
@@ -94,6 +100,10 @@ csdid a1_ment `xvars' [iw = weight], time(birth_year_ya) gvar(gvar) method(drimp
 estat simple, estore(ns_rob_ya)
 csdid a1_ment `xvars' [iw = weight] if !inlist(survey_year, 2020, 2021), time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(30) reps(499)
 estat simple, estore(ns_rob_nopandemic)
-esttab ns_a1_ment_simple ns_rob_ant1 ns_rob_notyet ns_rob_ya ns_rob_nopandemic ///
+csdid a1_ment `xvars' [iw = weight] if survey_year >= 2019, time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(32) reps(499)
+estat simple, estore(ns_rob_2019plus)
+csdid a1_ment `xvars' [iw = weight] if state_fips != 36, time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(33) reps(499)
+estat simple, estore(ns_rob_noNY)
+esttab ns_a1_ment_simple ns_rob_ant1 ns_rob_notyet ns_rob_ya ns_rob_nopandemic ns_rob_2019plus ns_rob_noNY ns_calendar_0_5 ///
     using "$TAB/t13_nsch_robustness.tex", replace se star(* 0.10 ** 0.05 *** 0.01) booktabs ///
-    mtitles("Main" "Base g-2" "Not-yet controls" "Year minus age" "No 2020-21 surveys")
+    mtitles("Main" "Base g-2" "Not-yet controls" "Year minus age" "No 2020-21 surveys" "Surveys 2019+" "No New York" "Calendar time")

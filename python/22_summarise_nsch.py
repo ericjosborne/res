@@ -53,10 +53,12 @@ for tag, lab, mask, y in [("nsch_mothers_0_1_a1_ment", "Mothers, child 0-1", (d.
                           ("nsch_mothers_0_5_a1_ment", "Mothers, child 0-5 (main)", m05, "a1_ment"),
                           ("nsch_fathers_0_5_a1_ment", "Respondent fathers, child 0-5", (d.father == 1) & (d.child_age <= 5), "a1_ment"),
                           ("nsch_a2fathers_0_5_a2_ment", "Fathers as second adult (mother responds), 0-5", m05 & (d.a2_father == 1), "a2_ment"),
-                          ("nsch_mothers_6_17_a1_ment", "Placebo: mothers, child 6-17", (d.mother == 1) & (d.child_age >= 6), "a1_ment")]:
-    b, se = simple(tag); b2, se2 = simple(tag.replace("a1_ment", "a1_ment_fairpoor").replace("a2_ment", "a2_ment"))
-    rows.append({"sample": lab, "score ATT": b, "s.e.": se, "sig": stars(b, se), "fair/poor ATT": b2 if "a2" not in tag else np.nan, "s.e. ": se2 if "a2" not in tag else np.nan,
-                 "sig ": stars(b2, se2) if "a2" not in tag else "", "n": int((mask & d[y].notna()).sum())})
+                          ("nsch_calendar_mothers_6_17_a1_ment", "Placebo: mothers of 6-17 year olds, calendar time (not exposed at birth)", (d.mother == 1) & (d.child_age >= 6), "a1_ment"),
+                          ("nsch_calendar_mothers_0_5_a1_ment", "Mothers of 0-5, calendar time (survey year, not birth year)", m05, "a1_ment")]:
+    b, se = simple(tag); b2, se2 = simple(tag.replace("a1_ment", "a1_ment_fairpoor")) if "a2" not in tag and "calendar" not in tag else (np.nan, np.nan)
+    b3, se3 = simple(tag.replace("a1_ment", "a1_phys")) if "a2" not in tag else (np.nan, np.nan)
+    rows.append({"sample": lab, "score ATT": b, "s.e.": se, "sig": stars(b, se), "fair/poor ATT": b2, "s.e. ": se2, "sig ": stars(b2, se2),
+                 "physical ATT": b3, "s.e.  ": se3, "sig  ": stars(b3, se3), "n": int((mask & d[y].notna()).sum())})
 T2 = pd.DataFrame(rows)
 
 rows = []
@@ -65,9 +67,10 @@ for tag, lab in [("nsch_mothers_0_5_a1_ment", "Main (never-treated controls, bas
                  ("nsch_mothers_0_5_a1_ment_ant1", "Base period g-2 (births in g-1 partly exposed)"),
                  ("nsch_mothers_0_5_a1_ment_yearminusage", "Birth year = survey year minus age, all years"),
                  ("nsch_mothers_0_5_a1_ment_nopandemic", "Drop 2020 and 2021 surveys"),
-                 ("nsch_mothers_0_5_a1_ment_s2019plus", "Surveys 2019-2024 only (reported birth year)")]:
-    b, se = simple(tag); b2, se2 = simple(tag.replace("a1_ment", "a1_ment_fairpoor"))
-    rows.append({"specification": lab, "score ATT": b, "s.e.": se, "fair/poor ATT": b2, "s.e. ": se2})
+                 ("nsch_mothers_0_5_a1_ment_s2019plus", "Surveys 2019-2024 only (reported birth year)"),
+                 ("nsch_mothers_0_5_a1_ment_noNY", "Drop New York (cohort 2018)")]:
+    b, se = simple(tag); b2, se2 = simple(tag.replace("a1_ment", "a1_ment_fairpoor")); b3, se3 = simple(tag.replace("a1_ment", "a1_ment_excellent")); b4, se4 = simple(tag.replace("a1_ment", "a1_phys"))
+    rows.append({"specification": lab, "score ATT": b, "s.e.": se, "fair/poor ATT": b2, "s.e. ": se2, "excellent ATT": b3, "s.e.  ": se3, "physical ATT": b4, "s.e.   ": se4})
 T3 = pd.DataFrame(rows)
 
 rows = []
@@ -86,33 +89,35 @@ print(open(TAB / "nsch_summary.md").read())
 
 # figure 1: event studies for the score and fair/poor, mothers 0-5, with the placebo
 fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
-for ax, y, lab in zip(axes, ["a1_ment", "a1_ment_fairpoor"], ["Mental health score (1 excellent - 5 poor)", "Fair or poor mental health"]):
-    for tag, col, name, off in [(f"nsch_mothers_0_5_{y}", PALETTE[0], "Mothers, child 0-5", -0.12), (f"nsch_mothers_6_17_{y}", PALETTE[1], "Placebo: mothers, child 6-17", 0.12)]:
+for ax, y, lab in zip(axes, ["a1_ment", "a1_phys"], ["Mental health score (1 excellent - 5 poor)", "Physical health score (1 excellent - 5 poor)"]):
+    for tag, col, name, off in [(f"nsch_mothers_0_5_{y}", PALETTE[0], "Mothers, child 0-5, exposure at birth (birth-year time)", -0.12),
+                                (f"nsch_calendar_mothers_0_5_{y}", PALETTE[1], "Same mothers, calendar time (survey year)", 0.12)]:
         E = event(tag)
         if E is None: continue
+        E = E[E.e.between(-5, 5)]
         ax.errorbar(E.e + off, E.estimate, yerr=1.96 * E.se, fmt="o", color=col, elinewidth=1.8, markersize=5, label=name)
     ax.axhline(0, color=INK2, linewidth=1); ax.axvline(-0.5, color=GRID, linewidth=1)
-    ax.set_xlabel("Birth year relative to first treated birth year"); ax.set_title(lab, fontsize=10.5, loc="left"); style_axes(ax)
-axes[0].legend(frameon=False, fontsize=9, loc="upper left")
-fig.suptitle("PFML at birth and mothers' mental health 1-5 years later, NSCH 2016-2024 (Callaway-Sant'Anna, never-treated controls)", fontsize=10, x=0.01, ha="left")
+    ax.set_xlabel("Years relative to first treated birth year (or survey year)"); ax.set_title(lab, fontsize=10.5, loc="left"); style_axes(ax)
+axes[0].legend(frameon=False, fontsize=8.5, loc="lower left")
+fig.suptitle("PFML and mothers' self-rated health, NSCH 2016-2024 (Callaway-Sant'Anna, never-treated controls)", fontsize=10, x=0.01, ha="left")
 fig.tight_layout(); fig.savefig(FIG / "nsch_event_mothers.png", dpi=200)
 
 # figure 2: simple ATT by sample (bands, fathers, placebo) for the score
-fig, ax = plt.subplots(figsize=(7.5, 4))
+fig, ax = plt.subplots(figsize=(9.5, 4.2))
 T = T2.dropna(subset=["score ATT"]); yy = np.arange(len(T))[::-1]
 ax.errorbar(T["score ATT"], yy, xerr=1.96 * T["s.e."], fmt="o", color=PALETTE[0], elinewidth=1.8, markersize=6)
 ax.axvline(0, color=INK2, linewidth=1); ax.set_yticks(yy); ax.set_yticklabels(T["sample"], fontsize=9)
-ax.set_xlabel("Simple ATT on mental health score (1-5, higher = worse)"); ax.set_title("Who is affected: age at survey, fathers, placebo", fontsize=10.5, loc="left")
-style_axes(ax); fig.tight_layout(); fig.savefig(FIG / "nsch_samples.png", dpi=200)
+ax.set_xlabel("Simple ATT on mental health score (1-5, higher = worse), 95% intervals"); ax.set_title("Who is affected: age at survey, fathers, placebos", fontsize=10.5, loc="left")
+style_axes(ax); fig.subplots_adjust(left=0.5, right=0.97, top=0.9, bottom=0.15); fig.savefig(FIG / "nsch_samples.png", dpi=200)
 
-# figure 3: raw fair/poor by birth year, treated (2018+ cohorts) vs never-treated, mothers 0-5
+# figure 3: raw mental-health score by birth year, treated (2018+ cohorts) vs never-treated, mothers 0-5
 fig, ax = plt.subplots(figsize=(7.5, 4))
-x = d[m05 & d.a1_ment_fairpoor.notna()].copy()
+x = d[m05 & d.a1_ment.notna()].copy()
 x["grp"] = np.select([x.gvar.isin([2018, 2020, 2021, 2022]), x.gvar == 0], ["Cohorts 2018-2022 (NY, WA, DC, MA, CT)", "Never treated"], "other")
 for g, col in [("Cohorts 2018-2022 (NY, WA, DC, MA, CT)", PALETTE[0]), ("Never treated", PALETTE[1])]:
-    s = x[x.grp == g].groupby("year").apply(lambda z: np.average(z.a1_ment_fairpoor, weights=z.weight))
-    s = s[(s.index >= 2011) & (s.index <= 2023)]
+    s = x[x.grp == g].groupby("year").apply(lambda z: np.average(z.a1_ment, weights=z.weight))
+    s = s[(s.index >= 2011) & (s.index <= 2022)]
     ax.plot(s.index, s.values, marker="o", color=col, label=g)
-ax.set_xlabel("Child's birth year"); ax.set_ylabel("Share fair/poor mental health"); ax.set_title("Raw means: mothers of 0-5 year olds, by child's birth year", fontsize=10.5, loc="left")
-ax.legend(frameon=False, fontsize=9); style_axes(ax); fig.tight_layout(); fig.savefig(FIG / "nsch_raw_fairpoor.png", dpi=200)
+ax.set_xlabel("Child's birth year"); ax.set_ylabel("Mean mental health score (1 excellent - 5 poor)"); ax.set_title("Raw means: mothers of 0-5 year olds, by child's birth year (weighted)", fontsize=10.5, loc="left")
+ax.legend(frameon=False, fontsize=9); style_axes(ax); fig.tight_layout(); fig.savefig(FIG / "nsch_raw_score.png", dpi=200)
 print("wrote figures")

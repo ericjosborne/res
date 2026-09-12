@@ -34,10 +34,12 @@ year and child age as covariates in the doubly-robust step (`csdid`
 
 Samples: respondent is the child's mother (main), father (secondary),
 children aged 0-5 (main) and 0-1 (closest to PRAMS). Placebo: parents of
-children aged 6-17 born before any policy in their state but observed after
-it, who are exposed to the state's post-policy environment but not to leave
-at birth; a within-state contemporaneous effect on them would indicate a
-state shock rather than a leave effect.
+children aged 6-17, who live in the post-policy environment but were not
+exposed to leave at birth, estimated in *calendar* time (time index = survey
+year, cohort = calendar year benefits started); an effect on them would
+indicate a state shock rather than a leave effect. The same calendar-time
+run on mothers of 0-5 year olds separates a birth-cohort effect from a
+survey-date one.
 
 ## 3. Outcomes
 
@@ -75,5 +77,6 @@ rule and a robustness run dropping the boundary birth year.
 ## 6. Files
 
 `python/20_build_nsch.py` (build, logs the variable mapping per year),
-`stata/20_build_nsch.do`, `stata/21_csdid_nsch.do`, and
-`python/02_csdid.py --data nsch` once the file exists.
+`stata/20_build_nsch.do`, `stata/21_csdid_nsch.do`, `python/21_run_nsch.py`
+(the run battery over `python/02_csdid.py --data nsch`),
+`python/22_summarise_nsch.py`. Results: `docs/nsch_results.md`.

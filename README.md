@@ -25,19 +25,21 @@ white-mother effect passes a childless-women placebo by race but is absent in
 the ASEC-to-ASEC linked (address-stayer) sample and does not line up with
 prior-year work, so migration composition is the open question (section 7.1).
 
-## Next: paid leave and parents' mental health beyond the leave (NSCH)
+## Paid leave at birth and parents' mental health 1-5 years later (NSCH)
 
-The labour-supply and fertility results are precise nulls. Wells et al. (2026,
-AJE) already estimate postpartum depression effects with PRAMS and the same
-estimator, so the paper is being re-centred on the NSCH (2016-2024): exposure
-to paid leave at the child's birth and the parent's mental health one to five
-years later, fathers included, with the newest cohorts. Design memo:
-`docs/nsch_design.md`. Data instructions: `data/raw/NSCH_SPEC.md`. Build:
-`python/20_build_nsch.py`, `stata/20_build_nsch.do`. Estimation:
-`python/02_csdid.py --data nsch ...`, `stata/21_csdid_nsch.do`. Waiting on the
-NSCH files. (The BRFSS scripts, `10_*`/`11_*`, are parked: BRFSS cannot
-identify new mothers, so it would be a diluted replication of Wells et al.;
-a pregnant-women prenatal analysis remains a possible section.)
+Because the labour-supply and fertility results are precise nulls, the second
+part re-centres on parents' mental health with the NSCH 2016-2024 (386,083
+children; `docs/nsch_design.md`, results `docs/nsch_results.md`). Exposure is
+defined at the child's birth and the mother observed one to five years later.
+Mothers of children born under paid leave report better mental health when the
+child is 2-5: -0.15 points on the 1-5 scale (s.e. 0.08, p about 0.08), at the
+"excellent" margin, stronger where the birth year is reported (-0.25, s.e.
+0.09, 2019-2024 surveys) and among lower-income and less-educated mothers.
+Pre-trends are flat and calendar-time placebos are zero. Two caveats keep it
+suggestive: the mother's physical health moves by as much, and half the
+estimate comes from New York. Stress, support, employment, breastfeeding and
+child health do not move. (BRFSS scripts `10_*`/`11_*` are parked: BRFSS
+cannot identify new mothers, so it would replicate Wells et al. 2026, AJE.)
 
 ## Data
 
@@ -94,7 +96,8 @@ docs/     research_design.md  results.md  results.html  nsch_design.md  nsch_res
 
 Output file names are `<sample>_<outcome>[_notyet]_<aggregation>.csv` with
 samples `mothers_lt6`, `mothers`, `childless` and outcomes `worked`, `hours`,
-`fulltime`, `inlf`.
+`fulltime`, `inlf`; NSCH runs are prefixed `nsch_` (`nsch_summary.md` collects
+them).
 
 The earlier project on this branch (Angrist-Evans same-sex instrument) and the
 2021-23 pilot on PolicyEngine files were removed in the restructuring commit;
