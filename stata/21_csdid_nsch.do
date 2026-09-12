@@ -13,7 +13,7 @@ save `all'
 
 * (a) mothers of children aged 0-5, pooled ages with survey-year and age adjustment
 keep if mother == 1 & child_age <= 5
-foreach y in a1_ment a1_ment_fairpoor a1_ment_excellent a1_phys parent_stress k8q35 a1_employed {
+foreach y in a1_ment a1_ment_fairpoor a1_ment_excellent a1_phys parent_stress stress_any coping_notwell support a1_employed a1_fulltime {
     csdid `y' `xvars' [iw = weight], time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(20260912) reps(999)
     estat simple, estore(ns_`y'_simple)
     estat group,  estore(ns_`y'_group)
@@ -56,7 +56,7 @@ estat event, window(-5 5) estore(ns_placebo_older)
 use `all', clear
 replace gvar = 0 if gvar > 2024
 keep if mother == 1 & child_age <= 5
-foreach y in child_fairpoor prev_visit everbf bf_weeks {
+foreach y in child_fairpoor prev_visit everbf bf_ge26wk {
     csdid `y' `xvars' [iw = weight], time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(25) reps(499)
     estat simple, estore(ns_`y'_simple)
 }
@@ -80,3 +80,20 @@ esttab ns_a1_ment_simple ns_a1_ment_fairpoor_simple ns_a1_ment_excellent_simple 
 esttab ns_band01 ns_band23 ns_band45 ns_father_resp ns_father_a2 ns_placebo_older ///
     using "$TAB/t12_nsch_bands_fathers.tex", replace se star(* 0.10 ** 0.05 *** 0.01) booktabs ///
     mtitles("Age 0-1" "Age 2-3" "Age 4-5" "Fathers (resp.)" "Fathers (A2)" "Placebo 6-17")
+
+* (g) robustness: base period g-2 (births in g-1 can still take bonding leave in g), not-yet-treated controls,
+*     birth year = survey year minus age everywhere, pandemic surveys dropped
+use `all', clear
+replace gvar = 0 if gvar > 2024
+keep if mother == 1 & child_age <= 5
+csdid a1_ment `xvars' [iw = weight], time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(27) reps(499) anticipation(1)
+estat simple, estore(ns_rob_ant1)
+csdid a1_ment `xvars' [iw = weight], time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(28) reps(499) notyet
+estat simple, estore(ns_rob_notyet)
+csdid a1_ment `xvars' [iw = weight], time(birth_year_ya) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(29) reps(499)
+estat simple, estore(ns_rob_ya)
+csdid a1_ment `xvars' [iw = weight] if !inlist(survey_year, 2020, 2021), time(year) gvar(gvar) method(drimp) cluster(state_fips) wboot rseed(30) reps(499)
+estat simple, estore(ns_rob_nopandemic)
+esttab ns_a1_ment_simple ns_rob_ant1 ns_rob_notyet ns_rob_ya ns_rob_nopandemic ///
+    using "$TAB/t13_nsch_robustness.tex", replace se star(* 0.10 ** 0.05 *** 0.01) booktabs ///
+    mtitles("Main" "Base g-2" "Not-yet controls" "Year minus age" "No 2020-21 surveys")

@@ -130,9 +130,9 @@ class CS:
         return draws
 
 
-def run(d, y, sample, notyet, window, B, seed=20260909):
+def run(d, y, sample, notyet, window, B, seed=20260909, anticipation=0):
     rng = np.random.default_rng(seed)
-    cs = CS(d, y, notyet=notyet)
+    cs = CS(d, y, notyet=notyet, anticipation=anticipation)
     att = cs.attgt(); ev, grp, cal, simple = cs.aggregate(att)
     treated_states = d.loc[d["gvar"].isin(cs.groups), "state_fips"].unique().tolist()
     draws = cs.bootstrap(B, rng, treated_states)
@@ -158,6 +158,8 @@ if __name__ == "__main__":
     ap.add_argument("--B", type=int, default=499)
     ap.add_argument("--query", default=None, help="pandas query applied after the sample filter, e.g. \"educ3=='college'\"")
     ap.add_argument("--tag", default=None, help="name for output files (default: sample_outcome)")
+    ap.add_argument("--anticipation", type=int, default=0, help="base period is g-1-anticipation (births in g-1 can still take bonding leave in g)")
+    ap.add_argument("--time", default=None, help="nsch: column to use as the time index instead of `year` (e.g. birth_year_ya = survey year minus age)")
     a = ap.parse_args()
     d0, src = load(a.data)
     a.sample = a.sample or {"brfss": "mothers", "nsch": "mothers_0_5"}.get(a.data, "mothers_lt6")
@@ -166,12 +168,14 @@ if __name__ == "__main__":
     if a.data == "brfss":
         d = d[d["year"].between(1993, 2024)]
     if a.data == "nsch":  # time = birth year; keep births 2010+ so every cohort has pre-period births observed
+        if a.time:
+            d["year"] = d[a.time].astype(int)
         d = d[d["year"].between(2010, 2024)]
     if a.query:
         d = d.query(a.query).copy()
     tag = a.tag or ((f"{a.data}_" if a.data != "cps" else "") + f"{a.sample}_{a.outcome}" + ("_notyet" if a.notyet else ""))
     print(f"source={src} sample={a.sample} n={len(d):,} years {d.year.min()}-{d.year.max()} outcome={a.outcome}")
-    cs, att, E, G, C, S = run(d, a.outcome, a.sample, a.notyet, a.window, a.B)
+    cs, att, E, G, C, S = run(d, a.outcome, a.sample, a.notyet, a.window, a.B, anticipation=a.anticipation)
     print("cohorts:", cs.groups)
     for name, df in [("event", E), ("group", G), ("calendar", C), ("simple", S)]:
         df.to_csv(TAB / f"{tag}_{name}.csv", index=False)

@@ -28,11 +28,12 @@ MAP = {
     "state": ["FIPSST"], "weight": ["FWC"], "stratum": ["STRATUM"], "hhid": ["HHID"],
     "age": ["SC_AGE_YEARS"], "sex": ["SC_SEX"],
     "a1_rel": ["A1_RELATION"], "a1_sex": ["A1_SEX"], "a1_age": ["A1_AGE"], "a1_mar": ["A1_MARITAL"],
-    "a1_emp": ["A1_EMPLOYED"], "a1_grade": ["A1_GRADE"], "a1_ment": ["A1_MENTHEALTH"], "a1_phys": ["A1_PHYSHEALTH"],
+    "a1_emp": ["A1_EMPLOYED", "A1_EMPLOYED_R"], "a1_grade": ["A1_GRADE"], "a1_ment": ["A1_MENTHEALTH"], "a1_phys": ["A1_PHYSHEALTH"],
     "a2_rel": ["A2_RELATION"], "a2_sex": ["A2_SEX"], "a2_ment": ["A2_MENTHEALTH"], "a2_phys": ["A2_PHYSHEALTH"],
     "k8q30": ["K8Q30"], "k8q31": ["K8Q31"], "k8q32": ["K8Q32"], "k8q34": ["K8Q34"], "k8q35": ["K8Q35"],
-    "chealth": ["K2Q01"], "prevvisit": ["K6Q20"],
-    "everbf": ["EVERBREASTFED"], "bf_mo": ["BREASTFEDEND_MO_S"], "bf_wk": ["BREASTFEDEND_WK_S"],
+    "chealth": ["K2Q01"], "prevvisit": ["K4Q20R"], "othercare": ["K6Q20"],
+    "everbf": ["K6Q40"], "bf_mo": ["BREASTFEDEND_MO_S"], "bf_wk": ["BREASTFEDEND_WK_S"], "bf_day": ["BREASTFEDEND_DAY_S"],
+    "bf_still": ["K6Q41R_STILL"], "birth_yr": ["BIRTH_YR"], "birth_mo": ["BIRTH_MO"],
     "family": ["FAMILY_R"], "race": ["SC_RACE_R"], "hisp": ["SC_HISPANIC_R"], "currcov": ["CURRCOV"],
 }
 
@@ -45,7 +46,7 @@ def pick(df, names):
 
 
 def num(df, col):
-    return pd.to_numeric(df[col], errors="coerce") if col else pd.Series(np.nan, index=df.index)
+    return pd.to_numeric(df[col], errors="coerce").astype(float) if col else pd.Series(np.nan, index=df.index)
 
 
 def harmonise(df, year):
@@ -58,18 +59,24 @@ def harmonise(df, year):
     o["state_fips"] = num(df, src["state"]).astype("Int64")
     o["weight"] = num(df, src["weight"]); o["stratum"] = df[src["stratum"]] if src["stratum"] else np.nan
     o["child_age"] = num(df, src["age"]); o["child_female"] = (num(df, src["sex"]) == 2).astype(float)
-    # field period runs roughly June (year) to January (year+1); a child aged a was born, on average,
-    # in year - a - 0.3; use year - age for age-in-years and flag the half-year uncertainty
-    o["birth_year"] = (year - o["child_age"]).astype("Int64")
+    # BIRTH_YR / BIRTH_MO are on the file from 2019; before that birth year is survey year minus age in
+    # years, which overstates the true birth year for children whose birthday falls after the interview
+    o["birth_year_ya"] = (year - o["child_age"]).astype("Int64")
+    by = num(df, src["birth_yr"]); bm = num(df, src["birth_mo"])
+    o["birth_year"] = by.astype("Int64").where(by.notna(), o["birth_year_ya"])
+    o["birth_month"] = bm.astype("Int64")
+    o["birth_year_reported"] = float(src["birth_yr"] is not None)
     a1rel = num(df, src["a1_rel"]); a1sex = num(df, src["a1_sex"])
     o["a1_parent"] = a1rel.isin([1]).astype(float)               # 1 = biological or adoptive parent
     o["a1_mother"] = ((a1rel == 1) & (a1sex == 2)).astype(float)
     o["a1_father"] = ((a1rel == 1) & (a1sex == 1)).astype(float)
     o["a1_age"] = num(df, src["a1_age"])
     o["a1_married"] = (num(df, src["a1_mar"]) == 1).astype(float).where(num(df, src["a1_mar"]).notna())
-    o["a1_employed"] = (num(df, src["a1_emp"]) == 1).astype(float).where(num(df, src["a1_emp"]).notna())
+    e = num(df, src["a1_emp"])                                     # 1 FT, 2 PT, 3 without pay, 4 looking, 5 not looking, 6 retired (2023+)
+    o["a1_employed"] = e.isin([1, 2]).astype(float).where(e.notna())
+    o["a1_fulltime"] = (e == 1).astype(float).where(e.notna())
     g = num(df, src["a1_grade"])
-    o["a1_educ3"] = np.select([g <= 3, g.between(4, 6), g >= 7], ["hs_or_less", "some_college", "college"], None)  # verify codes in codebook
+    o["a1_educ3"] = np.select([g <= 3, g.between(4, 6), g >= 7], ["hs_or_less", "some_college", "college"], None)  # A1_GRADE: 1-3 <= HS/GED, 4-6 vocational/some college/AA, 7-9 BA+
     for k in ("a1_ment", "a1_phys", "a2_ment", "a2_phys"):
         v = num(df, src[k]); o[k] = v.where(v.between(1, 5))
     o["a1_ment_fairpoor"] = np.where(o["a1_ment"].isna(), np.nan, (o["a1_ment"] >= 4).astype(float))
@@ -78,11 +85,20 @@ def harmonise(df, year):
     o["a2_father"] = ((a2rel == 1) & (a2sex == 1)).astype(float)
     for k in ("k8q30", "k8q31", "k8q32", "k8q34", "k8q35"):
         v = num(df, src[k]); o[k] = v.where(v.between(1, 5))
-    o["parent_stress"] = o[["k8q31", "k8q32", "k8q34"]].mean(axis=1)   # higher = more stress (verify direction)
+    o["parent_stress"] = o[["k8q31", "k8q32", "k8q34"]].mean(axis=1)   # 1 never .. 5 always: higher = more stress
+    o["stress_any"] = (o[["k8q31", "k8q32", "k8q34"]] >= 4).any(axis=1).astype(float).where(o["parent_stress"].notna())  # usually/always on any item
+    o["coping_notwell"] = (o["k8q30"] >= 3).astype(float).where(o["k8q30"].notna())               # not very well / not well at all
+    o["support"] = (o["k8q35"] == 1).astype(float).where(o["k8q35"].notna())
     v = num(df, src["chealth"]); o["child_health"] = v.where(v.between(1, 5)); o["child_fairpoor"] = (o["child_health"] >= 4).astype(float).where(o["child_health"].notna())
-    o["prev_visit"] = (num(df, src["prevvisit"]) == 1).astype(float).where(num(df, src["prevvisit"]).notna())
-    o["everbf"] = (num(df, src["everbf"]) == 1).astype(float).where(num(df, src["everbf"]).notna())
-    o["bf_weeks"] = num(df, src["bf_mo"]) * 4.33 + num(df, src["bf_wk"]).fillna(0)
+    pv = num(df, src["prevvisit"]); o["prev_visit"] = (pv >= 2).astype(float).where(pv.notna())    # K4Q20R: 1 none, 2 one, 3 two+
+    oc = num(df, src["othercare"]); o["other_care10h"] = (oc == 1).astype(float).where(oc.notna())
+    o["everbf"] = (num(df, src["everbf"]) == 1).astype(float).where(num(df, src["everbf"]).notna())  # K6Q40
+    bfw = num(df, src["bf_mo"]).fillna(0) * 4.33 + num(df, src["bf_wk"]).fillna(0) + num(df, src["bf_day"]).fillna(0) / 7
+    anydur = num(df, src["bf_mo"]).notna() | num(df, src["bf_wk"]).notna() | num(df, src["bf_day"]).notna()
+    o["bf_weeks"] = bfw.where(anydur)                               # censored at interview if still breastfeeding
+    o["bf_still"] = (num(df, src["bf_still"]) == 1).astype(float).where(num(df, src["bf_still"]).notna())
+    o["bf_ge26wk"] = ((o["bf_weeks"] >= 26) | (o["bf_still"] == 1)).astype(float).where(o["everbf"].notna())
+    o.loc[o["everbf"] == 0, "bf_ge26wk"] = 0.0
     fpl = [c for c in df.columns if re.fullmatch(r"FPL_I\d", c)]
     o["fpl"] = df[fpl].apply(pd.to_numeric, errors="coerce").mean(axis=1) if fpl else np.nan
     o["fpl_lt200"] = (o["fpl"] < 200).astype(float).where(o["fpl"].notna())
@@ -96,7 +112,7 @@ def main(dirpath):
     files = sorted(Path(dirpath).glob("*"))
     parts = []
     for f in files:
-        m = re.search(r"(20\d\d)", f.name)
+        m = re.search(r"(20\d\d)e?_topical", f.name)
         if not m or f.suffix.lower() not in (".dta", ".csv", ".sas7bdat"):
             continue
         year = int(m.group(1))
@@ -113,7 +129,10 @@ def main(dirpath):
     d["year"] = d["birth_year"].astype(int)                              # time index for csdid = birth year
     d["exposed_at_birth"] = ((d["gvar"] > 0) & (d["year"] >= d["gvar"])).astype(int)
     d["mother"] = d["a1_mother"]; d["father"] = d["a1_father"]
-    print("\nrows:", len(d), " birth years:", d.year.min(), "-", d.year.max())
+    chk = d[d.birth_year_reported == 1]
+    print("\nbirth year check (2019+): share with survey_year - age == BIRTH_YR:", round((chk.birth_year_ya == chk.birth_year).mean(), 3),
+          "; == BIRTH_YR + 1:", round((chk.birth_year_ya == chk.birth_year + 1).mean(), 3))
+    print("rows:", len(d), " birth years:", d.year.min(), "-", d.year.max())
     print("respondent is mother:", round(d.a1_mother.mean(), 3), " father:", round(d.a1_father.mean(), 3))
     print("A1 mental health fair/poor, mothers of 0-5:", round(d.loc[(d.a1_mother == 1) & (d.child_age <= 5), "a1_ment_fairpoor"].mean(), 3))
     print("exposed children by cohort:\n", d[d.gvar > 0].groupby("gvar")["exposed_at_birth"].agg(["size", "sum"]).to_string())
