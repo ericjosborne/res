@@ -22,7 +22,7 @@ PRE, POST = 36, 48
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--ages", nargs=2, type=int, default=[16, 19]); ap.add_argument("--outcome", default="enrolled")
-ap.add_argument("--events", default="post2009", help="post2009 (events from 2010, no federal changes in any window) | all | large (window rise >= 20%) | pre2010 | local (county events, 36_substate.py)")
+ap.add_argument("--events", default="post2009", help="post2009 (events from 2010, no federal changes in any window) | all | large (window rise >= 20%) | pre2010 | local (county events, 36_substate.py) | unit, unit_local, unit_state, unit_both, unit_all (unit-level design, 38_unit_panel.py: counties with their own minimum are separate units from 2010, by event source)")
 ap.add_argument("--controls", default="clean", help="clean (no state-driven rise in window) | strict (no rise of any kind) | federal (federal-floor states only) | cleanlocal (clean, and control teens in counties with a local minimum above the state rate, or of unknown county in a state-month with one, dropped)")
 ap.add_argument("--treated", default="all", help="all | nolocal (identified counties without a local minimum) | localonly (identified counties with a local minimum above the state rate)")
 ap.add_argument("--B", type=int, default=199); ap.add_argument("--equal", action="store_true", help="equal weight per event (default: treated teen population)")
@@ -50,7 +50,12 @@ key_c = list(zip(d.county, d.ym)); key_s = list(zip(d.state_fips, d.ym))
 d["local_cty"] = [k in above for k in key_c]; d["unknown_flagged"] = (d.county == 0) & np.array([k in flagged for k in key_s])
 
 # events
-if a.events == "local":
+if a.events.startswith("unit"):
+    E = pd.read_csv(MW / "unit_events.csv")
+    if a.events != "unit_all": E = E[E.event_ym >= "2010-01"]
+    if a.events in ("unit_local", "unit_state", "unit_both"): E = E[E.source == a.events.split("_")[1]]
+    E = E[E.pct_window >= 0.05]
+elif a.events == "local":
     E = pd.read_csv(MW / "local_events.csv"); E = E[E.pct_window >= 0.05]; E["unit"] = E.county
 else:
     E = pd.read_csv(MW / "mw_events.csv"); E = E[E.federal_induced == 0]; E["unit"] = E.state_fips
@@ -58,8 +63,12 @@ else:
     elif a.events == "pre2010": E = E[E.event_ym < "2010-01"]
     elif a.events == "large": E = E[E.pct_window >= 0.20]
 E["ym_idx"] = E.event_ym.str[:4].astype(int) * 12 + E.event_ym.str[5:7].astype(int) - 1
-# geography key: treated counties (local events) keep their county code, everything else its state
-local_units = set(E.unit) if a.events == "local" else set()
+# geography key: treated counties (local events) keep their county code, everything else its state; in the unit
+# design every county with its own minimum is a unit throughout, and the rest of the state is the state unit
+if a.events.startswith("unit"):
+    local_units = set(pd.read_csv(MW / "unit_mw_monthly.csv", usecols=["unit", "kind"]).query("kind == 'county'").unit.unique())
+else:
+    local_units = set(E.unit) if a.events == "local" else set()
 d["geo"] = np.where(d.county.isin(local_units), d.county, d.state_fips)
 d["_state"] = d.state_fips
 
@@ -133,6 +142,7 @@ n_ev = int((~np.isnan(out[K.index(0)])).sum())
 S = pd.DataFrame({"post_avg": [post], "se": [se_post], "pre_avg": [pre], "se_pre": [se_pre], "n_events": [n_ev], "n_obs": [len(dT)]}); S.to_csv(TAB / f"{tag}_simple.csv", index=False)
 BE = E[["event_id", "unit", "event_ym", "mw_before", "mw_end", "pct_window", "n_steps"]].copy()
 if "state" in E.columns: BE["state"] = E.state
+if "source" in E.columns: BE["source"] = E.source
 BE["post_avg"] = np.nanmean(out[[K.index(k) for k in (0, 1, 2, 3)]], axis=0); BE["pre_avg"] = np.nanmean(out[[K.index(k) for k in (-3, -2)]], axis=0); BE["weight"] = ew / ew.sum() if ew.sum() > 0 else np.nan
 BE.to_csv(TAB / f"{tag}_byevent.csv", index=False)
 print(f"{tag}: n_treated_side={len(dT):,} n_control_side={len(dC):,} events={n_ev} controls/event median={int(E.ctrl_list.apply(len).median()) if len(E) else 0}")
