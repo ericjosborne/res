@@ -11,3 +11,5 @@ __pycache__/
 *.pyc
 data/raw/brfss/
 data/raw/nsch/
+data/clean/cps_monthly_1624.csv.gz
+data/raw/monthly/
