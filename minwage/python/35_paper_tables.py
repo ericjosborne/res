@@ -56,7 +56,7 @@ fig.tight_layout(); fig.savefig(P / "figures" / "fig2_minwage.png", dpi=200)
 
 # copy result figures
 import shutil
-for f, g in [("mw_event_main.png", "fig4_event_main.png"), ("mw_status_1819.png", "fig5_status_1819.png"), ("mw_byevent_1819.png", "fig6_byevent.png")]:
+for f, g in [("mw_event_grid.png", "fig4_event_main.png"), ("mw_status_1819.png", "fig5_status_1819.png"), ("mw_byevent_1819.png", "fig6_byevent.png")]:
     shutil.copy(PF / "output" / "figures" / f, P / "figures" / g)
 # first-stage figures: main (unit design, three age brackets on one image) and appendix (state design)
 for design, out, title in [(D, "fig3_first_stage.png", "First stage: log hourly wage of hourly-paid teens, unit design, 73 events from 2010"),

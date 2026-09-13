@@ -61,6 +61,18 @@ for ax, y in zip(axes, ["enrolled", "employed"]):
 axes[0].legend(frameon=False, fontsize=9)
 fig.suptitle("Minimum wage increases and teens: unit design (counties with their own minimum as units), 2010-2025 events", fontsize=10, x=0.01, ha="left")
 fig.tight_layout(); fig.savefig(FIG / "mw_event_main.png", dpi=200)
+# figure: six-outcome event-study grid, three age brackets per panel (the paper's main event figure)
+OUT6 = [("log_wage", "Log hourly wage, hourly-paid teens"), ("enrolled", "Enrolled in school"), ("employed", "Employed"), ("enr_emp", "Enrolled and employed"), ("enr_only", "Enrolled only"), ("neither", "Neither enrolled nor employed")]
+fig, axes = plt.subplots(2, 3, figsize=(15, 8.4))
+for ax, (y, lab) in zip(axes.flat, OUT6):
+    for ages, col, off in [("1617", PALETTE[0], -0.15), ("1819", PALETTE[1], 0.0), ("1619", PALETTE[2], 0.15)]:
+        f = TAB / f"mw_{ages}_{y}_{D}_event.csv"
+        if not f.exists(): continue
+        E = pd.read_csv(f); ax.errorbar(E.k + off, E.estimate, yerr=1.96 * E.se, fmt="o", color=col, elinewidth=1.8, markersize=5, label=f"Ages {ages[:2]}-{ages[2:]}" + (" (pooled)" if ages == "1619" else ""))
+    ax.axhline(0, color=INK2, linewidth=1); ax.axvline(-0.5, color=GRID, linewidth=1); ax.set_title(lab, fontsize=10.5, loc="left"); style_axes(ax)
+for ax in axes[1]: ax.set_xlabel("Years relative to the increase (base: year -1)")
+axes[0, 0].legend(frameon=False, fontsize=9, loc="upper left")
+fig.suptitle("Unit design, 2010+ events: event-time effects by age, 95% intervals", fontsize=11, x=0.01, ha="left"); fig.tight_layout(); fig.savefig(FIG / "mw_event_grid.png", dpi=200)
 # figure: four-way status, 18-19
 fig, ax = plt.subplots(figsize=(7.5, 4))
 for y, col in zip(["enr_emp", "enr_only", "emp_only", "neither"], PALETTE):
