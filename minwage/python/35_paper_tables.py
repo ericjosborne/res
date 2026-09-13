@@ -80,7 +80,12 @@ UE = pd.read_csv(MW / "unit_events.csv"); UE = UE[(UE.event_ym >= "2010-01") & (
 BEu = pd.read_csv(TAB / "mw_1619_enrolled_unit_byevent.csv"); UE = UE[UE.event_id.isin(BEu.event_id[BEu.post_avg.notna()])].sort_values(["kind", "event_ym"], ascending=[False, True])
 fips = pd.read_csv(MW / "state_mw_changes_1974_2022.csv").drop_duplicates("state_fips").set_index("state_fips").state.to_dict()
 fips.update({1: "Alabama", 13: "Georgia", 16: "Idaho", 18: "Indiana", 20: "Kansas", 22: "Louisiana", 28: "Mississippi", 40: "Oklahoma", 45: "South Carolina", 47: "Tennessee", 48: "Texas", 49: "Utah", 56: "Wyoming"})
-def uname(r): return (fips.get(r.state_fips, str(r.state_fips)) + " (remainder)") if r.kind == "state" else f"County {r.unit} ({fips.get(r.state_fips, '')})"
+CN = {4005: "Coconino (Flagstaff)", 6001: "Alameda", 6013: "Contra Costa", 6037: "Los Angeles", 6041: "Marin", 6073: "San Diego", 6075: "San Francisco", 6081: "San Mateo", 6085: "Santa Clara", 6097: "Sonoma",
+      8031: "Denver", 17031: "Cook (Chicago)", 19103: "Johnson IA", 19113: "Linn IA", 19179: "Wapello IA", 21067: "Fayette (Lexington)", 21111: "Jefferson (Louisville)", 23005: "Cumberland (Portland ME)",
+      24031: "Montgomery MD", 24033: "Prince George's", 27053: "Hennepin (Minneapolis)", 27123: "Ramsey (St. Paul)", 35001: "Bernalillo (Albuquerque)", 35013: "Dona Ana (Las Cruces)", 35049: "Santa Fe",
+      36005: "Bronx", 36047: "Kings (Brooklyn)", 36059: "Nassau", 36061: "New York (Manhattan)", 36081: "Queens", 36085: "Richmond (Staten Island)", 36103: "Suffolk", 36119: "Westchester",
+      41005: "Clackamas", 41051: "Multnomah (Portland)", 41067: "Washington OR", 53033: "King (Seattle)", 53053: "Pierce (Tacoma)"}
+def uname(r): return (fips.get(r.state_fips, str(r.state_fips)) + " (remainder)") if r.kind == "state" else CN.get(int(r.unit), f"County {r.unit}") + f" ({fips.get(r.state_fips, '')})"
 rows = [f"{uname(r)} & {r.source} & {r.event_ym} & {r.mw_before:.2f} & {r.mw_first:.2f} & {r.mw_end:.2f} & {100 * r.pct_window:.0f} & {r.n_steps} & {r.n_controls} \\\\" for r in UE.itertuples()]
 (P / "tables" / "tab1_events.tex").write_text("\\begin{tabular}{lllrrrrrr}\n\\toprule\nUnit & Source & Event month & Before & First step & End of window & Rise (\\%) & Steps & Controls \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 E2 = E[E.event_ym >= "2010-01"].sort_values("event_ym")

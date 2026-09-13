@@ -1,11 +1,14 @@
 # The fall in teen employment and the minimum wage
 
-Stacked event studies of state minimum wage increases and teenagers' school
+Stacked event studies of minimum wage increases and teenagers' school
 enrollment, employment, hours and the four school-work states, in the IPUMS-CPS
-basic monthly files 1994-2026. Events are state-driven increases of 5 percent
-or more after 36 quiet months (85 since 1994, 39 since 2010), each compared
-with its clean control states in a Callaway-Sant'Anna comparison relative to
-the year before the event (Cengiz, Dube, Lindner and Zipperer 2019 design).
+basic monthly files 1994-2026. Units are the jurisdictions whose wage floor a
+teen faces: every identified county with its own minimum, and the rest of each
+state. Events are increases of 5 percent or more after 36 quiet months (73
+since 2010 with CPS teens: 39 state remainders, 34 counties), each compared
+with clean control units in other states in a Callaway-Sant'Anna comparison
+relative to the year before the event (Cengiz, Dube, Lindner and Zipperer 2019
+design). The state design (states as units, 39 events) is in the appendix.
 
 * `paper/minwage_teens.tex` / `.pdf` – the draft paper (theory, design, results).
 * `docs/minwage_design.md`, `docs/minwage_results.md` – design memo and results memo.
@@ -13,13 +16,14 @@ the year before the event (Cengiz, Dube, Lindner and Zipperer 2019 design).
 
 ## Headline
 
-The increases raised the hourly wages of hourly-paid teens by 5.1 percent
-(s.e. 1.2) at ages 16-17 and 3.1 percent (0.9) at 18-19, growing to 7 and 5
-percent by the third year. Enrollment (-0.3 points, s.e. 0.4; -0.4, s.e. 0.9),
-employment (0.0, s.e. 0.5; +1.3, s.e. 0.8), hours, labour force participation
-and the four school-work states did not change. Flat pre-trends; stable across
-71 events since 1994, pre-2010 events, large events, strict and federal-floor
-controls, equal weights, without 2020-21, school months only, and subgroups.
+The increases raised the hourly wages of hourly-paid teens by 5.3 percent
+(s.e. 1.2) at ages 16-17 and 3.0 percent (0.9) at 18-19, growing to 7 and 5
+percent by the third year. Enrollment (-0.3 points, s.e. 0.4; +0.1, s.e. 0.9),
+employment (-0.1, s.e. 0.5; +1.0, s.e. 0.7), hours, labour force participation
+and the four school-work states did not change. Flat pre-trends; identical
+with states as units; stable across 134 events since 1994, pre-2010 events,
+large events, strict and federal-floor controls, without 2020-21, school
+months only, and subgroups.
 A precise null with a demonstrated first stage, contradicting the two-way fixed
 effects finding of Neumark and Shupe (2019).
 
@@ -43,11 +47,10 @@ From this directory (`minwage/`):
 pip install -r requirements.txt
 python python/30_build_cps_monthly.py        # streams the extract, keeps ages 16-24
 python python/31_build_mw_events.py          # minimum wage panel and event list
-python python/33_run_minwage.py --B 99 --P 4 # 105 stacked event-study runs, ~40 min
-python python/36_substate.py                 # county minimum wage panel, control contamination flags, local events
-python python/37_run_substate.py 99          # 32 substate robustness runs (cleaned controls, treated splits)
-python python/38_unit_panel.py               # unit-level panel and events (counties with their own minimum as units)
-python python/39_run_units.py 99             # 51 unit-design runs
+python python/38_unit_panel.py               # unit-level panel and events (run before the battery)
+python python/33_run_minwage.py --B 99 --P 4 # 105 unit-design runs, ~40 min; --design post2009 for the state design
+python python/36_substate.py                 # county minimum wage panel (input to 38); contamination flags; local events
+python python/37_run_substate.py 99          # optional: cleaned-control and treated-split checks on the state design
 python python/34_summarise_minwage.py        # mw_summary.md and the main figures
 python python/35_paper_tables.py             # LaTeX tables and figures for paper/
 cd paper && pdflatex minwage_teens.tex && pdflatex minwage_teens.tex

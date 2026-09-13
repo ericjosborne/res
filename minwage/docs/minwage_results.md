@@ -17,7 +17,22 @@ the strict sense. The events raise the state minimum by 7 to 86 percent over
 the four-year window (median 34 percent); 24 of them are multi-step
 schedules.
 
-## 1. Headline
+## 0. Main specification (September 13 update): the unit design
+
+The main specification is now the unit design: every identified county with
+its own minimum is a geographic unit with its own wage floor (the city's
+rate applied to the county) and the rest of each state is another unit
+(`python/38_unit_panel.py`); events (73 from 2010 with CPS teens: 39 state
+remainders, 34 counties) and clean controls are defined at the unit level.
+The state design (39 state events) is the appendix of the paper. Numbers:
+`output/tables/mw_summary.md` (tags `*_unit`). The sections below give the
+state-design numbers from the first pass; the two agree to within a tenth of
+a point on every outcome. Unit design headline: wages of hourly-paid teens
++5.3 percent (s.e. 1.2) at 16-17, +3.0 (0.9) at 18-19; enrollment -0.3
+(0.4) and +0.1 (0.9); employment -0.1 (0.5) and +1.0 (0.7); the four
+school-work states, hours and participation unchanged.
+
+## 1. Headline (state design, first pass)
 
 The increases raised teen pay and changed nothing else. Hourly wages of
 hourly-paid 16-17 year olds rise 5.1 percent (s.e. 1.2) and of 18-19 year
