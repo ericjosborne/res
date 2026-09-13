@@ -52,8 +52,10 @@ d["local_cty"] = [k in above for k in key_c]; d["unknown_flagged"] = (d.county =
 # events
 if a.events.startswith("unit"):
     E = pd.read_csv(MW / "unit_events.csv")
-    if a.events != "unit_all": E = E[E.event_ym >= "2010-01"]
+    if a.events == "unit_pre2010": E = E[E.event_ym < "2010-01"]
+    elif a.events != "unit_all": E = E[E.event_ym >= "2010-01"]
     if a.events in ("unit_local", "unit_state", "unit_both"): E = E[E.source == a.events.split("_")[1]]
+    if a.events == "unit_large": E = E[E.pct_window >= 0.20]
     E = E[E.pct_window >= 0.05]
 elif a.events == "local":
     E = pd.read_csv(MW / "local_events.csv"); E = E[E.pct_window >= 0.05]; E["unit"] = E.county

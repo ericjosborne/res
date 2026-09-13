@@ -1,4 +1,5 @@
-"""35_paper_tables.py -- LaTeX tables and descriptive figures for paper/minwage_teens.tex from the run outputs."""
+"""35_paper_tables.py -- LaTeX tables and figures for paper/minwage_teens.tex.  Main specification: unit design (tags *_unit)."""
+D = "unit"
 import sys
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -55,13 +56,34 @@ fig.tight_layout(); fig.savefig(P / "figures" / "fig2_minwage.png", dpi=200)
 
 # copy result figures
 import shutil
-for f, g in [("mw_wage_first_stage.png", "fig3_first_stage.png"), ("mw_event_main.png", "fig4_event_main.png"), ("mw_status_1819.png", "fig5_status_1819.png"), ("mw_byevent_1819.png", "fig6_byevent.png")]:
+for f, g in [("mw_event_main.png", "fig4_event_main.png"), ("mw_status_1819.png", "fig5_status_1819.png"), ("mw_byevent_1819.png", "fig6_byevent.png")]:
     shutil.copy(PF / "output" / "figures" / f, P / "figures" / g)
+# first-stage figures: main (unit design, three age brackets on one image) and appendix (state design)
+for design, out, title in [(D, "fig3_first_stage.png", "First stage: log hourly wage of hourly-paid teens, unit design, 73 events from 2010"),
+                           ("post2009", "figA1_state_first_stage.png", "First stage: log hourly wage of hourly-paid teens, state design, 39 events from 2010")]:
+    fig, ax = plt.subplots(figsize=(8, 4.4))
+    for ages, col, off in [("1617", PALETTE[0], -0.15), ("1819", PALETTE[1], 0.0), ("1619", PALETTE[2], 0.15)]:
+        Ev = pd.read_csv(TAB / f"mw_{ages}_log_wage_{design}_event.csv")
+        ax.errorbar(Ev.k + off, Ev.estimate, yerr=1.96 * Ev.se, fmt="o", color=col, elinewidth=1.8, markersize=5.5, label=f"Ages {ages[:2]}-{ages[2:]}" + (" (pooled)" if ages == "1619" else ""))
+    ax.axhline(0, color=INK2, linewidth=1); ax.axvline(-0.5, color=GRID, linewidth=1); ax.set_xlabel("Years relative to the increase (base: year -1)"); ax.set_ylabel("Effect on log hourly wage")
+    ax.set_title(title, fontsize=10.5, loc="left"); ax.legend(frameon=False, fontsize=9, loc="upper left"); style_axes(ax); fig.tight_layout(); fig.savefig(P / "figures" / out, dpi=200)
+# appendix: state design enrollment and employment event studies
+fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
+for ax, y, lab in zip(axes, ["enrolled", "employed"], ["Enrolled in school", "Employed"]):
+    for ages, col, off in [("1617", PALETTE[0], -0.1), ("1819", PALETTE[1], 0.1)]:
+        Ev = pd.read_csv(TAB / f"mw_{ages}_{y}_post2009_event.csv"); ax.errorbar(Ev.k + off, Ev.estimate, yerr=1.96 * Ev.se, fmt="o", color=col, elinewidth=1.8, markersize=5, label=f"Ages {ages[:2]}-{ages[2:]}")
+    ax.axhline(0, color=INK2, linewidth=1); ax.axvline(-0.5, color=GRID, linewidth=1); ax.set_xlabel("Years relative to the increase (base: year -1)"); ax.set_title(lab + ", state design (39 events)", fontsize=10.5, loc="left"); style_axes(ax)
+axes[0].legend(frameon=False, fontsize=9); fig.tight_layout(); fig.savefig(P / "figures" / "figA2_state_event_main.png", dpi=200)
 
 # ---- Table 1: events ------------------------------------------------------------------------------------
+UE = pd.read_csv(MW / "unit_events.csv"); UE = UE[(UE.event_ym >= "2010-01") & (UE.pct_window >= 0.05)]
+BEu = pd.read_csv(TAB / "mw_1619_enrolled_unit_byevent.csv"); UE = UE[UE.event_id.isin(BEu.event_id[BEu.post_avg.notna()])].sort_values(["kind", "event_ym"], ascending=[False, True])
+fips = pd.read_csv(MW / "state_mw_changes_1974_2022.csv").drop_duplicates("state_fips").set_index("state_fips").state.to_dict()
+fips.update({1: "Alabama", 13: "Georgia", 16: "Idaho", 18: "Indiana", 20: "Kansas", 22: "Louisiana", 28: "Mississippi", 40: "Oklahoma", 45: "South Carolina", 47: "Tennessee", 48: "Texas", 49: "Utah", 56: "Wyoming"})
+def uname(r): return (fips.get(r.state_fips, str(r.state_fips)) + " (remainder)") if r.kind == "state" else f"County {r.unit} ({fips.get(r.state_fips, '')})"
+rows = [f"{uname(r)} & {r.source} & {r.event_ym} & {r.mw_before:.2f} & {r.mw_first:.2f} & {r.mw_end:.2f} & {100 * r.pct_window:.0f} & {r.n_steps} & {r.n_controls} \\\\" for r in UE.itertuples()]
+(P / "tables" / "tab1_events.tex").write_text("\\begin{tabular}{lllrrrrrr}\n\\toprule\nUnit & Source & Event month & Before & First step & End of window & Rise (\\%) & Steps & Controls \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 E2 = E[E.event_ym >= "2010-01"].sort_values("event_ym")
-rows = [f"{r.state} & {r.event_ym} & {r.mw_before:.2f} & {r.mw_first:.2f} & {r.mw_end:.2f} & {100 * r.pct_window:.0f} & {r.n_steps} & {r.n_controls} \\\\" for r in E2.itertuples()]
-(P / "tables" / "tab1_events.tex").write_text("\\begin{tabular}{llrrrrrr}\n\\toprule\nState & Event month & Before & First step & End of window & Rise (\\%) & Steps & Controls \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 # ---- Table 2: summary statistics, year before the event, treated states vs clean controls ---------------------
 dd = pd.read_csv(PF / "data" / "clean" / "cps_monthly_1624.csv.gz", usecols=["ym", "age", "weight", "state_fips", "female", "black", "hispanic", "enrolled", "employed", "inlf", "hours", "org", "earnwt", "hourwage", "paidhour"])
@@ -69,7 +91,7 @@ dd = dd[dd.age.between(16, 19)]; dd["enr_emp"] = dd.enrolled * dd.employed; dd["
 E2["ym_idx"] = E2.event_ym.str[:4].astype(int) * 12 + E2.event_ym.str[5:7].astype(int) - 1
 tr, ct = [], []
 for r in E2.itertuples():
-    pre = dd[dd.ym.between(r.ym_idx - 12, r.ym_idx - 1)]; tr.append(pre[pre.state_fips == r.state_fips]); ct.append(pre[pre.state_fips.isin([int(x) for x in str(r.controls).split()])])
+    pre = dd[dd.ym.between(r.ym_idx - 12, r.ym_idx - 1)]; tr.append(pre[pre.state_fips == r.state_fips]); ct.append(pre[pre.state_fips.isin([int(x) for x in str(r.controls).split()])])   # summary statistics by state, as in the state design
 tr = pd.concat(tr); ct = pd.concat(ct)
 def stats(x, band):
     x = x[x.age.between(*band)]; w = x.weight; o = {}
@@ -92,7 +114,7 @@ rows = []
 for y, lab in OUT:
     line1, line2 = [lab], [""]
     for ages in ("1617", "1819", "1619"):
-        b, se, pre, n = simple(f"mw_{ages}_{y}_post2009"); dgt = 2 if y == "hours" else 3
+        b, se, pre, n = simple(f"mw_{ages}_{y}_{D}"); dgt = 2 if y == "hours" else 3
         c1, c2 = cell(b, se, dgt); line1 += [c1, f"{pre:.{dgt}f}" if not np.isnan(pre) else ""]; line2 += [c2, ""]
     rows.append(" & ".join(line1) + " \\\\"); rows.append(" & ".join(line2) + " \\\\")
 (P / "tables" / "tab3_main.tex").write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Post & Pre & Post & Pre & Post & Pre \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
@@ -103,7 +125,7 @@ for k in (-3, -2, -1, 0, 1, 2, 3):
     line1, line2 = [f"Year {k}"], [""]
     for y in ("log_wage", "enrolled", "employed"):
         for ages in ("1617", "1819"):
-            E_ = pd.read_csv(TAB / f"mw_{ages}_{y}_post2009_event.csv").set_index("k")
+            E_ = pd.read_csv(TAB / f"mw_{ages}_{y}_{D}_event.csv").set_index("k")
             if k == -1: line1.append("0"); line2.append("")
             else:
                 c1, c2 = cell(E_.loc[k, "estimate"], E_.loc[k, "se"]); line1.append(c1); line2.append(c2)
@@ -111,10 +133,10 @@ for k in (-3, -2, -1, 0, 1, 2, 3):
 (P / "tables" / "tab4_eventtime.tex").write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Log hourly wage} & \\multicolumn{2}{c}{Enrolled} & \\multicolumn{2}{c}{Employed} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & 16--17 & 18--19 & 16--17 & 18--19 & 16--17 & 18--19 \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 # ---- Table 5: robustness ------------------------------------------------------------------------------------
-VAR = [("post2009", "Main: 39 events from 2010, clean controls, population weights"), ("all", "All 71 events, 1994--2025"), ("pre2010", "32 events before 2010"), ("large", "Large events only (window rise $\\geq$ 20\\%)"),
-       ("post2009_strict", "Strict controls (no rise of any kind)"), ("post2009_federal", "Federal-floor controls only"), ("post2009_eq", "Equal weight per event"), ("post2009_nopandemic", "Drop 2020--21"), ("post2009_schoolmonths", "September--May only"),
-       ("post2009_cleanlocal", "Controls net of counties with local minimums"), ("post2009_cleanlocal_nolocal", "Treated: identified counties without a local minimum"), ("local_cleanlocal", "County-level local events (16 counties)"),
-       ("unit", "Unit design: counties with own minimum as units, all events"), ("unit_state", "Unit design: state-remainder events"), ("unit_both", "Unit design: county events, state and local rise"), ("unit_local", "Unit design: county events, local rise only")]
+VAR = [(D, "Main: unit design, 73 events from 2010, clean controls, population weights"), ("post2009", "State design (states as units), 39 events (Appendix)"),
+       (D + "_state", "Unit design: state-remainder events only (39)"), (D + "_both", "Unit design: county events, state and local rise (18)"), (D + "_local", "Unit design: county events, local rise only (16)"),
+       (D + "_all", "All events, 1994--2025"), (D + "_pre2010", "Events before 2010"), (D + "_large", "Large events only (window rise $\\geq$ 20\\%)"),
+       (D + "_strict", "Strict controls (no rise of any kind)"), (D + "_federal", "Federal-floor controls only"), (D + "_eq", "Equal weight per event"), (D + "_nopandemic", "Drop 2020--21"), (D + "_schoolmonths", "September--May only")]
 rows = []
 for v, lab in VAR:
     line1, line2 = [lab], [""]
@@ -131,7 +153,7 @@ rows = []
 for k, lab in HET:
     line1, line2 = [lab], [""]
     for ages in ("1617", "1819"):
-        b, se, pre, n = simple(f"mw_{ages}_enrolled_post2009_{k}"); c1, c2 = cell(b, se); line1 += [c1, f"{pre:.3f}"]; line2 += [c2, ""]
+        b, se, pre, n = simple(f"mw_{ages}_enrolled_{D}_{k}"); c1, c2 = cell(b, se); line1 += [c1, f"{pre:.3f}"]; line2 += [c2, ""]
     rows.append(" & ".join(line1) + " \\\\"); rows.append(" & ".join(line2) + " \\\\")
 (P / "tables" / "tab6_het.tex").write_text("\\begin{tabular}{lcccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\n & Post & Pre & Post & Pre \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 print("tables and figures written to paper/")
