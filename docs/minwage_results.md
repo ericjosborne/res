@@ -50,6 +50,19 @@ Post-event average effect (years 0-3), 2010+ events, from
 Pre-period means (treated states, year before the event): enrolled 0.84 at
 16-17 and 0.61 at 18-19; employed 0.21 and 0.45.
 
+![wage](../output/figures/mw_wage_first_stage.png)
+
+First stage by event year, log hourly wage of hourly-paid teens (s.e. in
+parentheses): ages 16-17, years -3 to 3: -0.020 (0.010), 0.007 (0.012), 0,
+0.017 (0.012), 0.065 (0.012), 0.052 (0.014), 0.071 (0.022); ages 18-19:
+0.006 (0.012), -0.001 (0.008), 0, 0.007 (0.010), 0.036 (0.011), 0.029
+(0.015), 0.050 (0.011). Year 0 is small because the event month falls inside
+it and most schedules add their later steps in years 1-3; from year 1 the
+wage effect is five to seven standard errors from zero and grows with the
+schedule. Weekly earnings of all teen workers rise 6 to 9 percent from year 1
+at 16-17 and 5 to 7 percent at 18-19, so hours did not fall enough to offset
+the wage.
+
 ![event](../output/figures/mw_event_main.png)
 
 ![status](../output/figures/mw_status_1819.png)
