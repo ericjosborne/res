@@ -1,15 +1,12 @@
-# IPUMS extract (1 GB, GitHub release asset data-v1) and derived Stata file are not committed
-data/raw/cps_*.csv
-data/raw/cps_*.csv.gz
-data/raw/cps_*.xml
-data/raw/ipums_cps_asec.csv
-data/raw/ipums_cps_basic.dta
-data/raw/monthly/
-data/clean/*.dta
-output/logs/
+# Large raw extracts (GitHub release assets) and rebuilt derived files are not committed
+*/data/raw/cps_*.csv
+*/data/raw/cps_*.csv.gz
+*/data/raw/cps_*.xml
+*/data/raw/monthly/
+*/data/raw/brfss/
+*/data/raw/nsch/
+*/data/clean/*.dta
+*/data/clean/cps_monthly_1624.csv.gz
+*/output/logs/
 __pycache__/
 *.pyc
-data/raw/brfss/
-data/raw/nsch/
-data/clean/cps_monthly_1624.csv.gz
-data/raw/monthly/
