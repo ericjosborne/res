@@ -1,0 +1,398 @@
+state_fips,state,locality,date,mw,mw_smallbusiness,source
+4,Arizona,Flagstaff,2018-01-01,11.0,,http://www.flagstaff.az.gov/minwage
+4,Arizona,Flagstaff,2019-01-01,12.0,,http://www.flagstaff.az.gov/minwage
+4,Arizona,Flagstaff,2020-01-01,13.0,,http://www.flagstaff.az.gov/minwage
+4,Arizona,Flagstaff,2021-01-01,15.0,,http://www.flagstaff.az.gov/minwage
+4,Arizona,Flagstaff,2022-01-01,15.5,,http://www.flagstaff.az.gov/minwage
+6,California,Alameda,2019-07-01,13.5,,https://www.alamedaca.gov/files/assets/public/city-manager/community-development/minimum-wage-2019/minimumwagefaq-2020.pdf
+6,California,Alameda,2020-07-01,15.0,,https://www.alamedaca.gov/files/assets/public/city-manager/community-development/minimum-wage-2019/minimumwagefaq-2020.pdf
+6,California,Alameda,2022-07-01,15.75,,
+6,California,Belmont,2018-01-07,12.5,,https://www.belmont.gov/departments/administrative-services/city-manager/minimum-wage
+6,California,Belmont,2019-01-01,13.5,,https://www.belmont.gov/departments/administrative-services/city-manager/minimum-wage
+6,California,Belmont,2020-01-01,15.0,,https://www.belmont.gov/departments/administrative-services/city-manager/minimum-wage
+6,California,Belmont,2021-01-01,15.9,,https://www.belmont.gov/departments/administrative-services/city-manager/minimum-wage
+6,California,Belmont,2022-01-01,16.2,,
+6,California,Berkeley,2014-10-01,10.0,,Berkeley - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Berkeley,2015-10-01,11.0,,Berkeley - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Berkeley,2016-10-01,12.53,,Berkeley - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Berkeley,2017-10-01,13.75,,Berkeley - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Berkeley,2018-10-01,15.0,,Berkeley - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Berkeley,2019-07-01,15.59,,
+6,California,Berkeley,2020-07-01,16.07,,https://www.cityofberkeley.info/MWO/
+6,California,Berkeley,2021-07-01,16.32,,https://www.cityofberkeley.info/MWO/
+6,California,Berkeley,2022-07-01,16.99,,
+6,California,Cupertino,2017-01-01,12.0,,http://www.cupertino.org/residents/news/cupertino-minimum-wage
+6,California,Cupertino,2018-01-01,13.5,,http://www.cupertino.org/residents/news/cupertino-minimum-wage
+6,California,Cupertino,2019-01-01,15.0,,http://www.cupertino.org/residents/news/cupertino-minimum-wage
+6,California,Cupertino,2020-01-01,15.35,,http://www.cupertino.org/residents/news/cupertino-minimum-wage
+6,California,Cupertino,2021-01-01,15.65,,http://www.cupertino.org/residents/news/cupertino-minimum-wage
+6,California,Cupertino,2022-01-01,16.4,,http://www.cupertino.org/residents/news/cupertino-minimum-wage
+6,California,East Palo Alto,2021-01-01,15.0,,https://www.ci.east-palo-alto.ca.us/econdev/page/local-minimum-wage
+6,California,East Palo Alto,2022-01-01,15.6,,https://www.ci.east-palo-alto.ca.us/econdev/page/local-minimum-wage
+6,California,El Cerrito,2016-07-01,11.6,,El Cerrito - CA - Ordinance - Minimum Wage - 07.10.2016
+6,California,El Cerrito,2017-01-01,12.25,,El Cerrito - CA - Ordinance - Minimum Wage - 07.10.2016
+6,California,El Cerrito,2018-01-01,13.6,,El Cerrito - CA - Ordinance - Minimum Wage - 07.10.2016
+6,California,El Cerrito,2019-01-01,15.0,,El Cerrito - CA - Ordinance - Minimum Wage - 07.10.2016
+6,California,El Cerrito,2020-01-01,15.37,,
+6,California,El Cerrito,2021-01-01,15.61,,https://www.el-cerrito.org/minimumwage
+6,California,El Cerrito,2022-01-01,16.37,,https://www.el-cerrito.org/minimumwage
+6,California,Emeryville,2015-07-02,14.44,12.25,Emeryville - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Emeryville,2016-07-01,14.82,13,Emeryville - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Emeryville,2017-07-01,15.2,14,Emeryville - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Emeryville,2018-07-01,15.69,15,Emeryville - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,Emeryville,2019-07-01,16.3,,https://www.ci.emeryville.ca.us/1024/Minimum-Wage-Ordinance
+6,California,Emeryville,2020-07-01,16.84,,https://www.ci.emeryville.ca.us/1024/Minimum-Wage-Ordinance
+6,California,Emeryville,2021-07-01,17.13,,https://www.ci.emeryville.ca.us/1024/Minimum-Wage-Ordinance
+6,California,Emeryville,2022-07-01,17.68,,https://www.ci.emeryville.ca.us/1024/Minimum-Wage-Ordinance
+6,California,Fremont,2019-07-01,13.5,11,https://www.fremont.gov/minimumwage
+6,California,Fremont,2020-07-01,15.0,13.5,https://www.fremont.gov/minimumwage
+6,California,Fremont,2021-07-01,15.25,15,https://www.fremont.gov/minimumwage
+6,California,Fremont,2022-07-01,16.0,,
+6,California,Hayward,2021-01-01,15.0,14,https://www.hayward-ca.gov/your-government/programs/local-minimum-wage
+6,California,Hayward,2022-01-01,15.56,14.52,https://www.hayward-ca.gov/your-government/programs/local-minimum-wage
+6,California,Los Altos,2017-01-01,12.0,,http://www.losaltosca.gov/sites/default/files/fileattachments/Economic%20Development/page/8261/2016-09-27_16-424.pdf
+6,California,Los Altos,2018-01-01,13.5,,http://www.losaltosca.gov/sites/default/files/fileattachments/Economic%20Development/page/8261/2016-09-27_16-424.pdf
+6,California,Los Altos,2019-01-01,15.0,,http://www.losaltosca.gov/sites/default/files/fileattachments/Economic%20Development/page/8261/2016-09-27_16-424.pdf
+6,California,Los Altos,2020-01-01,15.4,,https://www.losaltosca.gov/ed/page/minimum-wage
+6,California,Los Altos,2021-01-01,15.65,,https://www.losaltosca.gov/ed/page/minimum-wage
+6,California,Los Altos,2022-01-01,16.4,,https://www.losaltosca.gov/ed/page/minimum-wage
+6,California,Los Angeles,2016-07-01,10.5,,Los Angeles - CA - City Website - Minimum FAQ - 07.10.2016
+6,California,Los Angeles,2017-07-01,12.0,10.5,Los Angeles - CA - City Website - Minimum FAQ - 07.10.2016
+6,California,Los Angeles,2018-07-01,13.25,12,Los Angeles - CA - City Website - Minimum FAQ - 07.10.2016
+6,California,Los Angeles,2019-07-01,14.25,13.25,Los Angeles - CA - City Website - Minimum FAQ - 07.10.2016
+6,California,Los Angeles,2020-07-01,15.0,14.25,Los Angeles - CA - City Website - Minimum FAQ - 07.10.2016
+6,California,Los Angeles,2021-07-01,15.0,,https://wagesla.lacity.org/
+6,California,Los Angeles,2022-07-01,16.04,,https://wagesla.lacity.org/
+6,California,Los Angeles County,2016-07-01,10.5,,Los Angeles County - CA - City Website - July 2015 Meeting Minutes - 07.10.2016
+6,California,Los Angeles County,2017-07-01,12.0,10.5,Los Angeles County - CA - City Website - July 2015 Meeting Minutes - 07.10.2016
+6,California,Los Angeles County,2018-07-01,13.25,12,Los Angeles County - CA - City Website - July 2015 Meeting Minutes - 07.10.2016
+6,California,Los Angeles County,2019-07-01,14.25,13.25,Los Angeles County - CA - City Website - July 2015 Meeting Minutes - 07.10.2016
+6,California,Los Angeles County,2020-07-01,15.0,14,Los Angeles County - CA - City Website - July 2015 Meeting Minutes - 07.10.2016
+6,California,Los Angeles County,2021-07-01,15.0,,https://dcba.lacounty.gov/minimum-wage-for-businesses/
+6,California,Los Angeles County,2022-07-01,15.96,,https://dcba.lacounty.gov/minimum-wage-for-businesses/
+6,California,Malibu,2016-07-01,10.5,,https://www.malibucity.org/793/Minimum-Wage
+6,California,Malibu,2017-07-01,12.0,10.5,https://www.malibucity.org/793/Minimum-Wage
+6,California,Malibu,2018-07-01,13.25,12,https://www.malibucity.org/793/Minimum-Wage
+6,California,Malibu,2019-07-01,14.25,13.25,https://www.malibucity.org/793/Minimum-Wage
+6,California,Malibu,2020-07-01,15.0,14,https://www.malibucity.org/793/Minimum-Wage
+6,California,Malibu,2021-07-01,15.0,,https://www.malibucity.org/793/Minimum-Wage
+6,California,Malibu,2022-07-01,15.96,,https://www.malibucity.org/793/Minimum-Wage
+6,California,Milpitas,2017-07-01,11.0,,http://www.ci.milpitas.ca.gov/milpitas/departments/economic-development/minimum-wage/
+6,California,Milpitas,2018-01-01,12.0,,http://www.ci.milpitas.ca.gov/milpitas/departments/economic-development/minimum-wage/
+6,California,Milpitas,2018-07-01,13.5,,http://www.ci.milpitas.ca.gov/milpitas/departments/economic-development/minimum-wage/
+6,California,Milpitas,2019-07-01,15.0,,http://www.ci.milpitas.ca.gov/milpitas/departments/economic-development/minimum-wage/
+6,California,Milpitas,2020-07-01,15.4,,https://www.ci.milpitas.ca.gov/milpitas/departments/minimum-wage/
+6,California,Milpitas,2021-07-01,15.65,,https://www.ci.milpitas.ca.gov/milpitas/departments/minimum-wage/
+6,California,Milpitas,2022-07-01,16.4,,https://www.ci.milpitas.ca.gov/milpitas/departments/minimum-wage/
+6,California,Mountain View,2015-07-01,10.3,,
+6,California,Mountain View,2016-01-01,11.0,,Mountain View - CA - Ordinance - Minimum Wage - 07.10.2016
+6,California,Mountain View,2017-01-01,13.0,,Mountain View - CA - Ordinance - Minimum Wage - 07.10.2016
+6,California,Mountain View,2018-01-01,15.0,,Mountain View - CA - Ordinance - Minimum Wage - 07.10.2016
+6,California,Mountain View,2019-01-01,15.65,,https://www.mountainview.gov/depts/comdev/economicdev/city_minimum_wage.asp
+6,California,Mountain View,2020-01-01,16.05,,https://www.mountainview.gov/depts/comdev/economicdev/city_minimum_wage.asp
+6,California,Mountain View,2021-01-01,16.3,,https://www.mountainview.gov/depts/comdev/economicdev/city_minimum_wage.asp
+6,California,Mountain View,2022-01-01,17.1,,https://www.mountainview.gov/depts/comdev/economicdev/city_minimum_wage.asp
+6,California,Novato,2020-01-01,13.0,13,https://www.novato.org/business/novato-minimum-wage?locale=en
+6,California,Novato,2020-07-01,15.0,14,https://www.novato.org/business/novato-minimum-wage?locale=en
+6,California,Novato,2021-01-01,15.24,15,https://www.novato.org/business/novato-minimum-wage?locale=en
+6,California,Novato,2022-01-01,15.77,15.529999999999999,https://www.novato.org/business/novato-minimum-wage?locale=en
+6,California,Oakland,2015-03-02,12.25,,
+6,California,Oakland,2016-01-01,12.55,,
+6,California,Oakland,2017-01-01,12.86,,http://www2.oaklandnet.com/oakca1/groups/contracting/documents/marketingmaterial/oak061391.pdf
+6,California,Oakland,2018-01-01,13.23,,http://www2.oaklandnet.com/oakca1/groups/contracting/documents/marketingmaterial/oak061391.pdf
+6,California,Oakland,2019-01-01,13.8,,
+6,California,Oakland,2020-01-01,14.14,,
+6,California,Oakland,2021-01-01,14.36,,
+6,California,Oakland,2022-01-01,15.06,,
+6,California,Palo Alto,2016-01-01,11.0,,
+6,California,Palo Alto,2017-01-01,12.0,,http://www.cityofpaloalto.org/civicax/filebank/documents/54996
+6,California,Palo Alto,2018-01-01,13.5,,http://www.cityofpaloalto.org/civicax/filebank/documents/54996
+6,California,Palo Alto,2019-01-01,15.0,,http://www.cityofpaloalto.org/civicax/filebank/documents/54996
+6,California,Palo Alto,2020-01-01,15.4,,
+6,California,Palo Alto,2021-01-01,15.65,,
+6,California,Palo Alto,2022-01-01,16.45,,https://www.cityofpaloalto.org/files/assets/public/administrative-services/minimum-wage/2022/22-engl-min-wage-poster.pdf
+6,California,Pasadena,2016-07-01,10.5,10,https://ww5.cityofpasadena.net/wp-content/uploads/sites/56/2017/07/Minimum-Wage-Fact-Sheet.pdf
+6,California,Pasadena,2017-07-01,12.0,10.5,https://ww5.cityofpasadena.net/wp-content/uploads/sites/56/2017/07/Minimum-Wage-Fact-Sheet.pdf
+6,California,Pasadena,2018-07-01,13.25,12,https://ww5.cityofpasadena.net/wp-content/uploads/sites/56/2017/07/Minimum-Wage-Fact-Sheet.pdf
+6,California,Pasadena,2019-07-01,14.25,13.25,https://ww5.cityofpasadena.net/wp-content/uploads/sites/56/2017/07/Minimum-Wage-Fact-Sheet.pdf
+6,California,Pasadena,2020-07-01,15.0,14.25,https://www.cityofpasadena.net/planning/wp-content/uploads/sites/30/Minimum-Wage-Important-Information.jpg
+6,California,Pasadena,2021-07-01,15.0,,https://www.cityofpasadena.net/planning/wp-content/uploads/sites/30/Minimum-Wage-Important-Information.jpg
+6,California,Pasadena,2022-07-01,16.11,,
+6,California,Petaluma,2020-01-01,15.0,14,
+6,California,Petaluma,2021-01-01,15.2,,https://cityofpetaluma.org/minimum-wage/
+6,California,Petaluma,2022-01-01,15.85,,https://cityofpetaluma.org/minimum-wage/
+6,California,Redwood City,2019-01-01,13.5,,https://www.redwoodcity.org/departments/city-manager/city-manager-s-initiatives/proposed-local-minimum-wage
+6,California,Redwood City,2020-01-01,15.38,,https://www.redwoodcity.org/departments/city-manager/city-manager-s-initiatives/proposed-local-minimum-wage
+6,California,Redwood City,2021-01-01,15.62,,
+6,California,Redwood City,2022-01-01,16.2,,https://www.redwoodcity.org/departments/city-manager/city-manager-s-initiatives/proposed-local-minimum-wage
+6,California,Richmond,2015-01-01,9.6,,Richmond - CA - Ordinance - Minimum Wage (11-14) - 07.10.2016
+6,California,Richmond,2016-01-01,11.52,,Richmond - CA - Ordinance - Minimum Wage (11-14) - 07.10.2016
+6,California,Richmond,2017-01-01,12.3,,Richmond - CA - Ordinance - Minimum Wage (11-14) - 07.10.2016
+6,California,Richmond,2018-01-01,13.41,,Richmond - CA - Ordinance - Minimum Wage (11-14) - 07.10.2016
+6,California,Richmond,2019-01-01,15.0,,https://www.ci.richmond.ca.us/2615/Minimum-Wage-Ordinance
+6,California,Richmond,2021-01-01,15.21,,https://www.ci.richmond.ca.us/2615/Minimum-Wage-Ordinance
+6,California,Richmond,2022-01-01,15.54,,https://www.ci.richmond.ca.us/2615/Minimum-Wage-Ordinance
+6,California,San Diego,2015-01-01,9.75,,
+6,California,San Diego,2016-01-01,10.5,,https://www.sandiego.gov/compliance/minimum-wage
+6,California,San Diego,2017-01-01,11.5,,https://www.sandiego.gov/compliance/minimum-wage
+6,California,San Diego,2019-01-01,12.0,,https://www.sandiego.gov/compliance/minimum-wage
+6,California,San Diego,2020-01-01,13.0,,https://www.sandiego.gov/compliance/minimum-wage
+6,California,San Diego,2021-01-01,14.0,,https://www.sandiego.gov/compliance/minimum-wage
+6,California,San Diego,2022-01-01,15.0,,https://www.sandiego.gov/compliance/minimum-wage
+6,California,San Francisco,2004-02-24,8.5,,
+6,California,San Francisco,2005-01-01,8.62,,
+6,California,San Francisco,2006-01-01,8.82,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2007-01-01,9.14,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2008-01-01,9.36,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2009-01-01,9.79,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2010-01-01,9.79,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2011-01-01,9.92,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2012-01-01,10.24,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2013-01-01,10.55,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2014-01-01,10.74,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2015-01-01,11.05,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2015-05-01,12.25,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2016-07-01,13.0,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2017-07-01,14.0,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2018-07-01,15.0,,San Francisco - CA - City Website - Minimum Wage Ordinance - 07.10.2016
+6,California,San Francisco,2019-07-01,15.59,,
+6,California,San Francisco,2020-07-01,16.07,,https://sfgov.org/olse/historical-wage-rates-definition-government-supported-employee
+6,California,San Francisco,2021-07-01,16.32,,https://sfgov.org/olse/historical-wage-rates-definition-government-supported-employee
+6,California,San Francisco,2022-07-01,16.99,,https://sfgov.org/olse/historical-wage-rates-definition-government-supported-employee
+6,California,San Jose,2013-03-11,10.0,,
+6,California,San Jose,2014-01-01,10.15,,
+6,California,San Jose,2015-01-01,10.3,,
+6,California,San Jose,2017-01-01,10.5,,http://www.sanjoseca.gov/DocumentCenter/View/65220
+6,California,San Jose,2017-07-01,12.0,,http://www.sanjoseca.gov/DocumentCenter/View/65220
+6,California,San Jose,2018-01-01,13.5,,http://www.sanjoseca.gov/DocumentCenter/View/65220
+6,California,San Jose,2019-01-01,15.0,,http://www.sanjoseca.gov/DocumentCenter/View/65220
+6,California,San Jose,2020-01-01,15.25,,https://www.sanjoseca.gov/your-government/departments-offices/public-works/labor-compliance/minimum-wage-ordinance
+6,California,San Jose,2021-01-01,15.45,,https://www.sanjoseca.gov/your-government/departments-offices/public-works/labor-compliance/minimum-wage-ordinance
+6,California,San Jose,2022-01-01,16.2,,https://www.sanjoseca.gov/your-government/departments-offices/public-works/labor-compliance/minimum-wage-ordinance
+6,California,San Leandro,2017-07-01,12.0,,https://www.sanleandro.org/depts/cityhall/mwo.asp
+6,California,San Leandro,2018-07-01,13.0,,https://www.sanleandro.org/depts/cityhall/mwo.asp
+6,California,San Leandro,2019-07-01,14.0,,https://www.sanleandro.org/depts/cityhall/mwo.asp
+6,California,San Leandro,2020-07-01,15.0,,https://www.sanleandro.org/depts/cityhall/mwo.asp
+6,California,San Mateo,2017-01-01,12.0,,https://www.cityofsanmateo.org/3278/Minimu
+6,California,San Mateo,2018-01-01,13.5,,https://www.cityofsanmateo.org/3278/Minimu
+6,California,San Mateo,2019-01-01,15.0,,https://www.cityofsanmateo.org/3278/Minimu
+6,California,San Mateo,2020-01-01,15.38,,"https://www.cityofsanmateo.org/3278/Minimum-Wage#:~:text=As%20of%20January%201%2C%202021,City%20Council%20adopted%20wage%20schedule."
+6,California,San Mateo,2021-01-01,15.62,,"https://www.cityofsanmateo.org/3278/Minimum-Wage#:~:text=As%20of%20January%201%2C%202021,City%20Council%20adopted%20wage%20schedule."
+6,California,San Mateo,2022-01-01,16.2,,"https://www.cityofsanmateo.org/3278/Minimum-Wage#:~:text=As%20of%20January%201%2C%202021,City%20Council%20adopted%20wage%20schedule."
+6,California,Santa Clara,2016-01-01,11.0,,
+6,California,Santa Clara,2017-01-01,11.1,,
+6,California,Santa Clara,2018-01-01,13.0,,http://www.santaclaraca.gov/government/departments/city-manager/minimum-wage-ordinance
+6,California,Santa Clara,2019-01-01,15.0,,http://www.santaclaraca.gov/government/departments/city-manager/minimum-wage-ordinance
+6,California,Santa Clara,2020-01-01,15.4,,https://www.santaclaraca.gov/home/showpublisheddocument/75218/637686023163230000
+6,California,Santa Clara,2021-01-01,15.65,,https://www.santaclaraca.gov/home/showpublisheddocument/75218/637686023163230000
+6,California,Santa Clara,2022-01-01,16.4,,https://www.santaclaraca.gov/home/showpublisheddocument/75218/637686023163230000
+6,California,Santa Monica,2016-07-01,10.5,10,
+6,California,Santa Monica,2017-07-01,12.0,10.5,Santa Monica - CA - City Website - Minimum Wage Fact Sheet - 07.10.2016
+6,California,Santa Monica,2018-07-01,13.25,12,Santa Monica - CA - City Website - Minimum Wage Fact Sheet - 07.10.2016
+6,California,Santa Monica,2019-07-01,14.25,13.25,Santa Monica - CA - City Website - Minimum Wage Fact Sheet - 07.10.2016
+6,California,Santa Monica,2020-07-01,15.0,14.25,https://www.santamonica.gov/Media/Minimum_Wage/MinimumWageFAQ_English.pdf
+6,California,Santa Monica,2021-07-01,15.0,,https://www.santamonica.gov/Media/Minimum_Wage/MinimumWageFAQ_English.pdf
+6,California,Santa Monica,2022-07-01,15.96,,
+6,California,Santa Rosa,2020-07-01,15.0,,https://srcity.org/3164/Minimum-Wage
+6,California,Santa Rosa,2021-07-01,15.2,,https://srcity.org/3164/Minimum-Wage
+6,California,Santa Rosa,2022-07-01,15.85,,https://srcity.org/3164/Minimum-Wage
+6,California,Sonoma,2020-01-01,13.5,12.5,"https://www.sonomacity.org/wages/#:~:text=Effective%20January%202021%2C%20the%20Sonoma,and%20%2414.00%20for%20Small%20Employers."
+6,California,Sonoma,2021-01-01,15.0,14,"https://www.sonomacity.org/wages/#:~:text=Effective%20January%202021%2C%20the%20Sonoma,and%20%2414.00%20for%20Small%20Employers."
+6,California,Sonoma,2022-01-01,16.0,15,"https://www.sonomacity.org/wages/#:~:text=Effective%20January%202021%2C%20the%20Sonoma,and%20%2414.00%20for%20Small%20Employers."
+6,California,Sonoma,2023-01-01,17.0,16,"https://www.sonomacity.org/wages/#:~:text=Effective%20January%202021%2C%20the%20Sonoma,and%20%2414.00%20for%20Small%20Employers."
+6,California,Sunnyvale,2015-01-01,10.3,,Sunnyvale - CA - Ordinance - Minimum Wage (3078-16) - 07.10.2016
+6,California,Sunnyvale,2016-07-01,11.0,,Sunnyvale - CA - Ordinance - Minimum Wage (3078-16) - 07.10.2016
+6,California,Sunnyvale,2017-01-01,13.0,,Sunnyvale - CA - Ordinance - Minimum Wage (3078-16) - 07.10.2016
+6,California,Sunnyvale,2018-01-01,15.0,,Sunnyvale - CA - Ordinance - Minimum Wage (3078-16) - 07.10.2016
+6,California,Sunnyvale,2019-01-01,15.65,,https://sunnyvale.ca.gov/business/doingbusiness/wage.htm
+6,California,Sunnyvale,2020-01-01,16.05,,https://sunnyvale.ca.gov/business/doingbusiness/wage.htm
+6,California,Sunnyvale,2021-01-01,16.3,,https://sunnyvale.ca.gov/business/doingbusiness/wage.htm
+6,California,Sunnyvale,2022-01-01,17.1,,https://sunnyvale.ca.gov/business/doingbusiness/wage.htm
+8,Colorado,Denver,2020-01-01,12.85,,https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Citywide-Minimum-Wage/
+8,Colorado,Denver,2021-01-01,14.77,,https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Citywide-Minimum-Wage/
+8,Colorado,Denver,2022-01-01,15.87,,https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Auditors-Office/Denver-Labor/Citywide-Minimum-Wage/
+11,District of Columbia,Washington,2005-01-01,6.6,,District of Columbia - Legislation - Section 32–1003 - 01.14.2016
+11,District of Columbia,Washington,2006-01-01,7.0,,District of Columbia - Legislation - Section 32–1003 - 01.14.2016
+11,District of Columbia,Washington,2008-07-24,7.55,,District of Columbia - State Website - Minimum Wage Poster 2008 - 01.14.2016
+11,District of Columbia,Washington,2009-07-24,8.25,,District of Columbia - State Website - Minimum Wage Poster 2008 - 01.14.2017
+11,District of Columbia,Washington,2014-07-01,9.5,,District of Columbia - State Website - Minimum Wage Poster 2014 - 01.14.2016
+11,District of Columbia,Washington,2015-07-01,10.5,,District of Columbia - State Website - Minimum Wage Poster 2014 - 01.14.2016
+11,District of Columbia,Washington,2016-07-01,11.5,,http://does.dc.gov/sites/default/files/dc/sites/does/page_content/attachments/OLLE%20Minimum%20Wage%20Amendment%20Revision%20Act%20Poster%20-%20Eng.pdf
+11,District of Columbia,Washington,2017-07-01,12.5,,http://does.dc.gov/sites/default/files/dc/sites/does/page_content/attachments/OLLE%20Minimum%20Wage%20Amendment%20Revision%20Act%20Poster%20-%20Eng.pdf
+11,District of Columbia,Washington,2018-07-01,13.25,,http://does.dc.gov/sites/default/files/dc/sites/does/page_content/attachments/OLLE%20Minimum%20Wage%20Amendment%20Revision%20Act%20Poster%20-%20Eng.pdf
+11,District of Columbia,Washington,2019-07-01,14.0,,http://does.dc.gov/sites/default/files/dc/sites/does/page_content/attachments/OLLE%20Minimum%20Wage%20Amendment%20Revision%20Act%20Poster%20-%20Eng.pdf
+11,District of Columbia,Washington,2020-07-01,15.0,,http://does.dc.gov/sites/default/files/dc/sites/does/page_content/attachments/OLLE%20Minimum%20Wage%20Amendment%20Revision%20Act%20Poster%20-%20Eng.pdf
+11,District of Columbia,Washington,2021-07-01,15.2,,
+11,District of Columbia,Washington,2022-07-01,16.1,,
+11,District of Columbia,Washington,2022-12-31,15.2,,CURRENT
+17,Illinois,Chicago,2015-07-01,10.0,,Chicago - IL - Ordinance - Minimum Wage 9680 - 07.10.2016
+17,Illinois,Chicago,2016-07-01,10.5,,Chicago - IL - Ordinance - Minimum Wage 9680 - 07.10.2016
+17,Illinois,Chicago,2017-07-01,11.0,,Chicago - IL - Ordinance - Minimum Wage 9680 - 07.10.2016
+17,Illinois,Chicago,2018-07-01,12.0,,Chicago - IL - Ordinance - Minimum Wage 9680 - 07.10.2016
+17,Illinois,Chicago,2019-07-01,13.0,,Chicago - IL - Ordinance - Minimum Wage 9680 - 07.10.2016
+17,Illinois,Chicago,2020-07-01,14.0,13.5,https://www.taftlaw.com/news-events/law-bulletins/chicago-minimum-wage-increase-what-do-employers-need-to-know
+17,Illinois,Chicago,2021-07-01,15.0,14,https://www.taftlaw.com/news-events/law-bulletins/chicago-minimum-wage-increase-what-do-employers-need-to-know
+17,Illinois,Chicago,2022-07-01,15.0,14.5,
+17,Illinois,Chicago,2022-12-31,15.4,14.5,CURRENT
+17,Illinois,Cook County,2017-07-01,10.0,,https://www.cookcountyil.gov/file/5093/download?token=rlTkiy2f
+17,Illinois,Cook County,2018-07-01,11.0,,https://www.cookcountyil.gov/file/5093/download?token=rlTkiy2f
+17,Illinois,Cook County,2019-07-01,12.0,,https://www.cookcountyil.gov/file/5093/download?token=rlTkiy2f
+17,Illinois,Cook County,2020-07-01,13.0,,https://www.cookcountyil.gov/file/5093/download?token=rlTkiy2f
+17,Illinois,Cook County,2021-07-01,13.0,,https://www.cookcountyil.gov/service/minimum-wage-ordinance-and-regulations
+17,Illinois,Cook County,2022-07-31,13.35,,https://www.cookcountyil.gov/service/minimum-wage-ordinance-and-regulations
+19,Iowa,Johnson County,2015-11-01,8.2,,Johnson County - IA - City Website - Minimum Wage in Johnson County - 07.10.2016
+19,Iowa,Johnson County,2016-05-01,9.15,,Johnson County - IA - City Website - Minimum Wage in Johnson County - 07.10.2016
+19,Iowa,Johnson County,2017-01-01,10.1,,Johnson County - IA - City Website - Minimum Wage in Johnson County - 07.10.2016
+19,Iowa,Johnson County,2017-03-30,7.25,,nullification by state law
+19,Iowa,Linn County,2017-01-01,8.25,,
+19,Iowa,Linn County,2017-03-30,7.25,,nullification by state law
+19,Iowa,Wapello County,2017-01-01,8.2,,
+19,Iowa,Wapello County,2017-03-30,7.25,,nullification by state law
+21,Kentucky,Lexington,2016-07-01,8.2,,
+21,Kentucky,Lexington,2016-10-20,7.25,,nullification by state supreme court
+21,Kentucky,Louisville,2015-07-01,7.75,,http://www.dinsmore.com/minimum-wage-increase-in-louisville-metro-jefferson-county/
+21,Kentucky,Louisville,2016-07-01,8.25,,http://www.dinsmore.com/minimum-wage-increase-in-louisville-metro-jefferson-county/
+21,Kentucky,Louisville,2016-10-20,7.25,,nullification by state supreme court
+23,Maine,Portland,2016-01-01,10.1,,
+23,Maine,Portland,2017-01-01,10.68,,
+23,Maine,Portland,2018-07-01,10.9,,http://www.portlandmaine.gov/DocumentCenter/Home/View/11159
+23,Maine,Portland,2019-01-01,11.0,,http://www.portlandmaine.gov/DocumentCenter/Home/View/11159
+23,Maine,Portland,2020-01-01,12.0,,
+23,Maine,Portland,2021-01-01,12.15,,https://www.portlandmaine.gov/DocumentCenter/View/29879/2021-Minimum-Wage-Notice
+23,Maine,Portland,2022-01-01,13.0,,https://www.portlandmaine.gov/DocumentCenter/View/29879/2021-Minimum-Wage-Notice
+24,Maryland,Montgomery County,2014-10-01,8.4,,Montgomery County - MD - Ordinance - Minimum Wage (27-13) - 07.10.2016
+24,Maryland,Montgomery County,2015-10-01,9.55,,Montgomery County - MD - Ordinance - Minimum Wage (27-13) - 07.10.2016
+24,Maryland,Montgomery County,2016-07-01,10.75,,Montgomery County - MD - Ordinance - Minimum Wage (27-13) - 07.10.2016
+24,Maryland,Montgomery County,2017-07-01,11.5,,
+24,Maryland,Montgomery County,2018-07-01,12.25,12,https://montgomerycountymd.gov/COUNCIL/Resources/Files/HomePageDocuments/MinimumWageRateTable11-7-17.pdf
+24,Maryland,Montgomery County,2019-07-01,13.0,12.5,https://montgomerycountymd.gov/COUNCIL/Resources/Files/HomePageDocuments/MinimumWageRateTable11-7-17.pdf
+24,Maryland,Montgomery County,2020-07-01,14.0,13.25,https://montgomerycountymd.gov/COUNCIL/Resources/Files/HomePageDocuments/MinimumWageRateTable11-7-17.pdf
+24,Maryland,Montgomery County,2021-07-01,15.0,14,https://montgomerycountymd.gov/COUNCIL/Resources/Files/HomePageDocuments/MinimumWageRateTable11-7-17.pdf
+24,Maryland,Montgomery County,2021-12-31,15.0,14,CURRENT
+24,Maryland,Prince George's County,2014-10-01,8.4,,Prince George's County - MD - Ordinance - Labor Code (Minimum Wage) - 07.10.2016
+24,Maryland,Prince George's County,2015-10-01,9.55,,Prince George's County - MD - Ordinance - Labor Code (Minimum Wage) - 07.10.2016
+24,Maryland,Prince George's County,2016-07-01,9.55,,CURRENT
+24,Maryland,Prince George's County,2016-10-01,10.75,,Prince George's County - MD - Ordinance - Labor Code (Minimum Wage) - 07.10.2016
+24,Maryland,Prince George's County,2017-10-01,11.5,,Prince George's County - MD - Ordinance - Labor Code (Minimum Wage) - 07.10.2016
+27,Minnesota,Minneapolis,2018-01-01,10.0,,http://minimumwage.minneapolismn.gov/
+27,Minnesota,Minneapolis,2018-07-01,11.25,10,http://minimumwage.minneapolismn.gov/
+27,Minnesota,Minneapolis,2019-07-01,12.25,11,http://minimumwage.minneapolismn.gov/
+27,Minnesota,Minneapolis,2020-07-01,13.25,11.75,http://minimumwage.minneapolismn.gov/
+27,Minnesota,Minneapolis,2021-07-01,14.25,12.5,http://minimumwage.minneapolismn.gov/
+27,Minnesota,Minneapolis,2022-07-01,15.0,13.5,http://minimumwage.minneapolismn.gov/
+27,Minnesota,St. Paul,2020-01-01,12.5,,
+27,Minnesota,St. Paul,2020-07-01,12.5,11.5,
+27,Minnesota,St. Paul,2021-07-01,12.5,12.5,
+27,Minnesota,St. Paul,2022-07-01,15.0,13.5,
+35,New Mexico,Albuquerque,2007-01-01,6.75,,Albuquerque - NM - Ordinance - Article 12 Minimum Wage - 07.10.2016
+35,New Mexico,Albuquerque,2008-01-01,7.15,,Albuquerque - NM - Ordinance - Article 12 Minimum Wage - 07.10.2016
+35,New Mexico,Albuquerque,2009-01-01,7.5,,Albuquerque - NM - Ordinance - Article 12 Minimum Wage - 07.10.2016
+35,New Mexico,Albuquerque,2013-01-01,8.5,,Albuquerque - NM - Ordinance - Article 12 Minimum Wage - 07.10.2016
+35,New Mexico,Albuquerque,2014-01-01,8.6,,
+35,New Mexico,Albuquerque,2015-01-01,8.75,,
+35,New Mexico,Albuquerque,2016-01-01,8.75,,Albuquerque - NM - City Website - Albuquerque Minimum Wage Increase 2016 - 07.10.2016
+35,New Mexico,Albuquerque,2017-01-01,8.8,,Albuquerque - NM - City Website - Albuquerque Minimum Wage Increase 2016 - 07.10.2016
+35,New Mexico,Albuquerque,2018-01-01,8.95,,Albuquerque - NM - City Website - Albuquerque Minimum Wage Increase 2016 - 07.10.2016
+35,New Mexico,Albuquerque,2019-01-01,9.2,,
+35,New Mexico,Albuquerque,2020-01-01,9.35,,
+35,New Mexico,Albuquerque,2021-01-01,10.5,,
+35,New Mexico,Albuquerque,2022-01-01,11.5,,
+35,New Mexico,Bernalillo County,2013-07-01,8.0,,Bernalillo County - NM - Ordinance - Minimum Wage - 07.10.2016
+35,New Mexico,Bernalillo County,2014-01-01,8.5,,Bernalillo County - NM - Ordinance - Minimum Wage - 07.10.2016
+35,New Mexico,Bernalillo County,2015-01-26,8.65,,
+35,New Mexico,Bernalillo County,2016-01-26,8.65,,
+35,New Mexico,Bernalillo County,2017-01-01,8.7,,
+35,New Mexico,Bernalillo County,2018-01-01,8.85,,
+35,New Mexico,Bernalillo County,2019-01-01,9.05,,https://www.bernco.gov/district-4/blog/2020/10/14/bernco-commission-passes-minimum-wage-increase/
+35,New Mexico,Bernalillo County,2020-01-01,9.2,,https://www.bernco.gov/district-4/blog/2020/10/14/bernco-commission-passes-minimum-wage-increase/
+35,New Mexico,Bernalillo County,2021-01-01,9.35,,https://www.bernco.gov/district-4/blog/2020/10/14/bernco-commission-passes-minimum-wage-increase/
+35,New Mexico,Las Cruces,2015-01-01,8.4,,Las Cruces - NM - Ordinance - Minimum Wage (Section 14) - 07.10.2016
+35,New Mexico,Las Cruces,2017-01-01,9.2,,Las Cruces - NM - Ordinance - Minimum Wage (Section 14) - 07.10.2016
+35,New Mexico,Las Cruces,2019-01-01,10.1,,Las Cruces - NM - Ordinance - Minimum Wage (Section 14) - 07.10.2016
+35,New Mexico,Las Cruces,2020-01-01,10.25,,
+35,New Mexico,Las Cruces,2021-01-01,10.5,,
+35,New Mexico,Las Cruces,2022-12-31,11.5,,
+35,New Mexico,Santa Fe,2004-01-01,8.5,,Santa Fe - NM - Ordinance - Minimum Wage (43) - 07.10.2016
+35,New Mexico,Santa Fe,2006-01-01,9.5,,Santa Fe - NM - Ordinance - Minimum Wage (43) - 07.10.2016
+35,New Mexico,Santa Fe,2012-03-01,10.29,,
+35,New Mexico,Santa Fe,2013-03-01,10.51,,
+35,New Mexico,Santa Fe,2014-03-01,10.66,,
+35,New Mexico,Santa Fe,2015-03-01,10.84,,
+35,New Mexico,Santa Fe,2016-03-01,10.91,,Santa Fe - NM - City Website - Living Wage - 07.10.2016
+35,New Mexico,Santa Fe,2017-03-01,11.09,,Santa Fe - NM - City Website - Living Wage - 07.10.2016
+35,New Mexico,Santa Fe,2018-03-01,11.4,,
+35,New Mexico,Santa Fe,2019-03-01,11.8,,https://www.santafenm.gov/living_wage_information
+35,New Mexico,Santa Fe,2020-03-01,12.1,,https://www.santafenm.gov/living_wage_information
+35,New Mexico,Santa Fe,2021-03-01,12.32,,https://www.santafenm.gov/living_wage_information
+35,New Mexico,Santa Fe,2022-03-01,12.95,,CURRENT
+35,New Mexico,Santa Fe County,2014-04-26,10.66,,Santa Fe County - NM - Ordinance - Minimum Wage (2014-1) - 07.10.2016
+35,New Mexico,Santa Fe County,2015-03-01,10.84,,Santa Fe County - NM - Ordinance - Minimum Wage (2014-1) - 07.10.2016
+35,New Mexico,Santa Fe County,2016-03-01,10.91,,Santa Fe County - NM - Ordinance - Minimum Wage (2014-1) - 07.10.2016
+35,New Mexico,Santa Fe County,2017-03-01,11.09,,Santa Fe County - NM - Ordinance - Minimum Wage (2014-1) - 07.10.2016
+35,New Mexico,Santa Fe County,2018-03-01,11.4,,https://www.santafecountynm.gov/livingwage
+35,New Mexico,Santa Fe County,2019-03-01,11.8,,https://www.santafecountynm.gov/livingwage
+35,New Mexico,Santa Fe County,2020-03-01,12.1,,https://www.santafecountynm.gov/livingwage
+35,New Mexico,Santa Fe County,2021-03-01,12.32,,https://www.santafecountynm.gov/livingwage
+35,New Mexico,Santa Fe County,2022-03-01,12.32,,CURRENT
+35,New Mexico,Santa Fe County,2022-12-31,12.95,,CURRENT
+36,New York,Long Island & Westchester,2016-12-31,10.0,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Long Island & Westchester,2017-12-31,11.0,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Long Island & Westchester,2018-12-31,12.0,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Long Island & Westchester,2019-12-31,13.0,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Long Island & Westchester,2020-12-31,14.0,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Long Island & Westchester,2021-07-01,14.0,,https://dol.ny.gov/minimum-wage-fast-food-workers-frequently-asked-questions
+36,New York,Long Island & Westchester,2021-12-31,15.0,,https://www.ny.gov/new-york-states-minimum-wage/new-york-states-minimum-wage
+36,New York,New York City,2016-12-31,11.0,10.5,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,New York City,2017-12-31,13.0,12,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,New York City,2018-12-31,15.0,13.5,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,New York City,2019-12-31,15.0,15,https://www.ny.gov/new-york-states-minimum-wage/new-york-states-minimum-wage
+36,New York,New York City,2021-12-31,15.0,15,CURRENT
+36,New York,Remainder of New York State,2016-12-31,9.7,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Remainder of New York State,2017-12-31,10.4,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Remainder of New York State,2018-12-31,11.1,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Remainder of New York State,2019-12-31,11.8,,https://labor.ny.gov/workerprotection/laborstandards/workprot/minwage.shtm
+36,New York,Remainder of New York State,2020-12-31,12.5,,https://www.ny.gov/new-york-states-minimum-wage/new-york-states-minimum-wage
+36,New York,Remainder of New York State,2021-07-01,12.5,,https://dol.ny.gov/minimum-wage-fast-food-workers-frequently-asked-questions
+36,New York,Remainder of New York State,2021-12-31,13.2,,https://dol.ny.gov/minimum-wage-fast-food-workers-frequently-asked-questions
+41,Oregon,Nonurban counties,2016-07-01,9.5,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Nonurban counties,2017-07-01,10.0,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Nonurban counties,2018-07-01,10.5,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Nonurban counties,2019-07-01,11.0,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Nonurban counties,2020-07-01,11.5,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Nonurban counties,2021-07-01,12.0,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Nonurban counties,2022-07-01,12.5,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Portland,2016-07-01,9.75,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Portland,2017-07-01,11.25,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Portland,2018-07-01,12.0,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Portland,2019-07-01,12.5,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Portland,2020-07-01,13.25,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Portland,2021-07-01,14.0,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Portland,2022-07-01,14.75,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Remainder of Oregon,2016-07-01,9.5,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Remainder of Oregon,2017-07-01,10.25,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Remainder of Oregon,2018-07-01,10.75,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Remainder of Oregon,2019-07-01,11.25,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Remainder of Oregon,2020-07-01,12.0,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Remainder of Oregon,2021-07-01,12.75,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+41,Oregon,Remainder of Oregon,2022-07-01,13.5,,https://www.oregon.gov/boli/WHD/OMW/Pages/Minimum-Wage-Rate-Summary.aspx
+53,Washington,SeaTac,2014-01-01,15.0,,
+53,Washington,SeaTac,2015-10-01,15.24,,
+53,Washington,SeaTac,2016-01-01,15.24,,
+53,Washington,SeaTac,2017-01-01,15.34,,
+53,Washington,SeaTac,2018-01-01,15.64,,
+53,Washington,SeaTac,2019-01-01,16.09,,
+53,Washington,SeaTac,2020-01-01,16.34,,
+53,Washington,SeaTac,2021-01-01,16.57,,
+53,Washington,SeaTac,2022-01-01,17.54,,https://www.seatacwa.gov/home/showpublisheddocument/31828/637716282182900000
+53,Washington,Seattle,2015-04-01,11.0,10,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Seattle,2016-01-01,13.0,10.5,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Seattle,2017-01-01,15.0,11,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Seattle,2018-01-01,15.45,11.5,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Seattle,2019-01-01,16.0,12,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Seattle,2020-01-01,15.75,13.5,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Seattle,2021-01-01,16.69,15,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Seattle,2022-01-01,17.27,15.75,Seattle - WA - City Website - $15 Minimum Wage - 07.10.2016
+53,Washington,Tacoma,2016-02-01,10.35,,Tacoma - WA - City Website - Minimum Wage - 07.10.2016
+53,Washington,Tacoma,2017-01-01,11.15,,Tacoma - WA - City Website - Minimum Wage - 07.10.2016
+53,Washington,Tacoma,2018-01-01,12.0,,Tacoma - WA - City Website - Minimum Wage - 07.10.2016
+53,Washington,Tacoma,2019-01-01,12.35,,
