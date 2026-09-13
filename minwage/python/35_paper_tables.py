@@ -112,7 +112,8 @@ for k in (-3, -2, -1, 0, 1, 2, 3):
 
 # ---- Table 5: robustness ------------------------------------------------------------------------------------
 VAR = [("post2009", "Main: 39 events from 2010, clean controls, population weights"), ("all", "All 71 events, 1994--2025"), ("pre2010", "32 events before 2010"), ("large", "Large events only (window rise $\\geq$ 20\\%)"),
-       ("post2009_strict", "Strict controls (no rise of any kind)"), ("post2009_federal", "Federal-floor controls only"), ("post2009_eq", "Equal weight per event"), ("post2009_nopandemic", "Drop 2020--21"), ("post2009_schoolmonths", "September--May only")]
+       ("post2009_strict", "Strict controls (no rise of any kind)"), ("post2009_federal", "Federal-floor controls only"), ("post2009_eq", "Equal weight per event"), ("post2009_nopandemic", "Drop 2020--21"), ("post2009_schoolmonths", "September--May only"),
+       ("post2009_cleanlocal", "Controls net of counties with local minimums"), ("post2009_cleanlocal_nolocal", "Treated: identified counties without a local minimum"), ("local_cleanlocal", "County-level local events (16 counties)")]
 rows = []
 for v, lab in VAR:
     line1, line2 = [lab], [""]

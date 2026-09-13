@@ -91,6 +91,24 @@ estimate at 16-17 and 19 a positive one; the three largest by weight
 (California 2014, New York 2014, Florida 2021) are -0.3, +0.1 and -2.5
 points, and Florida's pre-trend is the same -2.6.
 
+### Substate minimums
+
+City and county minimums (Vaghul-Zipperer substate list, mapped to CPS county
+codes by `python/36_substate.py`; a city's rate applied to its county) are
+used three ways (`python/37_run_substate.py`):
+
+| Variant | Enrolled 16-17 | s.e. | Enrolled 18-19 | s.e. | Wage 16-17 | Wage 18-19 |
+|---|---|---|---|---|---|---|
+| Main | -0.0034 | 0.0042 | -0.0036 | 0.0090 | 0.051 (0.012) | 0.031 (0.009) |
+| Controls net of counties with a local minimum (and unknown-county teens in flagged state-months) | -0.0038 | 0.0041 | -0.0018 | 0.0089 | 0.052 (0.012) | 0.031 (0.009) |
+| Treated: identified counties without a local minimum (33 events) | -0.0065 | 0.0043 | +0.0040 | 0.0098 | 0.060 (0.018) | 0.022 (0.014) |
+| Treated: identified counties with a local minimum (6 events, 22,000 obs) | -0.005 | 0.015 | -0.030 | 0.025 | uninformative | uninformative |
+| County-level local events (16 counties, 13-40 teens a month each) | +0.016 | 0.017 | +0.073 | 0.034 (pre +0.056) | 0.111 (0.042) | 0.055 (0.041) |
+
+The contamination of Iowa and Kentucky controls in 2015-2017 changes nothing;
+the state-law-only treated sample gives the same null; the local-event design
+is too noisy to use.
+
 ## 3. Heterogeneity (enrolled, 2010+ events)
 
 | Subgroup | 16-17 | s.e. | 18-19 | s.e. |

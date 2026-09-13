@@ -34,7 +34,9 @@ for y in ("enrolled", "employed", "neither"):
     for ages in ("1617", "1819"):
         for var, lab in [("post2009", "Main: 2010+ events, clean controls, population weights"), ("all", "All events 1994+"), ("pre2010", "Events before 2010"),
                          ("large", "Large events only (window rise >= 20%)"), ("post2009_strict", "Strict controls"), ("post2009_federal", "Federal-floor controls only"),
-                         ("post2009_eq", "Equal weight per event"), ("post2009_nopandemic", "Drop 2020-21"), ("post2009_schoolmonths", "September-May only")]:
+                         ("post2009_eq", "Equal weight per event"), ("post2009_nopandemic", "Drop 2020-21"), ("post2009_schoolmonths", "September-May only"),
+                         ("post2009_cleanlocal", "Controls net of counties with local minimums"), ("post2009_cleanlocal_nolocal", "Treated: identified counties without a local minimum"),
+                         ("local_cleanlocal", "County-level local events (16 counties)")]:
             s = simple(f"mw_{ages}_{y}_{var}"); rows.append({"outcome": LAB[y], "ages": f"{ages[:2]}-{ages[2:]}", "specification": lab, "post avg": s["post"], "s.e.": s["se"], "sig": stars(s["post"], s["se"]), "pre avg": s["pre"], "events": s["n_events"]})
 T2 = pd.DataFrame(rows)
 rows = []

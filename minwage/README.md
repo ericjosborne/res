@@ -32,6 +32,7 @@ effects finding of Neumark and Shupe (2019).
 | `data/raw/minwage/state_mw_changes_1974_2022.csv`, `federal_mw_changes.csv` | Vaghul-Zipperer change lists (converted from the repository's raw spreadsheets) | https://github.com/benzipperer/historicalminwage |
 | `data/raw/minwage/state_mw_changes_2023plus_manual.csv` | 2023-2025 changes and index adjustments, **compiled from memory, verify** | state labour departments |
 | `data/raw/minwage/state_mw_monthly.csv`, `mw_events.csv` | Monthly effective minimum by state; the event list with clean controls | `python/31_build_mw_events.py` |
+| `data/raw/minwage/substate_mw_changes.csv`, `county_mw_monthly.csv`, `state_local_flags.csv`, `local_events.csv` | City and county minimums (same source), mapped to CPS county codes; contamination flags; county events | `python/36_substate.py` |
 
 ## How to run
 
@@ -42,6 +43,8 @@ pip install -r requirements.txt
 python python/30_build_cps_monthly.py        # streams the extract, keeps ages 16-24
 python python/31_build_mw_events.py          # minimum wage panel and event list
 python python/33_run_minwage.py --B 99 --P 4 # 105 stacked event-study runs, ~40 min
+python python/36_substate.py                 # county minimum wage panel, control contamination flags, local events
+python python/37_run_substate.py 99          # 32 substate robustness runs
 python python/34_summarise_minwage.py        # mw_summary.md and the main figures
 python python/35_paper_tables.py             # LaTeX tables and figures for paper/
 cd paper && pdflatex minwage_teens.tex && pdflatex minwage_teens.tex
@@ -55,7 +58,8 @@ do-files have not been executed (no Stata in the build environment).
 ## Layout
 
 ```
-python/   30_build_cps_monthly.py  31_build_mw_events.py  32_stacked_events.py  33_run_minwage.py  34_summarise_minwage.py  35_paper_tables.py  aelib.py
+python/   30_build_cps_monthly.py  31_build_mw_events.py  32_stacked_events.py  33_run_minwage.py  34_summarise_minwage.py  35_paper_tables.py
+          36_substate.py  37_run_substate.py  aelib.py
 stata/    00_master.do  30_build_cps_monthly.do  32_stacked_csdid.do
 data/     raw/minwage/ (change lists, panel, events)  raw/monthly/ (extract, not committed)  clean/ (teen file, not committed)
 output/   tables/ (mw_<ages>_<outcome>_<eventset>[_variant]_{event,simple,byevent}.csv; mw_summary.md)  figures/
