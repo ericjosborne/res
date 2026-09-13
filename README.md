@@ -1,4 +1,4 @@
-# Paid family and medical leave and mothers' labour supply
+# Staggered state policies and Callaway-Sant'Anna: paid leave, parents' mental health, minimum wages and teens
 
 Staggered adoption of state paid family and medical leave (PFML) across nine
 states and DC, 2004-2024, estimated with Callaway and Sant'Anna (2021)
@@ -41,6 +41,20 @@ estimate comes from New York. Stress, support, employment, breastfeeding and
 child health do not move. (BRFSS scripts `10_*`/`11_*` are parked: BRFSS
 cannot identify new mothers, so it would replicate Wells et al. 2026, AJE.)
 
+## Part III: minimum wage increases and teen school enrollment (CPS monthly)
+
+A different policy on the same estimator: 39 state minimum wage increases of
+5 percent or more since 2010 (85 since 1994), each compared with its clean
+control states in a stacked Callaway-Sant'Anna event study on the monthly
+CPS, ages 16-19 (`docs/minwage_design.md`, results `docs/minwage_results.md`).
+The increases raise teen hourly wages by 3 to 5 percent and change nothing
+else: enrollment -0.3 points (s.e. 0.4) at 16-17 and -0.4 (0.9) at 18-19,
+employment 0.0 (0.5) and +1.3 (0.8), no movement in the four school-work
+states, flat pre-trends, stable across event sets, control sets, weights
+and the pandemic. A precise null that contradicts the two-way fixed effects
+finding in Neumark and Shupe (2019) that minimum wages drove the fall in
+16-17 year olds' employment and the shift to school only.
+
 ## Data
 
 | File | What | Where it comes from |
@@ -50,6 +64,9 @@ cannot identify new mothers, so it would replicate Wells et al. 2026, AJE.)
 | `data/clean/cps_asec_women_1844.csv.gz` | Women 18-44, 1,216,812 person-years, outcomes, family structure, cohorts | `python/01_build_ipums_asec.py` (the `.dta` twin is rebuilt locally, not committed) |
 | `data/raw/nsch/nsch_YYYYe_topical.dta` (not committed) | NSCH 2016-2024 topical files, one sampled child per household; spec `data/raw/NSCH_SPEC.md` | GitHub release `data-nsch`: `https://github.com/ericjosborne/res/releases/tag/data-nsch` |
 | `data/clean/nsch_children.csv.gz` | 386,083 children, parent and child outcomes, birth year, PFML cohort at birth | `python/20_build_nsch.py` |
+| `data/raw/monthly/cps_00091.csv.gz` (1.45 GB, not committed) | IPUMS-CPS basic monthly 1994-2026, all persons | GitHub release `data-cps-monthly`: `https://github.com/ericjosborne/res/releases/tag/data-cps-monthly` |
+| `data/clean/cps_monthly_1624.csv.gz` (100 MB, not committed) | 5.46 million person-months aged 16-24, enrollment, employment, ORG wages | `python/30_build_cps_monthly.py` |
+| `data/raw/minwage/` | State minimum wage change list 1974-2022 (Vaghul-Zipperer) plus a manual 2023-2025 list to verify; monthly panel; event list | `python/31_build_mw_events.py` |
 
 ## How to run
 
@@ -63,6 +80,9 @@ python python/07_link_lag.py                # ASEC-to-ASEC link (prior-year work
 python python/20_build_nsch.py              # NSCH topical files (data/raw/nsch/) -> data/clean/nsch_children.{csv.gz,dta}
 python python/21_run_nsch.py --B 299 --P 4  # 55 Callaway-Sant'Anna runs on the NSCH file, ~20 min
 python python/22_summarise_nsch.py          # output/tables/nsch_summary.md and the nsch_* figures
+python python/30_build_cps_monthly.py       # monthly extract (data/raw/monthly/) -> data/clean/cps_monthly_1624.csv.gz
+python python/31_build_mw_events.py         # minimum wage panel and event list
+python python/33_run_minwage.py --B 99      # 105 stacked event-study runs, ~40 min; then python python/34_summarise_minwage.py
 ```
 
 Stata 16, from the repository root, after installing the packages listed at the
@@ -88,16 +108,18 @@ python/   01_build_ipums_asec.py  02_csdid.py  03_run_all.sh  04_summarise.py  0
 stata/    00_master.do  01_build_cps_asec.do  02_csdid.do  03_robustness.do  04_tables.do  05_heterogeneity.do
           10_build_brfss.do  11_csdid_brfss.do   (BRFSS, parked)
           20_build_nsch.do  21_csdid_nsch.do    (NSCH mental-health design)
+          30_build_cps_monthly.do  32_stacked_csdid.do   (minimum wage design: stacked reghdfe, csdid, did_multiplegt_dyn)
           01_build_cps_monthly.do  02b_csdid_monthly.do   (optional monthly extract)
 data/     raw/ (policy dates, extract specs; brfss/ and nsch/ raw files not committed)   clean/ (analysis files)
 output/   tables/ (per-run event/group/calendar/simple/attgt CSVs; summary_*.md)   figures/
-docs/     research_design.md  results.md  results.html  nsch_design.md  nsch_results.md
+docs/     research_design.md  results.md  results.html  nsch_design.md  nsch_results.md  minwage_design.md  minwage_results.md
 ```
 
 Output file names are `<sample>_<outcome>[_notyet]_<aggregation>.csv` with
 samples `mothers_lt6`, `mothers`, `childless` and outcomes `worked`, `hours`,
 `fulltime`, `inlf`; NSCH runs are prefixed `nsch_` (`nsch_summary.md` collects
-them).
+them) and minimum wage runs `mw_<ages>_<outcome>_<eventset>[_variant]`
+(`mw_summary.md`).
 
 The earlier project on this branch (Angrist-Evans same-sex instrument) and the
 2021-23 pilot on PolicyEngine files were removed in the restructuring commit;

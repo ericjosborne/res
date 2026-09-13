@@ -69,9 +69,9 @@ def event_effects(mult):
         if len(ci) < 2: continue
         ti = states.index(e.state_fips); base = e.ym_idx
         def mean(rows, cols, mm):
-            lo, hi = ym_index.get(rows[0]), ym_index.get(rows[-1])
-            if lo is None or hi is None: return np.nan
-            wy = (WY.iloc[lo:hi + 1, cols].values * mm).sum(); ww = (W.iloc[lo:hi + 1, cols].values * mm).sum()
+            blk = WY.loc[rows[0]:rows[-1]]; blkw = W.loc[rows[0]:rows[-1]]     # label slice: tolerates dropped months
+            if len(blk) == 0: return np.nan
+            wy = (blk.iloc[:, cols].values * mm).sum(); ww = (blkw.iloc[:, cols].values * mm).sum()
             return wy / ww if ww > 0 else np.nan
         Tk, Ck = {}, {}
         for k in K:
@@ -81,8 +81,7 @@ def event_effects(mult):
             Tk[k] = mean(rows, [ti], 1.0); Ck[k] = mean(rows, ci, m[ci])
         for i, k in enumerate(K):
             out[i, j] = (Tk[k] - Tk[-1]) - (Ck[k] - Ck[-1])
-        lo, hi = ym_index[base - 12], ym_index[base - 1]
-        ew[j] = 1.0 if a.equal else W.iloc[lo:hi + 1, ti].sum()
+        ew[j] = 1.0 if a.equal else W.loc[base - 12:base - 1].iloc[:, ti].sum()
         ew[j] *= mult.get(e.state_fips, 0)
     return out, ew
 
