@@ -91,23 +91,53 @@ estimate at 16-17 and 19 a positive one; the three largest by weight
 (California 2014, New York 2014, Florida 2021) are -0.3, +0.1 and -2.5
 points, and Florida's pre-trend is the same -2.6.
 
-### Substate minimums
+### Substate minimums: the unit design
 
-City and county minimums (Vaghul-Zipperer substate list, mapped to CPS county
-codes by `python/36_substate.py`; a city's rate applied to its county) are
-used three ways (`python/37_run_substate.py`):
+City and county minimums (Vaghul-Zipperer substate list) are handled by
+treating every identified county with its own minimum as a separate unit with
+its own effective minimum wage series (a city's rate applied to its whole
+county), and the rest of each state as the state unit
+(`python/38_unit_panel.py`: 107 units, 56 of them counties). Events are then
+defined at the unit level with the same rule (a rise of 5 percent or more
+after 36 quiet months, not caused by the federal floor), and each event's
+controls are the units in other states with no rise in the window. A Seattle
+teen is treated by Seattle's minimum and King County has its own event when
+Seattle raises it; a rise in the state rate that also lifts a county unit is
+a county event with source "both". From 2010 there are 101 events, 73 with
+CPS teens: 39 state-remainder events, 18 county events where state and local
+rates rose together (the New York City boroughs, Long Island and Westchester,
+Los Angeles, the Bay Area counties, San Diego, Denver, Minneapolis, Flagstaff,
+the Portland metro), and 16 county events driven by a local rise alone (San
+Francisco, San Jose, Chicago, Seattle, Tacoma, Montgomery and Prince George's
+counties, Portland ME, St. Paul, Albuquerque, Las Cruces, Santa Fe, and the
+short-lived Iowa and Kentucky county minimums).
 
-| Variant | Enrolled 16-17 | s.e. | Enrolled 18-19 | s.e. | Wage 16-17 | Wage 18-19 |
+| Post-event average | Wage 16-17 | Wage 18-19 | Enrolled 16-17 | Enrolled 18-19 | Employed 16-17 | Employed 18-19 |
 |---|---|---|---|---|---|---|
-| Main | -0.0034 | 0.0042 | -0.0036 | 0.0090 | 0.051 (0.012) | 0.031 (0.009) |
-| Controls net of counties with a local minimum (and unknown-county teens in flagged state-months) | -0.0038 | 0.0041 | -0.0018 | 0.0089 | 0.052 (0.012) | 0.031 (0.009) |
-| Treated: identified counties without a local minimum (33 events) | -0.0065 | 0.0043 | +0.0040 | 0.0098 | 0.060 (0.018) | 0.022 (0.014) |
-| Treated: identified counties with a local minimum (6 events, 22,000 obs) | -0.005 | 0.015 | -0.030 | 0.025 | uninformative | uninformative |
-| County-level local events (16 counties, 13-40 teens a month each) | +0.016 | 0.017 | +0.073 | 0.034 (pre +0.056) | 0.111 (0.042) | 0.055 (0.041) |
+| State design, 39 events (main) | 0.051 (0.012) | 0.031 (0.009) | -0.003 (0.004) | -0.004 (0.009) | -0.000 (0.005) | 0.013 (0.008) |
+| Unit design, all 73 events | 0.053 (0.012) | 0.030 (0.009) | -0.003 (0.004) | 0.001 (0.009) | -0.001 (0.005) | 0.010 (0.007) |
+| Unit design, state-remainder events (39) | 0.052 (0.014) | 0.028 (0.009) | -0.005 (0.005) | -0.009 (0.010) | 0.004 (0.005) | 0.015 (0.008) |
+| Unit design, county events, state and local rise (18) | 0.051 (0.035) | 0.043 (0.017) | 0.005 (0.007) | 0.033 (0.009); pre 0.013 | -0.021 (0.029) | 0.003 (0.023) |
+| Unit design, county events, local rise only (16) | 0.085 (0.044) | 0.043 (0.043) | 0.016 (0.017) | 0.075 (0.034); pre 0.053 | -0.016 (0.028) | -0.047 (0.051) |
 
-The contamination of Iowa and Kentucky controls in 2015-2017 changes nothing;
-the state-law-only treated sample gives the same null; the local-event design
-is too noisy to use.
+The unit design reproduces the state design: the wage first stage and the
+enrollment and employment nulls are unchanged when the 34 county events are
+added, because the state remainders carry most of the weight. The county
+events on their own are a different matter. Their first stage is larger
+(local increases are bigger) and their enrollment estimates at 18-19 are
+positive, +3.3 points (s.e. 0.9) for the county events with both a state
+and a local rise and +7.5 (3.4) for local-only events, but so are their
+pre-event averages (+1.3 and +5.3): the big-city counties were on a rising
+enrollment path relative to other states' units before their increases. Net
+of the pre-trend the post-event change is about two points in both sets,
+which is at most suggestive. Hours, participation and the four school-work
+states are unchanged in the unit design (`output/tables/mw_summary.md`).
+
+The earlier checks, which keep the state design and only clean the control
+side or restrict the treated side, are retained in the summary tables
+(controls net of local-minimum counties: enrolled -0.004 (0.004) and -0.002
+(0.009); treated counties without a local minimum: -0.007 (0.004) and +0.004
+(0.010)).
 
 ## 3. Heterogeneity (enrolled, 2010+ events)
 
