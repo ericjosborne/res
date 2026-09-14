@@ -26,11 +26,18 @@ ap.add_argument("--events", default="post2009", help="post2009 (events from 2010
 ap.add_argument("--controls", default="clean", help="clean (no state-driven rise in window) | strict (no rise of any kind) | federal (federal-floor states only) | cleanlocal (clean, and control teens in counties with a local minimum above the state rate, or of unknown county in a state-month with one, dropped)")
 ap.add_argument("--treated", default="all", help="all | nolocal (identified counties without a local minimum) | localonly (identified counties with a local minimum above the state rate)")
 ap.add_argument("--B", type=int, default=199); ap.add_argument("--equal", action="store_true", help="equal weight per event (default: treated teen population)")
+ap.add_argument("--ses", default=None, help="rel_low | rel_high: family income below / at or above the within-year weighted median category among 16-19 year olds (missing excluded)")
 ap.add_argument("--query", default=None); ap.add_argument("--tag", default=None); ap.add_argument("--min_post", type=int, default=12, help="events need this many post months in the data")
 a = ap.parse_args()
 
 d = pd.read_csv(CLEAN / "cps_monthly_1624.csv.gz", usecols=lambda c: c in {"year", "month", "ym", "state_fips", "county", "weight", "earnwt", "age", "female", "black", "hispanic", "foreign_born", "faminc", "relate",
                                                                             "enrolled", "enr_hs", "enr_college", "enr_ft", "employed", "atwork", "inlf", "unemp", "hours", "hs_grad", "org", "hourwage", "paidhour", "earnweek", "hours_org"})
+if a.ses:
+    t = d[d.age.between(16, 19) & (d.faminc < 900)]
+    cut = {}
+    for yr, g in t.groupby("year"):                       # weighted median family income category among teens, by survey year
+        g = g.sort_values("faminc"); cw = g.weight.cumsum() / g.weight.sum(); cut[yr] = int(g.faminc.values[np.searchsorted(cw.values, 0.5)])
+    med = d.year.map(cut); d = d[(d.faminc < 900) & ((d.faminc < med) if a.ses == "rel_low" else (d.faminc >= med))]
 d = d[d.age.between(a.ages[0], a.ages[1])]
 if a.query: d = d.query(a.query)
 d["county"] = d.county.fillna(0).astype(int)
