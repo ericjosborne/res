@@ -10,7 +10,7 @@ with clean control units in other states in a Callaway-Sant'Anna comparison
 relative to the year before the event (Cengiz, Dube, Lindner and Zipperer 2019
 design). The state design (states as units, 39 events) is in the appendix.
 
-* `paper/minwage_teens.tex` / `.pdf` – the draft paper (theory, design, results).
+* `paper/minwage_teens.tex` / `.pdf` – the draft paper: Smith-style introduction, two-period theory with the non-competitive case, data, empirical strategy (unit design), results ordered as school-work shares (all, then by family income) and wages (all, then by family income); robustness, sex/race heterogeneity, the within-year income split and the dropout outcome in the appendix. Tables and figures: `python/45_paper_v2_tables.py`.
 * `docs/minwage_design.md`, `docs/minwage_results.md` – design memo and results memo.
 * `output/tables/mw_summary.md` – all runs collected; `output/tables/mw_*` per-run event, simple and by-event CSVs; `output/figures/mw_*`.
 
@@ -52,7 +52,10 @@ python python/33_run_minwage.py --B 99 --P 4 # 105 unit-design runs, ~40 min; --
 python python/36_substate.py                 # county minimum wage panel (input to 38); contamination flags; local events
 python python/37_run_substate.py 99          # optional: cleaned-control and treated-split checks on the state design
 python python/34_summarise_minwage.py        # mw_summary.md and the main figures
-python python/35_paper_tables.py             # LaTeX tables and figures for paper/
+python python/35_paper_tables.py             # summary, events, robustness and heterogeneity tables for paper/
+python python/40_run_ses.py 99; python python/42_run_ses_rel.py 99   # family-income splits (nominal, within-year median)
+python python/43_run_dropout.py 99; python python/44_run_dropout_school.py 99   # dropout outcome (Smith 2021), all months and school months
+python python/45_paper_v2_tables.py          # results tables and figures in the paper's order
 cd paper && pdflatex minwage_teens.tex && pdflatex minwage_teens.tex
 ```
 

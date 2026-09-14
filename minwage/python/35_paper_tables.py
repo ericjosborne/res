@@ -153,7 +153,7 @@ for v, lab in VAR:
 (P / "tables" / "tab5_robust.tex").write_text("\\begin{tabular}{lcccccccc}\n\\toprule\n & \\multicolumn{2}{c}{Enrolled} & \\multicolumn{2}{c}{Employed} & \\multicolumn{2}{c}{Neither} & Events \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & 16--17 & 18--19 & 16--17 & 18--19 & 16--17 & 18--19 & \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 # ---- Table 6: heterogeneity ----------------------------------------------------------------------------------
-HET = [("female", "Girls"), ("male", "Boys"), ("black", "Black"), ("hispanic", "Hispanic"), ("whiteother", "White and other"), ("faminc_lt50k", "Family income below \\$50,000"), ("faminc_ge50k", "Family income \\$50,000 or more")]
+HET = [("female", "Girls"), ("male", "Boys"), ("black", "Black"), ("hispanic", "Hispanic"), ("whiteother", "White and other")]
 rows = []
 for k, lab in HET:
     line1, line2 = [lab], [""]
