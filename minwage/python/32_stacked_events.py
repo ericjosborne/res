@@ -42,6 +42,7 @@ d = d[d.age.between(a.ages[0], a.ages[1])]
 if a.query: d = d.query(a.query)
 d["county"] = d.county.fillna(0).astype(int)
 d["enr_emp"] = d.enrolled * d.employed; d["enr_only"] = d.enrolled * (1 - d.employed); d["emp_only"] = (1 - d.enrolled) * d.employed; d["neither"] = (1 - d.enrolled) * (1 - d.employed)
+d["dropout"] = (1 - d.enrolled) * (1 - d.hs_grad)        # Smith (2021): not enrolled and no high school diploma or GED
 d["log_wage"] = np.log(d.hourwage.where((d.org == 1) & (d.paidhour == 1) & (d.hourwage > 0)))
 d["log_earnweek"] = np.log(d.earnweek.where((d.org == 1) & (d.earnweek > 0)))
 y = a.outcome
