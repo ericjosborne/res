@@ -32,6 +32,41 @@ a point on every outcome. Unit design headline: wages of hourly-paid teens
 (0.4) and +0.1 (0.9); employment -0.1 (0.5) and +1.0 (0.7); the four
 school-work states, hours and participation unchanged.
 
+### Regression counterparts (September 14)
+
+`python/46_regressions.py` (pyfixest) adds, for every outcome x age x
+income group, two regression estimates on the 2010-2026 unit-design data,
+reported in the paper before each event-study figure
+(`paper/tables/tabR*b_*_reg.tex`, numbers in `output/tables/mw_regressions.csv`):
+
+* **TWFE, log minimum wage** (the Neumark-Shupe 2019 / Smith 2021
+  specification): y on ln(effective minimum of the teen's unit) with unit and
+  year-month fixed effects, age/sex/race/Hispanic controls, survey weights,
+  clustered by state. Multiply by 0.32 (ln 1.38) for the average event.
+* **Stacked DiD, post x treated** (regression form of Cengiz et al. 2019):
+  unit-month cell means stacked over the 73 events with their clean controls
+  (-36..+47 months), event-by-unit and event-by-month fixed effects,
+  population weights, clustered by state.
+
+Findings. On wages the three agree: TWFE elasticity 0.23 (0.02) at 16-17,
+0.16 (0.02) at 18-19, 0.19 (0.02) pooled (7.3 / 5.2 / 6.1 percent for the
+average event); stacked +5.0 (0.8), +3.2 (0.8), +4.0 (0.7) percent; event
+study +5.3, +3.0, +3.8. On time allocation the stacked coefficients
+reproduce the event-study nulls, but TWFE finds a positive effect on
+"neither enrolled nor employed" (0.022 (0.007) at 16-17, 0.018 (0.008) at
+18-19, i.e. +0.7 / +0.6 points for the average event) and a negative one on
+enrollment at 16-17 (-0.021 (0.010)); the same TWFE pattern appears for
+high-income teens (0.021 (0.006)) as for low-income (0.019 (0.011)). The
+paper attributes the gap to the variation TWFE uses (the whole 2010-2026
+path of the minimum against the flat federal-floor states, so long-run
+differential trends in the idle share load on the minimum), with the flat
+pre-event coefficients of the event design as the check. Adding unit-specific
+linear trends to the TWFE removes the "neither" coefficient (0.001 (0.005)
+at 16-17) but makes other estimates erratic (employment -0.11 (0.05), log
+wage 0.30 (0.03) at 16-19: trends absorb a trending treatment, Meer and West
+2016); those numbers are in the csv (`twfe_trend`) and a footnote, not in
+the tables.
+
 ## 1. Headline (state design, first pass)
 
 The increases raised teen pay and changed nothing else. Hourly wages of

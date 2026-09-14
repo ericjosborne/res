@@ -32,7 +32,7 @@ The economic literature on the consequences of the minimum wage is both vast and
 
 While the effect of the minimum wage on time allocation is indirect, it is an intuitive byproduct of a simple model of human capital investment in which teens decide whether to attend school or enter the labour market by weighing the opportunity cost and psychic cost of schooling against the expected future return to skill \citep{mincer1976}. To the extent that a change in the minimum wage alters the teen labour market, it alters the opportunity cost of schooling and therefore the enrollment decision. The direction depends on what the minimum does to the expected teen wage: if employment falls little, the expected wage rises and enrollment should fall; if employment falls a lot, the expected wage falls and enrollment should rise. There is a third possibility that the earlier literature did not consider. If employers of teenagers have wage-setting power, so that teen wages sit below the competitive level, a minimum wage set between the prevailing wage and the marginal product raises pay without reducing employment, and the enrollment margin, which turns on a lifetime skill premium that a few hundred dollars a year barely moves, need not respond at all.
 
-I investigate the impact of minimum wage changes on teenagers' school--work status and wages using the basic monthly files of the Current Population Survey from January 1994 to August 2026, which ask every 16--24 year old each month whether they attended school last week, record their employment and hours, and in the outgoing rotation groups record their hourly wage. The geographic unit is the jurisdiction whose wage floor a teenager faces: each of the 56 counties the CPS identifies that have their own minimum is a unit with its own wage series, the city's rate applied to the county, and the remainder of each state is another. An event is a rise of at least 5 percent in a unit's minimum, not caused by the federal floor, after 36 months without one, with the later steps of a schedule counted as part of the same event; there are 73 such events from January 2010 with CPS teens in the unit, in a period when the federal minimum did not change. Each event compares the treated unit with the units in other states that had no increase from three years before to four years after it, relative to the year before the event, which is the Callaway--Sant'Anna group-time comparison, and the events are aggregated by treated teen population. The design uses none of the comparisons between earlier- and later-treated units that bias two-way fixed effects estimates when effects vary, which is the concern with the regressions behind the earlier findings.
+I investigate the impact of minimum wage changes on teenagers' school--work status and wages using the basic monthly files of the Current Population Survey from January 1994 to August 2026, which ask every 16--24 year old each month whether they attended school last week, record their employment and hours, and in the outgoing rotation groups record their hourly wage. The geographic unit is the jurisdiction whose wage floor a teenager faces: each of the 56 counties the CPS identifies that have their own minimum is a unit with its own wage series, the city's rate applied to the county, and the remainder of each state is another. An event is a rise of at least 5 percent in a unit's minimum, not caused by the federal floor, after 36 months without one, with the later steps of a schedule counted as part of the same event; there are 73 such events from January 2010 with CPS teens in the unit, in a period when the federal minimum did not change. Each event compares the treated unit with the units in other states that had no increase from three years before to four years after it, relative to the year before the event, which is the Callaway--Sant'Anna group-time comparison, and the events are aggregated by treated teen population. The design uses none of the comparisons between earlier- and later-treated units that bias two-way fixed effects estimates when effects vary, which is the concern with the regressions behind the earlier findings. Beside each event study I report two regression estimates on the same data: the two-way fixed effects regression of the outcome on the log minimum wage that \citet{neumark2019} and \citet{smith2021} use, and the stacked difference-in-differences regression of \citet{cengiz2019}, so that the reader can see where the designs agree and where they part.
 
 Consistently across ages, income groups, event sets, control sets and weights, I find that the increases raised teen pay and did not change teen time allocation. Hourly wages of hourly-paid 16--17 year olds rose 5.3 percent (s.e.\ 1.2) and of 18--19 year olds 3.0 percent (s.e.\ 0.9), building to 7 and 5 percent by the third year as the schedules stepped up, with no movement before the event, and the gain reached teens from families below \$50,000 and above it alike. The four school--work states did not move: the share enrolled and employed changed by $-0.3$ points (s.e.\ 0.5) at 16--17 and $+0.7$ (0.6) at 18--19, enrolled only by $-0.0$ (0.6) and $-0.5$ (0.6), employed only by $+0.2$ (0.3) and $+0.3$ (0.7), and neither by $+0.1$ (0.4) and $-0.5$ (0.5). Pre-event coefficients are within a fraction of a point of zero. The same holds within income groups: for teens from families below \$50,000 the four shares change by at most a point, and the shift from enrolled-and-employed to enrolled-only that \citet{neumark2019} attribute to the minimum wage does not appear for any group. High school dropout, the outcome of \citet{smith2021}, does not fall for low-income teens either.
 
@@ -134,6 +134,22 @@ Inference is by block bootstrap over states: in each of 99 draws the 51 states a
 
 Identification requires that, absent the increase, teens in the treated unit would have followed the same path as teens in the control units over the seven-year window. The three pre-event coefficients test the assumption directly. Because the events are laws passed by legislatures, councils and ballot measures, and treated jurisdictions are on average richer and more urban than federal-floor states, the assumption is about trends rather than levels, and Appendix~\ref{app:robust} shows the results with control sets that vary from all clean units to federal-floor states only, with equal weights, without the pandemic years, in school months only, and with states rather than counties as the units.
 
+\subsection{Regression counterparts}\label{sec:reg}
+
+Each event-study figure is preceded by a table with two regression estimates of the same effect. The first is the two-way fixed effects regression of the earlier literature, the specification of \citet{neumark2019} and, with lags added, of \citet{smith2021}:
+\begin{equation}
+y_{it} = \beta \ln MW_{u(i),t} + X_i'\gamma + \alpha_{u(i)} + \lambda_t + \varepsilon_{it},
+\label{eq:twfe}
+\end{equation}
+estimated on every teen observed from January 2010 with unit and year-month fixed effects, controls for single year of age, sex, race and Hispanic origin, survey weights, and standard errors clustered by state. $\beta$ is the effect of a 100 log-point rise in the effective minimum of the teen's unit; multiplied by 0.32, the log of the average event's 38 percent cumulative rise, it is on the scale of the post-event averages. The regression uses all within-unit variation in the log minimum over sixteen years, the small annual steps and indexation as well as the large increases, and compares units at every point of their schedules with one another and with the federal-floor states, so it carries the weighting problems of \citet{goodmanbacon2021} and loads any long-run divergence between raising and non-raising units onto the minimum wage.
+
+The second is the stacked regression form of the event design \citep{cengiz2019}:
+\begin{equation}
+\bar{y}_{e,u,t} = \delta\, \mathrm{Post}_{e,t} \times \mathrm{Treated}_{e,u} + \alpha_{e,u} + \lambda_{e,t} + \varepsilon_{e,u,t},
+\label{eq:stacked}
+\end{equation}
+estimated on unit-month cell means stacked over the 73 events, each event contributing its treated unit and its clean controls over the 84 months from $-36$ to $+47$, with event-by-unit and event-by-month fixed effects, cells weighted by their population, and standard errors clustered by state. $\delta$ is a single post-event average on the same footing as the mean of $\hat\tau_0$ to $\hat\tau_3$; it differs from that mean in taking all 36 pre-event months rather than the twelve of year $-1$ as the base, and in weighting by cell population within the regression rather than by treated population across events, so the two need not coincide exactly.
+
 \section{Results}\label{sec:results}
 
 \subsection{School and work}
@@ -148,6 +164,19 @@ Table~\ref{tab:groups} reports the post-event average effect of the increases on
 \input{tables/tabR1_groups}
 \begin{tablenotes}\footnotesize
 \item Post: average of the relative-year effects for years 0--3 after the increase, relative to year $-1$, population-weighted across events; block-bootstrap standard errors over states in parentheses (99 draws). Pre: average of the relative-year effects for years $-3$ and $-2$. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
+\end{tablenotes}
+\end{table}
+
+Table~\ref{tab:groupsreg} gives the regression counterparts of Section~\ref{sec:reg}. The stacked difference-in-differences coefficients reproduce the event-study averages: $-0.1$ points (s.e.\ 0.4) for enrolled-and-employed at 16--17 and $+0.4$ (0.5) at 18--19, $-0.2$ (0.3) and $-0.3$ (0.4) for neither, and nothing beyond about one standard error from zero for any share or age. The two-way fixed effects regression disagrees on one share. Its coefficient on the log minimum for neither enrolled nor employed is 0.022 (s.e.\ 0.007) at 16--17 and 0.018 (0.008) at 18--19, which for the average event implies a rise of 0.7 and 0.6 points in the share of teens doing neither, and its coefficient for enrollment at 16--17 is $-0.021$ (0.010), a fall of 0.7 points; the enrolled-and-employed coefficients are negative and marginal. These are the signs and magnitudes of the two-way fixed effects literature \citep{neumark1995a,neumark2019}, and they do not survive the move to clean-control comparisons: the stacked estimates for the same outcomes are $-0.2$ (0.3) and $-0.1$ (0.3), and the fixed-effects-implied effects sit at or beyond the upper ends of their intervals. The difference lies in the variation used. Regression~\eqref{eq:twfe} identifies $\beta$ from the whole 2010--2026 path of the log minimum, the levels and slow schedules of the units that raised repeatedly against the flat path of the federal-floor states, so a differential trend in the share of idle teens between the two groups over sixteen years, of which the recovery from the 2010 peak in the South is one candidate, is attributed to the minimum wage. The event design compares each unit with its controls over a seven-year window around a discrete jump and tests the trend assumption with the pre-event coefficients, which are flat.\footnote{Adding unit-specific linear trends to regression~\eqref{eq:twfe}, the usual remedy, removes the coefficient on neither (0.001, s.e.\ 0.005, at 16--17) but makes the other estimates erratic, for example $-0.11$ (0.05) for employment and $0.30$ (0.03) for the log wage at 16--19, because with a minimum that trends within units the trend terms absorb the treatment path itself \citep{meer2016}. The estimates are in the replication files.}
+
+\begin{table}[H]
+\centering
+\caption{Regression estimates for teen school--work status: two-way fixed effects and stacked difference-in-differences, 2010--2026}
+\label{tab:groupsreg}
+\small
+\input{tables/tabR1b_groups_reg}
+\begin{tablenotes}\footnotesize
+\item TWFE: coefficient on the log effective minimum of the teen's unit, regression~\eqref{eq:twfe}, all teens from January 2010, unit and year-month fixed effects, controls for age, sex, race and Hispanic origin, survey weights; multiply by 0.32 for the average event. Stacked DiD: coefficient on post $\times$ treated, regression~\eqref{eq:stacked}, unit-month cells stacked over the 73 events with their clean controls, event-by-unit and event-by-month fixed effects, population weights. Standard errors clustered by state in parentheses. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
 \end{tablenotes}
 \end{table}
 
@@ -178,6 +207,19 @@ Table~\ref{tab:groupsses} gives the post-event averages for the four shares by f
 \end{tablenotes}
 \end{table}
 
+The regression counterparts in Table~\ref{tab:groupssesreg} repeat the pattern of Table~\ref{tab:groupsreg} within each income group. The stacked coefficients are within one standard error of zero for every share, age and group. The two-way fixed effects coefficient on neither is positive in both groups, 0.019 (s.e.\ 0.011) for low-income and 0.021 (0.006) for high-income 16--17 year olds, so the fixed-effects result is not a low-income phenomenon that the event design misses; it appears for the teens whose families can pay for school as much as for those whose families cannot, which is not what either channel of Section~\ref{sec:theory} predicts and is what a differential trend common to all teens in the raising units would produce.
+
+\begin{table}[H]
+\centering
+\caption{Regression estimates for school--work status by family income: two-way fixed effects and stacked difference-in-differences}
+\label{tab:groupssesreg}
+\small
+\input{tables/tabR2b_groups_ses_reg}
+\begin{tablenotes}\footnotesize
+\item Low: family income below \$50,000; High: \$50,000 or more. Specifications as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\end{tablenotes}
+\end{table}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figR2_groups_ses}
@@ -199,6 +241,19 @@ The wage gain is about a seventh of the rise in the minimum. That is what one ex
 \input{tables/tabR3_wage}
 \begin{tablenotes}\footnotesize
 \item Outgoing rotation groups, earnings weights. Hourly wage among workers paid by the hour; weekly earnings among all workers. Block-bootstrap standard errors in parentheses.
+\end{tablenotes}
+\end{table}
+
+On the wage the two regression estimators agree with each other and with the event study (Table~\ref{tab:wagereg}). The two-way fixed effects elasticity of the teen hourly wage with respect to the minimum is 0.23 (s.e.\ 0.02) at 16--17, 0.16 (0.02) at 18--19 and 0.19 (0.02) pooled, which for the average event implies gains of 7.3, 5.2 and 6.1 percent; the stacked coefficients are 5.0 (0.8), 3.2 (0.8) and 4.0 (0.7) percent, next to the event-study averages of 5.3, 3.0 and 3.8. Weekly earnings give elasticities of 0.23, 0.15 and 0.19 and stacked gains of 5.4, 4.8 and 5.5 percent. The fixed effects estimates run somewhat above the event-based ones because they use the full level of the schedules, including steps beyond the four-year window, whereas the post-event average dilutes the effect with the pre-increase months of year 0. Where the treatment has a real effect, the designs agree in sign and roughly in size; where the fixed effects regression finds an effect on time allocation that the event design does not, the disagreement is about the design.
+
+\begin{table}[H]
+\centering
+\caption{Regression estimates for teen wages and earnings: two-way fixed effects and stacked difference-in-differences, 2010--2026}
+\label{tab:wagereg}
+\small
+\input{tables/tabR3b_wage_reg}
+\begin{tablenotes}\footnotesize
+\item Outgoing rotation groups, earnings weights. Specifications as in Table~\ref{tab:groupsreg}; the TWFE coefficient is the elasticity of the wage with respect to the minimum. Standard errors clustered by state in parentheses.
 \end{tablenotes}
 \end{table}
 
@@ -224,6 +279,19 @@ Table~\ref{tab:wageses} and Figure~\ref{fig:wageses} split the wage effect by fa
 \end{tablenotes}
 \end{table}
 
+The regression estimates by income (Table~\ref{tab:wagesesreg}) confirm that the gain reached both groups and was somewhat larger for the poorer one. The fixed effects elasticities are 0.23 (s.e.\ 0.03) for low-income and 0.22 (0.03) for high-income 16--17 year olds, 0.18 (0.03) against 0.15 (0.03) at 18--19, and 0.21 (0.02) against 0.19 (0.02) pooled. The stacked regression, which pools the base period over 36 months and so is more precise than the event-study average for the thin low-income 16--17 cell, gives 7.3 percent (1.4) against 4.4 (0.9) at 16--17, 4.1 (1.1) against 2.6 (0.9) at 18--19, and 5.2 (1.1) against 3.5 (0.7) pooled.
+
+\begin{table}[H]
+\centering
+\caption{Regression estimates for wages and earnings by family income: two-way fixed effects and stacked difference-in-differences}
+\label{tab:wagesesreg}
+\small
+\input{tables/tabR4b_wage_ses_reg}
+\begin{tablenotes}\footnotesize
+\item Low: family income below \$50,000; High: \$50,000 or more. Outgoing rotation groups, earnings weights. Specifications as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\end{tablenotes}
+\end{table}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figR4_wage_ses}
@@ -237,7 +305,7 @@ The results match the third case of Section~\ref{sec:theory}. The wage of teens 
 
 The estimates also rule the minimum wage out as the cause of the decline in teen employment on two counts of timing and one of magnitude. Most of the decline happened between 2000 and 2010 (Figure~\ref{fig:trends}), before the large state and local schedules that give the minimum wage its modern bite; the events of 1994--2009 were smaller, and the estimates for them (Appendix~\ref{app:robust}) are zero on employment at 18--19 and $-1.0$ points (s.e.\ 0.7) at 16--17. The period of the largest increases, 2014--2025, is one in which teen employment rose, from 28 to 33 percent. And even taking the most negative employment estimate in the appendix at face value and applying it to every teen exposed to an event, the minimum wage would account for about one point of an eighteen-point decline. The decline itself then needs another explanation, and the candidates in \citet{neumark2019} and \citet{smith2011,smith2012} remain: the rising return to schooling and the intensification of college preparation, competition from adult and immigrant workers in the retail and food service jobs that teens held, and the two recessions of the period. This paper's contribution is to remove one from the list.
 
-The absence of a schooling gain for low-income teens does not contradict \citet{smith2021} so much as bound it for a later period and a different design. His estimate implies that increases of the size studied here would have lowered dropout among low-SES teens by two to four points; the enrollment and dropout intervals for low-income teens here (Appendix~\ref{app:dropout}) exclude changes of that size. Two differences could reconcile the findings: his socioeconomic measure is parental education, which identifies a poorer group than family income below the median, and his variation is the smaller increases of 1992--2012 estimated with two-way fixed effects and a distributed-lag specification, which the event design does not reproduce. What can be said is that in the modern period the poorer half of teens received the wage gain and did not change their schooling in response.
+The absence of a schooling gain for low-income teens does not contradict \citet{smith2021} so much as bound it for a later period and a different design. His estimate implies that increases of the size studied here would have lowered dropout among low-SES teens by two to four points; the enrollment and dropout intervals for low-income teens here (Appendix~\ref{app:dropout}) exclude changes of that size. Two differences could reconcile the findings: his socioeconomic measure is parental education, which identifies a poorer group than family income below the median, and his variation is the smaller increases of 1992--2012 estimated with two-way fixed effects and a distributed-lag specification, which the event design does not reproduce. The two-way fixed effects rows of Tables~\ref{tab:groupsreg} and \ref{tab:groupssesreg} show what that specification does on the modern data: it finds a small rise in the share of teens neither in school nor at work and a small fall in enrollment at 16--17, for high-income teens as much as for low-income ones, and the event design with its flat pre-trends does not. The earlier literature's schooling effects, in both directions, are of the size that this difference in design can produce. What can be said is that in the modern period the poorer half of teens received the wage gain and did not change their schooling in response.
 
 Three limits should be stated. The enrollment measure is attendance last week; it cannot see grade progression or completion, so the null does not rule out effects on attainment measured years later. The 2023--2025 minimum wage changes and index adjustments are compiled from state sources and are less thoroughly vetted than the \citet{vaghul2016} list; they determine which units are clean controls after 2022 and should be verified before the event list is treated as final. Local minimums are carried at their end-2022 levels thereafter, and a city's rate is applied to its whole county, so a Seattle rate treats all of King County; the county samples are small and the county events are best read alongside the state remainders. Standard errors are from a 99-draw block bootstrap; the wild cluster bootstrap in the Stata replication is the inference to report.
 
@@ -288,6 +356,8 @@ This paper estimates the effect of minimum wage increases on the wages and the t
 \bibitem[Mincer(1976)]{mincer1976} Mincer, Jacob. 1976. ``Unemployment Effects of Minimum Wages.'' \textit{Journal of Political Economy} 84 (4): S87--S104.
 
 \bibitem[Morisi(2008)]{morisi2008} Morisi, Teresa L. 2008. ``Youth Enrollment and Employment during the School Year.'' \textit{Monthly Labor Review} 131 (2): 51--63.
+
+\bibitem[Meer and West(2016)]{meer2016} Meer, Jonathan, and Jeremy West. 2016. ``Effects of the Minimum Wage on Employment Dynamics.'' \textit{Journal of Human Resources} 51 (2): 500--522.
 
 \bibitem[Neumark and Shupe(2019)]{neumark2019} Neumark, David, and Cortnie Shupe. 2019. ``Declining Teen Employment: Minimum Wages, Returns to Schooling, and Immigration.'' \textit{Labour Economics} 59: 49--68.
 

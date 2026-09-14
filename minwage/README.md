@@ -10,7 +10,7 @@ with clean control units in other states in a Callaway-Sant'Anna comparison
 relative to the year before the event (Cengiz, Dube, Lindner and Zipperer 2019
 design). The state design (states as units, 39 events) is in the appendix.
 
-* `paper/minwage_teens.tex` / `.pdf` – the draft paper: Smith-style introduction, two-period theory with the non-competitive case, data, empirical strategy (unit design), results ordered as school-work shares (all, then by family income) and wages (all, then by family income); robustness, sex/race heterogeneity, the within-year income split and the dropout outcome in the appendix. Tables and figures: `python/45_paper_v2_tables.py`.
+* `paper/minwage_teens.tex` / `.pdf` – the draft paper: Smith-style introduction, two-period theory with the non-competitive case, data, empirical strategy (unit design), results ordered as school-work shares (all, then by family income) and wages (all, then by family income); robustness, sex/race heterogeneity, the within-year income split and the dropout outcome in the appendix. Tables and figures: `python/45_paper_v2_tables.py`; the regression tables (two-way fixed effects on the log minimum and stacked difference-in-differences) that precede each event-study figure: `python/46_regressions.py`.
 * `docs/minwage_design.md`, `docs/minwage_results.md` – design memo and results memo.
 * `output/tables/mw_summary.md` – all runs collected; `output/tables/mw_*` per-run event, simple and by-event CSVs; `output/figures/mw_*`.
 
@@ -56,6 +56,7 @@ python python/35_paper_tables.py             # summary, events, robustness and h
 python python/40_run_ses.py 99; python python/42_run_ses_rel.py 99   # family-income splits (nominal, within-year median)
 python python/43_run_dropout.py 99; python python/44_run_dropout_school.py 99   # dropout outcome (Smith 2021), all months and school months
 python python/45_paper_v2_tables.py          # results tables and figures in the paper's order
+python python/46_regressions.py              # TWFE log-MW and stacked-DiD regression tables (pyfixest; ~45 min; --tables_only rebuilds the tex from the csv)
 cd paper && pdflatex minwage_teens.tex && pdflatex minwage_teens.tex
 ```
 
