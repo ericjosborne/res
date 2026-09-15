@@ -80,23 +80,22 @@ LAB = {"enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_onl
        "log_wage": "Log hourly wage, hourly paid", "log_earnweek": "Log weekly earnings"}
 def st(b, se): z = abs(b / se); return "$^{***}$" if z > 2.576 else "$^{**}$" if z > 1.96 else "$^{*}$" if z > 1.645 else ""
 def get(g, a, y, k): r = R[(R.group == g) & (R.ages == a) & (R.outcome == y)].iloc[0]; return r[k], r[k + "_se"]
-ROWS = (("twfe", "TWFE, log minimum wage, all months"), ("twfe_school", "TWFE, log minimum wage, school months"), ("stacked", "Stacked DiD, post $\\times$ treated"))
-# the unit-linear-trend TWFE (twfe_trend) stays in the csv but not in the paper tables: with a treatment that trends
-# within units, unit trends absorb the treatment path and the residual estimates are erratic (Meer and West 2016).
-def block(y, cols):
-    L = ["\\multicolumn{%d}{l}{\\textit{%s}} \\\\" % (len(cols) + 1, LAB[y])]
-    for k, kl in ROWS:
-        l1, l2 = ["\\quad " + kl], [""]
+# main-text tables carry the stacked DiD coefficient only; the TWFE (school months) tables go to the appendix.
+# All-months TWFE stays in the csv (twfe) but is not tabulated: the enrollment item records summer school in June-August.
+def tab_rows(outs, fname, key, ses=False):
+    cols = [(g, a) for a in AGES for g in (("lowses", "highses") if ses else ("all",))]
+    L = []
+    for y in outs:
+        l1, l2 = [LAB[y]], [""]
         for g, a in cols:
-            b, se = get(g, a, y, k); l1.append(f"{b:.3f}{st(b, se)}"); l2.append(f"({se:.3f})")
+            b, se = get(g, a, y, key); l1.append(f"{b:.3f}{st(b, se)}"); l2.append(f"({se:.3f})")
         L += [" & ".join(l1) + " \\\\", " & ".join(l2) + " \\\\"]
-    return L
-def tab_main(outs, fname):
-    cols = [("all", a) for a in AGES]; L = sum((block(y, cols) for y in outs), [])
-    (PT / fname).write_text("\\begin{tabular}{lccc}\n\\toprule\n & Ages 16--17 & Ages 18--19 & Ages 16--19 \\\\\n\\midrule\n" + "\n".join(L) + "\n\\bottomrule\n\\end{tabular}\n")
-def tab_ses(outs, fname):
-    cols = [(g, a) for a in AGES for g in ("lowses", "highses")]; L = sum((block(y, cols) for y in outs), [])
-    (PT / fname).write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Low & High & Low & High & Low & High \\\\\n\\midrule\n" + "\n".join(L) + "\n\\bottomrule\n\\end{tabular}\n")
-tab_main(["enr_emp", "enr_only", "emp_only", "neither", "enrolled", "employed"], "tabR1b_groups_reg.tex"); tab_ses(["enr_emp", "enr_only", "emp_only", "neither"], "tabR2b_groups_ses_reg.tex")
-tab_main(["log_wage", "log_earnweek"], "tabR3b_wage_reg.tex"); tab_ses(["log_wage", "log_earnweek"], "tabR4b_wage_ses_reg.tex")
+    if ses: head = "\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Low & High & Low & High & Low & High \\\\\n\\midrule\n"
+    else: head = "\\begin{tabular}{lccc}\n\\toprule\n & Ages 16--17 & Ages 18--19 & Ages 16--19 \\\\\n\\midrule\n"
+    (PT / fname).write_text(head + "\n".join(L) + "\n\\bottomrule\n\\end{tabular}\n")
+G6 = ["enr_emp", "enr_only", "emp_only", "neither", "enrolled", "employed"]; G4 = G6[:4]; W = ["log_wage", "log_earnweek"]
+tab_rows(G6, "tabR1b_groups_reg.tex", "stacked"); tab_rows(G4, "tabR2b_groups_ses_reg.tex", "stacked", ses=True)
+tab_rows(W, "tabR3b_wage_reg.tex", "stacked"); tab_rows(W, "tabR4b_wage_ses_reg.tex", "stacked", ses=True)
+tab_rows(G6, "tabT1_groups_twfe.tex", "twfe_school"); tab_rows(G4, "tabT2_groups_ses_twfe.tex", "twfe_school", ses=True)
+tab_rows(W, "tabT3_wage_twfe.tex", "twfe_school"); tab_rows(W, "tabT4_wage_ses_twfe.tex", "twfe_school", ses=True)
 print("done")

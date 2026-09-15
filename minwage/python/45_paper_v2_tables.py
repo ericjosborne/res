@@ -28,12 +28,12 @@ def st(b, se):
 def c1(b, se, d=3): return (f"{b:.{d}f}{st(b, se)}" if not np.isnan(b) else "", f"({se:.{d}f})" if not np.isnan(se) else "")
 
 
-def table_main(outs, fname, digits=3):
+def table_main(outs, fname, digits=3, group=""):
     rows = []
     for y, lab in outs:
         l1, l2 = [lab], [""]
         for a, _ in AGES:
-            b, se, pre, n = simple(f"mw_{a}_{y}_{D}"); x, y_ = c1(b, se, digits); l1 += [x, f"{pre:.{digits}f}" if not np.isnan(pre) else ""]; l2 += [y_, ""]
+            b, se, pre, n = simple(f"mw_{a}_{y}_{D}{group}"); x, y_ = c1(b, se, digits); l1 += [x, f"{pre:.{digits}f}" if not np.isnan(pre) else ""]; l2 += [y_, ""]
         rows += [" & ".join(l1) + " \\\\", " & ".join(l2) + " \\\\"]
     (PT / fname).write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Post & Pre & Post & Pre & Post & Pre \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
@@ -72,6 +72,7 @@ def ses_series(a, groups): return [(lambda y, a=a, g=g: f"mw_{a}_{y}_{D}_{g}", f
 table_main(GROUPS + MEMO, "tabR1_groups.tex")
 fig_grid(GROUPS, AGE_SERIES, "figR1_groups.png", 2, "School-work status, 73 events from 2010: event-time effects by age, 95% intervals", "Effect (share)")
 table_ses(GROUPS + MEMO, SES, "tabR2_groups_ses.tex"); table_ses(GROUPS + MEMO, SESREL, "tabA_groups_sesrel.tex")
+table_main(GROUPS + MEMO, "tabR2_groups_low.tex", group="_lowses"); table_main(GROUPS + MEMO, "tabR2_groups_high.tex", group="_highses")  # separate low / high tables, layout of tabR1
 fig_grid(GROUPS, ses_series("1619", SES), "figR2_groups_ses.png", 2, "School-work status by family income (below vs at or above $50,000), ages 16-19, 95% intervals", "Effect (share)")
 fig_grid(GROUPS, ses_series("1619", SESREL), "figA_groups_sesrel.png", 2, "School-work status by family income (within-year median split), ages 16-19, 95% intervals", "Effect (share)")
 # results, part 2: log wages

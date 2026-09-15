@@ -79,8 +79,9 @@ comparison of raising units with the federal-floor states: among units whose
 minimum changed at all in 2010-2026 the school-months coefficients are
 -0.005 (0.017) at 18-19 and +0.008 (0.010) pooled. The wage elasticities are
 identical on school months and all months (0.22 vs 0.23 at 16-17). The
-regression tables now carry three rows (TWFE all months, TWFE school months,
-stacked DiD; `python/46_regressions.py`), and Appendix C of the paper
+main-text regression tables (`tabR*b_*_reg.tex`) now carry the stacked-DiD
+coefficient only; the TWFE estimates on school months are in the appendix
+(`tabT*_twfe.tex`; all-months TWFE is kept in the csv but not tabulated), and Appendix B of the paper
 (`python/47_twfe_diagnostics.py`, `paper/tables/tabA_twfe_diag.tex`,
 `output/tables/mw_twfe_diagnostics.csv`) reports the variants: months,
 raising units only, region x month FE, 2010-2019, drop 2020-2021, 24-month
