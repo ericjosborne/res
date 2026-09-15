@@ -30,7 +30,7 @@ ap.add_argument("--ses", default=None, help="rel_low | rel_high: family income b
 ap.add_argument("--query", default=None); ap.add_argument("--tag", default=None); ap.add_argument("--min_post", type=int, default=12, help="events need this many post months in the data")
 a = ap.parse_args()
 
-d = pd.read_csv(CLEAN / "cps_monthly_1624.csv.gz", usecols=lambda c: c in {"year", "month", "ym", "state_fips", "county", "weight", "earnwt", "age", "female", "black", "hispanic", "foreign_born", "faminc", "relate",
+d = pd.read_csv(CLEAN / "cps_monthly_1624.csv.gz", usecols=lambda c: c in {"year", "month", "ym", "state_fips", "county", "weight", "earnwt", "age", "female", "black", "hispanic", "white", "foreign_born", "faminc", "relate",
                                                                             "enrolled", "enr_hs", "enr_college", "enr_ft", "employed", "atwork", "inlf", "unemp", "hours", "hs_grad", "org", "hourwage", "paidhour", "earnweek", "hours_org"})
 if a.ses:
     t = d[d.age.between(16, 19) & (d.faminc < 900)]

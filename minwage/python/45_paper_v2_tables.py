@@ -38,7 +38,7 @@ def table_main(outs, fname, digits=3, group=""):
     (PT / fname).write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Post & Pre & Post & Pre & Post & Pre \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 
-def table_ses(outs, groups, fname, digits=3):
+def table_ses(outs, groups, fname, digits=3, heads=("Low", "High")):
     rows = []
     for y, lab in outs:
         l1, l2 = [lab], [""]
@@ -46,7 +46,7 @@ def table_ses(outs, groups, fname, digits=3):
             for g, _ in groups:
                 b, se, pre, n = simple(f"mw_{a}_{y}_{D}_{g}"); x, y_ = c1(b, se, digits); l1.append(x); l2.append(y_)
         rows += [" & ".join(l1) + " \\\\", " & ".join(l2) + " \\\\"]
-    (PT / fname).write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Low & High & Low & High & Low & High \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
+    (PT / fname).write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & %s & %s & %s & %s & %s & %s \\\\\n\\midrule\n" % (heads * 3) + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 
 def fig_grid(outs, series, fname, ncols, title, ylabel):
@@ -66,30 +66,38 @@ def fig_grid(outs, series, fname, ncols, title, ylabel):
 
 
 AGE_SERIES = [(lambda y, a=a: f"mw_{a}_{y}_{D}", f"Ages {lab.replace('--', '-')}" + (" (pooled)" if a == "1619" else ""), col, off) for (a, lab), col, off in zip(AGES, PALETTE[:3], [-0.15, 0, 0.15])]
-def ses_series(a, groups): return [(lambda y, a=a, g=g: f"mw_{a}_{y}_{D}_{g}", f"{gl} family income", col, off) for (g, gl), col, off in zip(groups, PALETTE[:2], [-0.1, 0.1])]
+def ses_series(a, groups, suffix=" family income"): return [(lambda y, a=a, g=g: f"mw_{a}_{y}_{D}_{g}", f"{gl}{suffix}", col, off) for (g, gl), col, off in zip(groups, PALETTE[:2], [-0.1, 0.1])]
 
 # results, part 1: the four school-work groupings
 table_main(GROUPS + MEMO, "tabR1_groups.tex")
 fig_grid(GROUPS, AGE_SERIES, "figR1_groups.png", 2, "School-work status, 73 events from 2010: event-time effects by age, 95% intervals", "Effect (share)")
 table_ses(GROUPS + MEMO, SES, "tabR2_groups_ses.tex"); table_ses(GROUPS + MEMO, SESREL, "tabA_groups_sesrel.tex")
 table_main(GROUPS + MEMO, "tabR2_groups_low.tex", group="_lowses"); table_main(GROUPS + MEMO, "tabR2_groups_high.tex", group="_highses")  # separate low / high tables, layout of tabR1
+SEX = [("female", "Girls"), ("male", "Boys")]; RACE = [("white", "White"), ("nonwhite", "Non-white")]
+for g, _ in SEX + RACE:
+    table_main(GROUPS + MEMO, f"tabR2_groups_{g}.tex", group=f"_{g}")
+table_ses(WAGE, SEX, "tabR4_wage_sex.tex", heads=("Girls", "Boys")); table_ses(WAGE, RACE, "tabR4_wage_race.tex", heads=("White", "Non-white"))
+for tagn, grp, ttl in (("sex", SEX, "girls vs boys"), ("race", RACE, "non-Hispanic white vs all other")):
+    fig_grid(GROUPS, ses_series("1619", grp, ""), f"figR2_groups_{tagn}.png", 2, f"School-work status by {tagn} ({ttl}), ages 16-19, 95% intervals", "Effect (share)")
 fig_grid(GROUPS, ses_series("1619", SES), "figR2_groups_ses.png", 2, "School-work status by family income (below vs at or above $50,000), ages 16-19, 95% intervals", "Effect (share)")
 fig_grid(GROUPS, ses_series("1619", SESREL), "figA_groups_sesrel.png", 2, "School-work status by family income (within-year median split), ages 16-19, 95% intervals", "Effect (share)")
 # results, part 2: log wages
 table_main(WAGE, "tabR3_wage.tex")
 fig_grid([("log_wage", "Log hourly wage, hourly-paid teens (ORG)")], AGE_SERIES, "figR3_wage.png", 1, "First stage: teen wages, 73 events from 2010, 95% intervals", "Effect (log points)")
 table_ses(WAGE, SES, "tabR4_wage_ses.tex"); table_ses(WAGE, SESREL, "tabA_wage_sesrel.tex")
-fig_grid([(f"log_wage", f"Ages {lab.replace('--', '-')}") for a, lab in AGES], [], "tmp.png", 3, "", "")  # placeholder removed below
-fig, axes = plt.subplots(1, 3, figsize=(15, 4.2), sharey=True)
-for ax, (a, lab) in zip(axes, AGES):
-    for (g, gl), col, off in zip(SES, PALETTE[:2], [-0.1, 0.1]):
-        f = TAB / f"mw_{a}_log_wage_{D}_{g}_event.csv"
-        if not f.exists(): continue
-        E = pd.read_csv(f); ax.errorbar(E.k + off, E.estimate, yerr=1.96 * E.se, fmt="o", color=col, elinewidth=1.8, markersize=5, label=f"{gl} family income")
-    ax.axhline(0, color=INK2, linewidth=1); ax.axvline(-0.5, color=GRID, linewidth=1); ax.set_title(f"Ages {lab.replace('--', '-')}" + (" (pooled)" if a == "1619" else ""), fontsize=10.5, loc="left"); ax.set_xlabel("Years relative to the increase (base: year -1)"); style_axes(ax)
-axes[0].set_ylabel("Effect on log hourly wage"); axes[0].legend(frameon=False, fontsize=9, loc="upper left")
-fig.suptitle("Teen wages by family income (below vs at or above $50,000), 95% intervals", fontsize=10.5, x=0.01, ha="left"); fig.tight_layout(); fig.savefig(PFG / "figR4_wage_ses.png", dpi=200); plt.close(fig)
-(PFG / "tmp.png").unlink(missing_ok=True)
+def wage_fig(groups, suffix, fname, title):
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4.2), sharey=True)
+    for ax, (a, lab) in zip(axes, AGES):
+        for (g, gl), col, off in zip(groups, PALETTE[:2], [-0.1, 0.1]):
+            f = TAB / f"mw_{a}_log_wage_{D}_{g}_event.csv"
+            if not f.exists(): continue
+            E = pd.read_csv(f); ax.errorbar(E.k + off, E.estimate, yerr=1.96 * E.se, fmt="o", color=col, elinewidth=1.8, markersize=5, label=f"{gl}{suffix}")
+        ax.axhline(0, color=INK2, linewidth=1); ax.axvline(-0.5, color=GRID, linewidth=1); ax.set_title(f"Ages {lab.replace('--', '-')}" + (" (pooled)" if a == "1619" else ""), fontsize=10.5, loc="left"); ax.set_xlabel("Years relative to the increase (base: year -1)"); style_axes(ax)
+    axes[0].set_ylabel("Effect on log hourly wage"); axes[0].legend(frameon=False, fontsize=9, loc="upper left")
+    fig.suptitle(title, fontsize=10.5, x=0.01, ha="left"); fig.tight_layout(); fig.savefig(PFG / fname, dpi=200); plt.close(fig)
+wage_fig(SES, " family income", "figR4_wage_ses.png", "Teen wages by family income (below vs at or above $50,000), 95% intervals")
+wage_fig(SEX, "", "figR4_wage_sex.png", "Teen wages by sex (girls vs boys), 95% intervals")
+wage_fig(RACE, "", "figR4_wage_race.png", "Teen wages by race (non-Hispanic white vs all other), 95% intervals")
 
 # appendix: dropout (Smith's outcome), school months, by SES
 rows = []

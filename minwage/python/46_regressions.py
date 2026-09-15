@@ -24,8 +24,9 @@ PF = Path(__file__).resolve().parents[1]; CLEAN = PF / "data" / "clean"; MW = PF
 PRE, POST = 36, 48
 REUSE = "--reuse_stacked" in sys.argv; TABLES_ONLY = "--tables_only" in sys.argv
 OLD = pd.read_csv(TAB / "mw_regressions.csv", dtype={"ages": str}) if REUSE and (TAB / "mw_regressions.csv").exists() else None
+ONLY = [g for g in sys.argv if g.startswith("--only=")]; ONLY = ONLY[0][7:].split(",") if ONLY else None  # --only=female,male: estimate these groups, merge the rest from the csv
 
-d = pd.read_csv(CLEAN / "cps_monthly_1624.csv.gz", usecols=["year", "month", "ym", "state_fips", "county", "weight", "earnwt", "age", "female", "black", "hispanic", "faminc",
+d = pd.read_csv(CLEAN / "cps_monthly_1624.csv.gz", usecols=["year", "month", "ym", "state_fips", "county", "weight", "earnwt", "age", "female", "black", "hispanic", "white", "faminc",
                                                              "enrolled", "employed", "org", "hourwage", "paidhour", "earnweek"])
 d = d[d.age.between(16, 19) & (d.year >= 2010)].copy(); d["county"] = d.county.fillna(0).astype(int)
 U = pd.read_csv(MW / "unit_mw_monthly.csv"); U["ymi"] = U.ym.str[:4].astype(int) * 12 + U.ym.str[5:7].astype(int) - 1
@@ -34,12 +35,14 @@ d = d.merge(U[["unit", "ymi", "mw"]].rename(columns={"unit": "geo", "ymi": "ym"}
 d["enr_emp"] = d.enrolled * d.employed; d["enr_only"] = d.enrolled * (1 - d.employed); d["emp_only"] = (1 - d.enrolled) * d.employed; d["neither"] = (1 - d.enrolled) * (1 - d.employed)
 d["log_wage"] = np.log(d.hourwage.where((d.org == 1) & (d.paidhour == 1) & (d.hourwage > 0))); d["log_earnweek"] = np.log(d.earnweek.where((d.org == 1) & (d.earnweek > 0)))
 d["lowses"] = (d.faminc <= 740).astype(int); d["highses"] = ((d.faminc >= 820) & (d.faminc < 900)).astype(int)
+d["male"] = 1 - d.female; d["nonwhite"] = 1 - d.white
 E = pd.read_csv(MW / "unit_events.csv"); E = E[(E.event_ym >= "2010-01") & (E.pct_window >= 0.05)]; E["ymi"] = E.event_ym.str[:4].astype(int) * 12 + E.event_ym.str[5:7].astype(int) - 1
 geo_state = dict(zip(d.geo, d.state_fips))
 OUT = ["enr_emp", "enr_only", "emp_only", "neither", "enrolled", "employed", "log_wage", "log_earnweek"]
-AGES = {"1617": (16, 17), "1819": (18, 19), "1619": (16, 19)}; GROUPS = {"all": None, "lowses": "lowses", "highses": "highses"}
+AGES = {"1617": (16, 17), "1819": (18, 19), "1619": (16, 19)}; GROUPS = {"all": None, "lowses": "lowses", "highses": "highses", "female": "female", "male": "male", "white": "white", "nonwhite": "nonwhite"}
 rows = []
 for gname, gcol in ({} if TABLES_ONLY else GROUPS).items():
+    if ONLY and gname not in ONLY: continue
     for aname, (a0, a1) in AGES.items():
         s = d[d.age.between(a0, a1)]
         if gcol: s = s[s[gcol] == 1]
@@ -73,7 +76,10 @@ for gname, gcol in ({} if TABLES_ONLY else GROUPS).items():
             rows.append({"group": gname, "ages": aname, "outcome": y, "twfe": b1, "twfe_se": se1, "twfe_school": bs, "twfe_school_se": ses, "twfe_trend": bt, "twfe_trend_se": set_, "stacked": b2, "stacked_se": se2, "n": len(x), "n_events": int(S.event.nunique())})
             print(f"{gname:8s} {aname} {y:13s} TWFE {b1:+.4f} ({se1:.4f})  school {bs:+.4f} ({ses:.4f})  trend {bt:+.4f} ({set_:.4f})  stacked {b2:+.4f} ({se2:.4f})  n={len(x):,} events={S.event.nunique()}", flush=True)
 if TABLES_ONLY: R = pd.read_csv(TAB / "mw_regressions.csv", dtype={"ages": str})
-else: R = pd.DataFrame(rows); R.to_csv(TAB / "mw_regressions.csv", index=False)
+else:
+    R = pd.DataFrame(rows)
+    if ONLY: R = pd.concat([pd.read_csv(TAB / "mw_regressions.csv", dtype={"ages": str}).query("group not in @ONLY"), R], ignore_index=True)
+    R.to_csv(TAB / "mw_regressions.csv", index=False)
 
 # ---- LaTeX tables
 LAB = {"enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_only": "Employed only", "neither": "Neither enrolled nor employed", "enrolled": "Enrolled", "employed": "Employed",
@@ -82,15 +88,15 @@ def st(b, se): z = abs(b / se); return "$^{***}$" if z > 2.576 else "$^{**}$" if
 def get(g, a, y, k): r = R[(R.group == g) & (R.ages == a) & (R.outcome == y)].iloc[0]; return r[k], r[k + "_se"]
 # main-text tables carry the stacked DiD coefficient only; the TWFE (school months) tables go to the appendix.
 # All-months TWFE stays in the csv (twfe) but is not tabulated: the enrollment item records summer school in June-August.
-def tab_rows(outs, fname, key, ses=False):
-    cols = [(g, a) for a in AGES for g in (("lowses", "highses") if ses else ("all",))]
+def tab_rows(outs, fname, key, ses=False, pair=("lowses", "highses"), heads=("Low", "High")):
+    cols = [(g, a) for a in AGES for g in (pair if ses else ("all",))]
     L = []
     for y in outs:
         l1, l2 = [LAB[y]], [""]
         for g, a in cols:
             b, se = get(g, a, y, key); l1.append(f"{b:.3f}{st(b, se)}"); l2.append(f"({se:.3f})")
         L += [" & ".join(l1) + " \\\\", " & ".join(l2) + " \\\\"]
-    if ses: head = "\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Low & High & Low & High & Low & High \\\\\n\\midrule\n"
+    if ses: head = "\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & %s & %s & %s & %s & %s & %s \\\\\n\\midrule\n" % (heads * 3)
     else: head = "\\begin{tabular}{lccc}\n\\toprule\n & Ages 16--17 & Ages 18--19 & Ages 16--19 \\\\\n\\midrule\n"
     (PT / fname).write_text(head + "\n".join(L) + "\n\\bottomrule\n\\end{tabular}\n")
 G6 = ["enr_emp", "enr_only", "emp_only", "neither", "enrolled", "employed"]; G4 = G6[:4]; W = ["log_wage", "log_earnweek"]
@@ -98,4 +104,8 @@ tab_rows(G6, "tabR1b_groups_reg.tex", "stacked"); tab_rows(G4, "tabR2b_groups_se
 tab_rows(W, "tabR3b_wage_reg.tex", "stacked"); tab_rows(W, "tabR4b_wage_ses_reg.tex", "stacked", ses=True)
 tab_rows(G6, "tabT1_groups_twfe.tex", "twfe_school"); tab_rows(G4, "tabT2_groups_ses_twfe.tex", "twfe_school", ses=True)
 tab_rows(W, "tabT3_wage_twfe.tex", "twfe_school"); tab_rows(W, "tabT4_wage_ses_twfe.tex", "twfe_school", ses=True)
+for tagn, pair, heads in (("sex", ("female", "male"), ("Girls", "Boys")), ("race", ("white", "nonwhite"), ("White", "Non-white"))):
+    if not all(((R.group == g).any()) for g in pair): continue
+    tab_rows(G4, f"tabR2b_groups_{tagn}_reg.tex", "stacked", ses=True, pair=pair, heads=heads); tab_rows(W, f"tabR4b_wage_{tagn}_reg.tex", "stacked", ses=True, pair=pair, heads=heads)
+    tab_rows(G4, f"tabT2_groups_{tagn}_twfe.tex", "twfe_school", ses=True, pair=pair, heads=heads); tab_rows(W, f"tabT4_wage_{tagn}_twfe.tex", "twfe_school", ses=True, pair=pair, heads=heads)
 print("done")

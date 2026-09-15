@@ -19,7 +19,7 @@ for ch in pd.read_csv(src, usecols=cols, chunksize=2_000_000):
     n_in += len(ch); ch = ch[ch.AGE.between(16, 24)]
     d = pd.DataFrame({"year": ch.YEAR, "month": ch.MONTH, "state_fips": ch.STATEFIP, "county": ch.COUNTY, "metro": ch.METRO, "faminc": ch.FAMINC,
                       "weight": ch.WTFINL, "cpsidp": ch.CPSIDP, "mish": ch.MISH, "age": ch.AGE, "female": (ch.SEX == 2).astype(np.int8),
-                      "black": (ch.RACE == 200).astype(np.int8), "hispanic": ch.HISPAN.between(1, 899).astype(np.int8), "foreign_born": (ch.NATIVITY == 5).astype(np.int8),
+                      "black": (ch.RACE == 200).astype(np.int8), "hispanic": ch.HISPAN.between(1, 899).astype(np.int8), "white": ((ch.RACE == 100) & ~ch.HISPAN.between(1, 899)).astype(np.int8), "foreign_born": (ch.NATIVITY == 5).astype(np.int8),
                       "relate": ch.RELATE, "educ": ch.EDUC, "schlcoll": ch.SCHLCOLL})
     d["enrolled"] = ch.SCHLCOLL.between(1, 4).astype(np.int8); d.loc[ch.SCHLCOLL == 0, "enrolled"] = -1
     d["enr_hs"] = ch.SCHLCOLL.isin([1, 2]).astype(np.int8); d["enr_college"] = ch.SCHLCOLL.isin([3, 4]).astype(np.int8); d["enr_ft"] = ch.SCHLCOLL.isin([1, 3]).astype(np.int8)

@@ -36,7 +36,7 @@ I investigate the impact of minimum wage changes on teenagers' school--work stat
 
 Consistently across ages, income groups, event sets, control sets and weights, I find that the increases raised teen pay and did not change teen time allocation. Hourly wages of hourly-paid 16--17 year olds rose 5.3 percent (s.e.\ 1.2) and of 18--19 year olds 3.0 percent (s.e.\ 0.9), building to 7 and 5 percent by the third year as the schedules stepped up, with no movement before the event, and the gain reached teens from families below \$50,000 and above it alike. The four school--work states did not move: the share enrolled and employed changed by $-0.3$ points (s.e.\ 0.5) at 16--17 and $+0.7$ (0.6) at 18--19, enrolled only by $-0.0$ (0.6) and $-0.5$ (0.6), employed only by $+0.2$ (0.3) and $+0.3$ (0.7), and neither by $+0.1$ (0.4) and $-0.5$ (0.5). Pre-event coefficients are within a fraction of a point of zero. The same holds within income groups: for teens from families below \$50,000 the four shares change by at most a point, and the shift from enrolled-and-employed to enrolled-only that \citet{neumark2019} attribute to the minimum wage does not appear for any group. High school dropout, the outcome of \citet{smith2021}, does not fall for low-income teens either.
 
-Taken together, the results suggest that the focus of the earlier literature on the teen employment and enrollment effects of the minimum wage may have mistaken the nature of the policy's impact on teens. In the period of the largest increases in American history, the minimum wage functioned as a transfer to teenagers who work, with no offsetting cost in their jobs, their hours, or their schooling, and no measurable benefit to the schooling of the poorest teens. The fall in teen employment since 2000 must be explained by something else. The rest of the paper is organised as follows: Section~\ref{sec:theory} gives the theoretical foundation, Section~\ref{sec:data} the data and the tables of estimates, Section~\ref{sec:design} the empirical strategy, Section~\ref{sec:results} the results, Section~\ref{sec:robust} robustness to alternative units, event sets, controls and weights, Section~\ref{sec:discussion} a discussion, and Section~\ref{sec:conclusion} concludes. The appendix lists the events and reports the two-way fixed effects estimates, heterogeneity by sex and race, an alternative income split, and the dropout outcome.
+Taken together, the results suggest that the focus of the earlier literature on the teen employment and enrollment effects of the minimum wage may have mistaken the nature of the policy's impact on teens. In the period of the largest increases in American history, the minimum wage functioned as a transfer to teenagers who work, with no offsetting cost in their jobs, their hours, or their schooling, and no measurable benefit to the schooling of the poorest teens. The fall in teen employment since 2000 must be explained by something else. The rest of the paper is organised as follows: Section~\ref{sec:theory} gives the theoretical foundation, Section~\ref{sec:data} the data and the tables of estimates, Section~\ref{sec:design} the empirical strategy, Section~\ref{sec:results} the results, Section~\ref{sec:robust} robustness to alternative units, event sets, controls and weights, Section~\ref{sec:discussion} a discussion, and Section~\ref{sec:conclusion} concludes. The appendix collects the post-event average tables, lists the events, and reports the two-way fixed effects estimates, an alternative income split, and the dropout outcome.
 
 \section{Theoretical Foundation}\label{sec:theory}
 
@@ -109,52 +109,6 @@ Figure~\ref{fig:trends} shows the aggregate series. Teen employment fell from 45
 \end{tablenotes}
 \end{table}
 
-Tables~\ref{tab:groups} to \ref{tab:wage} collect the estimates that Section~\ref{sec:results} discusses. Each reports the post-event average effect of the increases, the mean of the relative-year effects for the four years from the increase relative to the year before it, population-weighted across the 73 events from 2010, with the block-bootstrap standard error beneath and the average of the two pre-event coefficients beside it. Table~\ref{tab:groups} gives the four school--work shares, enrollment and employment for all teens by age; Tables~\ref{tab:groupslow} and \ref{tab:groupshigh} repeat it for teens from families with income below \$50,000 and at or above it; Table~\ref{tab:wage} gives the log hourly wage of hourly-paid teens and the log weekly earnings of all teen workers.
-
-\begin{table}[H]
-\centering
-\caption{Effects of minimum wage increases on teen school--work status: post-event averages, 73 events from 2010}
-\label{tab:groups}
-\small
-\input{tables/tabR1_groups}
-\begin{tablenotes}\footnotesize
-\item Post: average of the relative-year effects for years 0--3 after the increase, relative to year $-1$, population-weighted across events; block-bootstrap standard errors over states in parentheses (99 draws). Pre: average of the relative-year effects for years $-3$ and $-2$. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
-\end{tablenotes}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Effects on school--work status, teens from families with income below \$50,000: post-event averages}
-\label{tab:groupslow}
-\small
-\input{tables/tabR2_groups_low}
-\begin{tablenotes}\footnotesize
-\item Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table~\ref{tab:groups}.
-\end{tablenotes}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Effects on school--work status, teens from families with income of \$50,000 or more: post-event averages}
-\label{tab:groupshigh}
-\small
-\input{tables/tabR2_groups_high}
-\begin{tablenotes}\footnotesize
-\item Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table~\ref{tab:groups}.
-\end{tablenotes}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Effects of minimum wage increases on teen wages and earnings: post-event averages, 73 events from 2010}
-\label{tab:wage}
-\small
-\input{tables/tabR3_wage}
-\begin{tablenotes}\footnotesize
-\item Outgoing rotation groups, earnings weights. Hourly wage among workers paid by the hour; weekly earnings among all workers. Block-bootstrap standard errors in parentheses.
-\end{tablenotes}
-\end{table}
-
 \section{Empirical Strategy}\label{sec:design}
 
 \subsection{Units}
@@ -193,10 +147,10 @@ estimated on unit-month cell means stacked over the 73 events, each event contri
 
 \subsection{School and work}
 
-Table~\ref{tab:groups} reports the post-event average effect of the increases on the four school--work shares for ages 16--17, 18--19 and 16--19 pooled, with the average of the pre-event coefficients beside each estimate; the last two rows give enrollment and employment, which are sums of the shares. Nothing moves. The share enrolled and employed changes by $-0.3$ points (s.e.\ 0.5) at 16--17 and $+0.7$ (0.6) at 18--19; enrolled only by $-0.0$ (0.6) and $-0.5$ (0.6); employed only by $+0.2$ (0.3) and $+0.3$ (0.7); neither enrolled nor employed by $+0.1$ (0.4) and $-0.5$ (0.5). Enrollment changes by $-0.3$ (0.4) and $+0.1$ (0.9), so the 95 percent intervals exclude a fall larger than 1.1 points at the younger ages and 1.6 at the older; employment by $-0.1$ (0.5) and $+1.0$ (0.7). The pre-event averages are of the same order as the post-event ones and of no consistent sign.
+Appendix Table~\ref{tab:groups} reports the post-event average effect of the increases on the four school--work shares for ages 16--17, 18--19 and 16--19 pooled, with the average of the pre-event coefficients beside each estimate; the last two rows give enrollment and employment, which are sums of the shares. Nothing moves. The share enrolled and employed changes by $-0.3$ points (s.e.\ 0.5) at 16--17 and $+0.7$ (0.6) at 18--19; enrolled only by $-0.0$ (0.6) and $-0.5$ (0.6); employed only by $+0.2$ (0.3) and $+0.3$ (0.7); neither enrolled nor employed by $+0.1$ (0.4) and $-0.5$ (0.5). Enrollment changes by $-0.3$ (0.4) and $+0.1$ (0.9), so the 95 percent intervals exclude a fall larger than 1.1 points at the younger ages and 1.6 at the older; employment by $-0.1$ (0.5) and $+1.0$ (0.7). The pre-event averages are of the same order as the post-event ones and of no consistent sign.
 
 
-Table~\ref{tab:groupsreg} gives the stacked difference-in-differences coefficients of Section~\ref{sec:reg}, one post-event average per share and age. They reproduce the event-study averages of Table~\ref{tab:groups}: $-0.1$ points (s.e.\ 0.4) for enrolled-and-employed at 16--17 and $+0.4$ (0.5) at 18--19, $-0.0$ (0.5) and $-0.6$ (0.6) for enrolled only, $+0.3$ (0.2) and $+0.5$ (0.6) for employed only, $-0.2$ (0.3) and $-0.3$ (0.4) for neither, and nothing beyond about one standard error from zero for any share or age. The two-way fixed effects regression of the earlier literature, reported in Appendix~\ref{app:twfe}, agrees with these estimates in school months and departs from them only when the summer months, in which the enrollment item records summer school, are included.
+Table~\ref{tab:groupsreg} gives the stacked difference-in-differences coefficients of Section~\ref{sec:reg}, one post-event average per share and age. They reproduce the event-study averages of Appendix Table~\ref{tab:groups}: $-0.1$ points (s.e.\ 0.4) for enrolled-and-employed at 16--17 and $+0.4$ (0.5) at 18--19, $-0.0$ (0.5) and $-0.6$ (0.6) for enrolled only, $+0.3$ (0.2) and $+0.5$ (0.6) for employed only, $-0.2$ (0.3) and $-0.3$ (0.4) for neither, and nothing beyond about one standard error from zero for any share or age. The two-way fixed effects regression of the earlier literature, reported in Appendix~\ref{app:twfe}, agrees with these estimates in school months and departs from them only when the summer months, in which the enrollment item records summer school, are included.
 
 \begin{table}[H]
 \centering
@@ -223,7 +177,7 @@ Figure~\ref{fig:groups} plots the coefficients by relative year for each share a
 
 The theory of Section~\ref{sec:theory} and the evidence of \citet{ehrenberg1982} and \citet{smith2021} put the schooling response, if there is one, among teens from poorer families: the opportunity-cost channel binds hardest where the alternative to school is a minimum wage job, and the liquidity channel operates only where the family cannot pay for school. \citet{smith2021} finds that a 10 percent rise in the state minimum lowers dropout by 0.5 to 1.0 points among teens whose parents lack a diploma and does nothing for the rest. The CPS basic monthly files identify the family's income category, so I split teens by family income below versus at or above \$50,000, close to the median for teen households over the period; Appendix~\ref{app:sesrel} repeats the analysis with a split at the weighted median income category among teens in the same survey year, which removes the drift of a nominal threshold (60 percent of teens were below \$50,000 in 1995, 28 percent in 2024). \citet{smith2021} reports his own estimates with income-percentile splits and finds the effect concentrated in the bottom of the distribution and shrinking as the threshold rises toward the median, so a median split is a test of the same claim at a coarser cut.
 
-Tables~\ref{tab:groupslow} and \ref{tab:groupshigh} give the post-event averages for the four shares by family income and age, and Figure~\ref{fig:groupsses} plots the event-time coefficients for the pooled ages. No share differs by income. For low-income teens, enrolled-and-employed changes by $+0.4$ points (s.e.\ 0.8) at 16--17 and $+0.6$ (0.8) at 18--19, enrolled-only by $-0.5$ (1.0) and $-0.2$ (0.9), employed-only by $-0.2$ (0.4) and $+0.6$ (1.1), neither by $+0.3$ (0.5) and $-1.0$ (0.7); for high-income teens the corresponding figures are $-0.6$ (0.5) and $+0.9$ (0.9), $+0.2$ (0.6) and $-0.6$ (0.8), $+0.5$ (0.3) and $+0.3$ (0.9), $-0.1$ (0.4) and $-0.5$ (0.6). Enrollment among low-income teens changes by $-0.1$ (0.6) at 16--17 and $+0.4$ (1.2) at 18--19. The low-minus-high differences are within one standard error of zero for every share and age, and the within-year median split in the appendix gives the same picture. The prediction of the liquidity channel, a rise in enrollment among poorer teens, does not appear: the low-income enrollment interval at 16--17 excludes a rise larger than 1.1 points.
+Appendix Tables~\ref{tab:groupslow} and \ref{tab:groupshigh} give the post-event averages for the four shares by family income and age, and Figure~\ref{fig:groupsses} plots the event-time coefficients for the pooled ages. No share differs by income. For low-income teens, enrolled-and-employed changes by $+0.4$ points (s.e.\ 0.8) at 16--17 and $+0.6$ (0.8) at 18--19, enrolled-only by $-0.5$ (1.0) and $-0.2$ (0.9), employed-only by $-0.2$ (0.4) and $+0.6$ (1.1), neither by $+0.3$ (0.5) and $-1.0$ (0.7); for high-income teens the corresponding figures are $-0.6$ (0.5) and $+0.9$ (0.9), $+0.2$ (0.6) and $-0.6$ (0.8), $+0.5$ (0.3) and $+0.3$ (0.9), $-0.1$ (0.4) and $-0.5$ (0.6). Enrollment among low-income teens changes by $-0.1$ (0.6) at 16--17 and $+0.4$ (1.2) at 18--19. The low-minus-high differences are within one standard error of zero for every share and age, and the within-year median split in the appendix gives the same picture. The prediction of the liquidity channel, a rise in enrollment among poorer teens, does not appear: the low-income enrollment interval at 16--17 excludes a rise larger than 1.1 points.
 
 
 The stacked coefficients in Table~\ref{tab:groupssesreg} repeat the pattern within each income group. No coefficient is significant at the 5 percent level; the largest is employed-only among high-income 16--17 year olds, $+0.5$ points (s.e.\ 0.3), and the neither share changes by $-0.3$ (0.5) for low-income and $-0.2$ (0.3) for high-income 16--17 year olds.
@@ -246,9 +200,57 @@ The stacked coefficients in Table~\ref{tab:groupssesreg} repeat the pattern with
 \label{fig:groupsses}
 \end{figure}
 
+\subsection{School and work by sex}
+
+Girls and boys differ on both margins that the theory of Section~\ref{sec:theory} turns on. Over 2010--2026, 77 percent of 16--19 year old girls are enrolled and 31 percent employed, against 74 and 29 percent of boys, and hourly-paid girls earn \$10.84 an hour against \$11.71 for boys, so a rise in the minimum binds on more of the jobs girls hold. If the opportunity-cost channel operates, it should show first among girls, whose wage moves more; if the liquidity channel operates, it should show among whichever group is closer to the enrollment margin, which at 18--19 is boys. Appendix Tables~\ref{tab:groupsfemale} and \ref{tab:groupsmale} give the post-event averages for the four shares by sex and age, Table~\ref{tab:groupssexreg} the stacked coefficients, and Figure~\ref{fig:groupssex} the event-time coefficients for the pooled ages.
+
+%%SEX_GROUPS_TEXT%%
+
+\begin{table}[H]
+\centering
+\caption{Stacked difference-in-differences estimates for school--work status by sex}
+\label{tab:groupssexreg}
+\small
+\input{tables/tabR2b_groups_sex_reg}
+\begin{tablenotes}\footnotesize
+\item Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\end{tablenotes}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figR2_groups_sex}
+\caption{Event-time effects on the four school--work shares by sex, ages 16--19}
+\label{fig:groupssex}
+\end{figure}
+
+\subsection{School and work by race}
+
+Non-Hispanic white teens are 53 percent of 16--19 year olds over 2010--2026; the rest are Hispanic (half of the non-white group), Black (a third) and other. The two groups enrol at the same rate, 75 percent, but white teens are employed at 35 percent against 25 percent for non-white teens, and the share neither in school nor at work is 11 against 14 percent. Non-white teens are concentrated in the jurisdictions that raised their minimums, the large states of the West and Northeast and the big-city counties, so they carry more of the weight in the treated population than in the controls, and their families have lower incomes on average, so the liquidity channel, if it operates, should show among them. Appendix Tables~\ref{tab:groupswhite} and \ref{tab:groupsnonwhite} give the post-event averages by race and age, Table~\ref{tab:groupsracereg} the stacked coefficients, and Figure~\ref{fig:groupsrace} the event-time coefficients for the pooled ages.
+
+%%RACE_GROUPS_TEXT%%
+
+\begin{table}[H]
+\centering
+\caption{Stacked difference-in-differences estimates for school--work status by race}
+\label{tab:groupsracereg}
+\small
+\input{tables/tabR2b_groups_race_reg}
+\begin{tablenotes}\footnotesize
+\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\end{tablenotes}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figR2_groups_race}
+\caption{Event-time effects on the four school--work shares by race, ages 16--19}
+\label{fig:groupsrace}
+\end{figure}
+
 \subsection{Wages}
 
-Table~\ref{tab:wage} and Figure~\ref{fig:wage} give the effect on teen pay. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.8 percent in the year of the increase, 6.8 percent in the first full year after it, 5.5 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.7, 3.6, 2.8 and 5.0 percent for 18--19 year olds; pooling the ages, by 0.9, 4.6, 3.6 and 6.0 percent. The post-event averages are 5.3 percent (s.e.\ 1.2), 3.0 percent (0.9) and 3.8 percent (0.9). The year-0 effect is small because that year averages up to eleven pre-increase months with the first months after, and because most schedules add their later steps in years 1 to 3; from year 1 the wage effect is five to seven standard errors from zero and grows with the schedule. The pre-event coefficients are within about one standard error of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 4.9 percent (3.2) at 16--17 and 4.2 percent (2.4) at 18--19, so hours did not fall to offset the wage.
+Appendix Table~\ref{tab:wage} and Figure~\ref{fig:wage} give the effect on teen pay. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.8 percent in the year of the increase, 6.8 percent in the first full year after it, 5.5 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.7, 3.6, 2.8 and 5.0 percent for 18--19 year olds; pooling the ages, by 0.9, 4.6, 3.6 and 6.0 percent. The post-event averages are 5.3 percent (s.e.\ 1.2), 3.0 percent (0.9) and 3.8 percent (0.9). The year-0 effect is small because that year averages up to eleven pre-increase months with the first months after, and because most schedules add their later steps in years 1 to 3; from year 1 the wage effect is five to seven standard errors from zero and grows with the schedule. The pre-event coefficients are within about one standard error of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 4.9 percent (3.2) at 16--17 and 4.2 percent (2.4) at 18--19, so hours did not fall to offset the wage.
 
 The wage gain is about a seventh of the rise in the minimum. That is what one expects: a large share of hourly-paid teens already earn above the old minimum, the minimum binds most for the youngest and least experienced, and the hourly wage question is asked only of those paid by the hour. The point for the rest of the paper is that the events moved the pay of teenagers by an amount that is large relative to the precision of the time-allocation estimates, so the nulls of the previous two subsections are not nulls on the treatment.
 
@@ -306,6 +308,72 @@ The stacked coefficients by income (Table~\ref{tab:wagesesreg}) confirm that the
 \includegraphics[width=\textwidth]{figR4_wage_ses}
 \caption{Event-time effects on the log hourly wage by family income and age}
 \label{fig:wageses}
+\end{figure}
+
+\subsection{Wages by sex}
+
+%%SEX_WAGE_TEXT%%
+
+\begin{table}[H]
+\centering
+\caption{Wages and earnings by sex: post-event averages}
+\label{tab:wagesex}
+\small
+\input{tables/tabR4_wage_sex}
+\begin{tablenotes}\footnotesize
+\item Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Stacked difference-in-differences estimates for wages and earnings by sex}
+\label{tab:wagesexreg}
+\small
+\input{tables/tabR4b_wage_sex_reg}
+\begin{tablenotes}\footnotesize
+\item Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\end{tablenotes}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figR4_wage_sex}
+\caption{Event-time effects on the log hourly wage by sex and age}
+\label{fig:wagesex}
+\end{figure}
+
+\subsection{Wages by race}
+
+%%RACE_WAGE_TEXT%%
+
+\begin{table}[H]
+\centering
+\caption{Wages and earnings by race: post-event averages}
+\label{tab:wagerace}
+\small
+\input{tables/tabR4_wage_race}
+\begin{tablenotes}\footnotesize
+\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Stacked difference-in-differences estimates for wages and earnings by race}
+\label{tab:wageracereg}
+\small
+\input{tables/tabR4b_wage_race_reg}
+\begin{tablenotes}\footnotesize
+\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\end{tablenotes}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figR4_wage_race}
+\caption{Event-time effects on the log hourly wage by race and age}
+\label{fig:wagerace}
 \end{figure}
 
 \section{Robustness}\label{sec:robust}
@@ -444,6 +512,99 @@ This paper estimates the effect of minimum wage increases on the wages and the t
 
 \clearpage
 \appendix
+\section{Post-event average tables}\label{app:tables}
+
+Tables~\ref{tab:groups} to \ref{tab:wage} collect the post-event averages that Section~\ref{sec:results} discusses. Each reports the post-event average effect of the increases, the mean of the relative-year effects for the four years from the increase relative to the year before it, population-weighted across the 73 events from 2010, with the block-bootstrap standard error beneath and the average of the two pre-event coefficients beside it. Table~\ref{tab:groups} gives the four school--work shares, enrollment and employment for all teens by age; Tables~\ref{tab:groupslow} and \ref{tab:groupshigh} repeat it for teens from families with income below \$50,000 and at or above it; Table~\ref{tab:wage} gives the log hourly wage of hourly-paid teens and the log weekly earnings of all teen workers; Tables~\ref{tab:groupsfemale} to \ref{tab:groupsnonwhite} repeat Table~\ref{tab:groups} for girls, boys, non-Hispanic white teens and all other teens.
+
+\begin{table}[H]
+\centering
+\caption{Effects of minimum wage increases on teen school--work status: post-event averages, 73 events from 2010}
+\label{tab:groups}
+\small
+\input{tables/tabR1_groups}
+\begin{tablenotes}\footnotesize
+\item Post: average of the relative-year effects for years 0--3 after the increase, relative to year $-1$, population-weighted across events; block-bootstrap standard errors over states in parentheses (99 draws). Pre: average of the relative-year effects for years $-3$ and $-2$. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Effects on school--work status, teens from families with income below \$50,000: post-event averages}
+\label{tab:groupslow}
+\small
+\input{tables/tabR2_groups_low}
+\begin{tablenotes}\footnotesize
+\item Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table~\ref{tab:groups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Effects on school--work status, teens from families with income of \$50,000 or more: post-event averages}
+\label{tab:groupshigh}
+\small
+\input{tables/tabR2_groups_high}
+\begin{tablenotes}\footnotesize
+\item Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table~\ref{tab:groups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Effects of minimum wage increases on teen wages and earnings: post-event averages, 73 events from 2010}
+\label{tab:wage}
+\small
+\input{tables/tabR3_wage}
+\begin{tablenotes}\footnotesize
+\item Outgoing rotation groups, earnings weights. Hourly wage among workers paid by the hour; weekly earnings among all workers. Block-bootstrap standard errors in parentheses.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Effects on school--work status, girls: post-event averages}
+\label{tab:groupsfemale}
+\small
+\input{tables/tabR2_groups_female}
+\begin{tablenotes}\footnotesize
+\item Post, Pre and standard errors as in Table~\ref{tab:groups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Effects on school--work status, boys: post-event averages}
+\label{tab:groupsmale}
+\small
+\input{tables/tabR2_groups_male}
+\begin{tablenotes}\footnotesize
+\item Post, Pre and standard errors as in Table~\ref{tab:groups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Effects on school--work status, non-Hispanic white teens: post-event averages}
+\label{tab:groupswhite}
+\small
+\input{tables/tabR2_groups_white}
+\begin{tablenotes}\footnotesize
+\item Post, Pre and standard errors as in Table~\ref{tab:groups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Effects on school--work status, Black, Hispanic and other non-white teens: post-event averages}
+\label{tab:groupsnonwhite}
+\small
+\input{tables/tabR2_groups_nonwhite}
+\begin{tablenotes}\footnotesize
+\item Post, Pre and standard errors as in Table~\ref{tab:groups}.
+\end{tablenotes}
+\end{table}
+
+\clearpage
 \section{The events}
 
 \begin{table}[H]
@@ -515,6 +676,52 @@ In school months the school--work coefficients are small and, with one exception
 \end{tablenotes}
 \end{table}
 
+%%TWFE_SEXRACE%%
+
+\begin{table}[H]
+\centering
+\caption{Two-way fixed effects estimates for school--work status by sex, school months}
+\label{tab:twfegroupssex}
+\small
+\input{tables/tabT2_groups_sex_twfe}
+\begin{tablenotes}\footnotesize
+\item Specification as in Table~\ref{tab:twfegroups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Two-way fixed effects estimates for school--work status by race, school months}
+\label{tab:twfegroupsrace}
+\small
+\input{tables/tabT2_groups_race_twfe}
+\begin{tablenotes}\footnotesize
+\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table~\ref{tab:twfegroups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Two-way fixed effects estimates for wages and earnings by sex, school months}
+\label{tab:twfewagesex}
+\small
+\input{tables/tabT4_wage_sex_twfe}
+\begin{tablenotes}\footnotesize
+\item Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:twfegroups}.
+\end{tablenotes}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Two-way fixed effects estimates for wages and earnings by race, school months}
+\label{tab:twfewagerace}
+\small
+\input{tables/tabT4_wage_race_twfe}
+\begin{tablenotes}\footnotesize
+\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:twfegroups}.
+\end{tablenotes}
+\end{table}
+
 Table~\ref{tab:twfediag} re-estimates the coefficient for enrollment and for neither enrolled nor employed under variations of the sample and the fixed effects. Two variations matter. The first is the months. The CPS enrollment item asks whether the respondent attended school last week, and in June to August it records summer school; the coefficients in those three months are two to three times the all-months coefficients, and in September to May the 16--17 coefficients are a fifth of their all-months size and insignificant. The second is the comparison group. Dropping the units whose minimum never changed between 2010 and 2026, the federal-floor states, leaves the coefficients insignificant at every age, on all months and in school months (the school-months, raising-units-only coefficients are $-0.030$ (0.017) and 0.018 (0.015) at 16--17, and $-0.008$ (0.018) and 0.008 (0.010) at 16--19). Region-by-month fixed effects and dropping the pandemic years change little; restricting to 2010--2019 cuts the neither coefficient at 16--19 to a third; a 24-month lead of the log minimum has no predictive power, which is a point in the specification's favour; and unit-specific linear trends remove the neither coefficient at 16--17 while producing implausible positive enrollment effects elsewhere, the pattern \citet{meer2016} describe when trends absorb a trending treatment.
 
 \begin{table}[H]
@@ -528,22 +735,6 @@ Table~\ref{tab:twfediag} re-estimates the coefficient for enrollment and for nei
 \end{tablenotes}
 \end{table}
 
-\section{Heterogeneity by sex and race}\label{app:het}
-
-Table~\ref{tab:het} splits the enrollment estimate by sex and by race and ethnicity. Every cell is within 1.5 points of zero except Black 18--19 year olds, at $+4.3$ (s.e.\ 2.9) with a pre-event average of $+1.7$, and none is within two standard errors of a negative effect. Boys aged 18--19, at $-1.1$ points (s.e.\ 1.0), have a pre-event average of $-2.0$, and girls, at $+1.3$ (1.1), one of $+3.2$; neither is evidence of a response.
-
-\begin{table}[H]
-\centering
-\caption{Heterogeneity in the enrollment effect by sex and race, 73 events from 2010}
-\label{tab:het}
-\small
-\input{tables/tab6_het}
-\begin{tablenotes}\footnotesize
-\item Post: post-event average; Pre: average of years $-3$ and $-2$.
-\end{tablenotes}
-\end{table}
-
-\clearpage
 \section{Socioeconomic standing: within-year median split}\label{app:sesrel}
 
 Tables~\ref{tab:groupssesrel} and \ref{tab:wagesesrel} and Figure~\ref{fig:groupssesrel} repeat Section~\ref{sec:results}'s income split with the threshold set at the weighted median household income category among 16--19 year olds in each survey year, so that the low-income group is the poorer half of teens in every year rather than a nominal band. The results are the same as with the \$50,000 split: the wage gain is 5.0 percent (s.e.\ 1.9) at 16--17 and 4.2 (1.3) at 18--19 for the poorer half against 5.2 (1.4) and 2.2 (0.8) for the richer half, and no school--work share moves in either group at either age.
