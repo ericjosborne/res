@@ -10,7 +10,7 @@ with clean control units in other states in a Callaway-Sant'Anna comparison
 relative to the year before the event (Cengiz, Dube, Lindner and Zipperer 2019
 design). The state design (states as units, 39 events) is in the appendix.
 
-* `paper/minwage_teens.tex` / `.pdf` – the draft paper: Smith-style introduction, two-period theory with the non-competitive case, data and descriptive statistics (including the post-event average tables for the school-work shares, by family income, and wages), empirical strategy (unit design), results (stacked-DiD regression table then event-study figure for each block: school-work shares, by family income, wages, wages by family income), robustness, discussion, conclusion; the events, the two-way fixed effects estimates (school months) with their diagnostics, sex/race heterogeneity, the within-year income split and the dropout outcome in the appendix. Tables and figures: `python/45_paper_v2_tables.py`; the regression tables (two-way fixed effects on the log minimum and stacked difference-in-differences) that precede each event-study figure: `python/46_regressions.py`.
+* `paper/minwage_teens.tex` / `.pdf` – the draft paper: Smith-style introduction, two-period theory with the non-competitive case, data and descriptive statistics, empirical strategy (unit design), results (stacked-DiD regression table then event-study figure for each block: school-work shares for all teens, by family income, by sex, by race; wages for all, by income, by sex, by race), robustness, discussion, conclusion; the post-event average tables, the events, the two-way fixed effects estimates (school months) with their diagnostics, the within-year income split and the dropout outcome in the appendix. Tables and figures: `python/45_paper_v2_tables.py`; the regression tables (two-way fixed effects on the log minimum and stacked difference-in-differences) that precede each event-study figure: `python/46_regressions.py`.
 * `docs/minwage_design.md`, `docs/minwage_results.md` – design memo and results memo.
 * `output/tables/mw_summary.md` – all runs collected; `output/tables/mw_*` per-run event, simple and by-event CSVs; `output/figures/mw_*`.
 
@@ -57,7 +57,8 @@ python python/40_run_ses.py 99; python python/42_run_ses_rel.py 99   # family-in
 python python/43_run_dropout.py 99; python python/44_run_dropout_school.py 99   # dropout outcome (Smith 2021), all months and school months
 python python/45_paper_v2_tables.py          # results tables and figures in the paper's order
 python python/46_regressions.py              # TWFE log-MW (all months, school months) and stacked-DiD regression tables (pyfixest; ~45 min; --reuse_stacked / --tables_only)
-python python/47_twfe_diagnostics.py         # Appendix C: what drives the TWFE enrollment coefficient (months, comparison states, leads, trends)
+python python/47_twfe_diagnostics.py         # appendix: what drives the TWFE enrollment coefficient (months, comparison states, leads, trends)
+python python/48_run_het.py 99                # heterogeneity by sex (girls/boys) and race (non-Hispanic white/other): 96 runs, ~65 min; then 46_regressions.py --reuse_stacked --only=female,male,white,nonwhite
 cd paper && pdflatex minwage_teens.tex && pdflatex minwage_teens.tex
 ```
 

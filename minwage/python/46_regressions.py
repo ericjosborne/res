@@ -58,7 +58,7 @@ for gname, gcol in ({} if TABLES_ONLY else GROUPS).items():
             # (1b) TWFE with unit-specific linear trends
             mt = pf.feols(f"{y} ~ log_mw + C(age) + female + black + hispanic | geo[t] + ym", data=x, weights="w", vcov={"CRV1": "state_fips"})
             bt, set_ = float(mt.coef()["log_mw"]), float(mt.se()["log_mw"])
-            if OLD is not None:
+            if OLD is not None and len(OLD[(OLD.group == gname) & (OLD.ages == aname) & (OLD.outcome == y)]):
                 o = OLD[(OLD.group == gname) & (OLD.ages == aname) & (OLD.outcome == y)].iloc[0]
                 rows.append({"group": gname, "ages": aname, "outcome": y, "twfe": b1, "twfe_se": se1, "twfe_school": bs, "twfe_school_se": ses, "twfe_trend": bt, "twfe_trend_se": set_, "stacked": o.stacked, "stacked_se": o.stacked_se, "n": len(x), "n_events": o.n_events})
                 print(f"{gname:8s} {aname} {y:13s} TWFE {b1:+.4f} ({se1:.4f})  school {bs:+.4f} ({ses:.4f})  trend {bt:+.4f} ({set_:.4f})  stacked (reused) {o.stacked:+.4f} ({o.stacked_se:.4f})  n={len(x):,}", flush=True); continue

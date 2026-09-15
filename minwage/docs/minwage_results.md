@@ -249,3 +249,27 @@ should be replaced by the Stata wild cluster bootstrap
 schooling: it cannot see grade progression, dropout timing or completion,
 so a null here does not rule out effects on attainment measured years
 later, which the ACS or administrative data would be needed to test.
+
+### Heterogeneity by sex and race (September 15)
+
+`python/48_run_het.py` (tags `_unit_female/_male/_white/_nonwhite`; white =
+non-Hispanic white, `white` flag added to the clean file) and the
+corresponding rows of `mw_regressions.csv`. Post-event averages (points):
+
+* Girls 16-17: enrolled-and-employed -1.3 (0.5), employed -1.3 (0.5),
+  enrolled-only +1.2 (0.7), enrollment -0.1 (0.5); pre-event averages 0.0.
+  Boys 16-17: +0.8 (1.0), +1.2 (0.9), -1.2 (1.0), -0.4 (0.6). The one cell in
+  the paper beyond two s.e.; the stacked regression gives -1.3 (0.6) / +1.1
+  (0.7) for girls and +1.1 (0.6) / -1.1 (0.6) for boys, and pooling ages the
+  sexes offset (boys +1.1 (0.5) enr_emp, girls -0.8 (0.4)). Reported as the
+  upper bound of what the design finds: a one-point shift from work-in-school
+  to school-only among the youngest girls, enrollment unchanged.
+* Race: nothing. White 16-17 shares +0.3/-0.2/+0.2/-0.3; non-white
+  -1.2 (0.7)/+0.7/+0.1/+0.3; non-white enrollment -0.4 (0.7) at 16-17,
+  +1.2 (1.0) at 18-19.
+* Wages: girls 5.4 (1.9) / 3.4 (0.9) / 4.1 (1.0), boys 4.7 (1.7) / 2.5 (1.4) /
+  3.5 (1.2); white 4.9 (1.8) / 2.8 (1.3) / 3.6 (1.3), non-white 7.4 (1.6) /
+  3.5 (1.4) / 4.3 (1.2).
+* TWFE school months: neither at 18-19 is 0.040 (0.010) for white vs 0.000
+  (0.007) for non-white teens (the federal-floor residual sits among white
+  teens).
