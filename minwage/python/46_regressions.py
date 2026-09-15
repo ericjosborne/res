@@ -4,6 +4,9 @@
     age, sex, race and ethnicity controls, individual-level, weighted, clustered by state (the Neumark-Shupe / Smith
     specification, on the 2010-2026 sample).  Coefficient = effect of a 100 log-point rise; x 0.32 for the average
     event (38 percent, ln 1.38 = 0.32).
+(1a) The same on school months only (September-May), because the CPS enrollment item asks about attendance last
+    week and in June-August measures summer school (63 percent of 16-17 year olds report enrollment in summer against
+    93 percent in school months); the all-months TWFE enrollment effect is a summer-months effect.
 (1b) The same with unit-specific linear trends (geo[t]), which absorb differential long-run trends between high- and
     low-minimum units.
 (2) Stacked difference-in-differences: unit-month cell means stacked over the 73 events (treated unit and its clean
@@ -45,13 +48,17 @@ for gname, gcol in ({} if TABLES_ONLY else GROUPS).items():
             # (1) TWFE
             m = pf.feols(f"{y} ~ log_mw + C(age) + female + black + hispanic | geo + ym", data=x, weights="w", vcov={"CRV1": "state_fips"})
             b1, se1 = float(m.coef()["log_mw"]), float(m.se()["log_mw"])
+            # (1a) TWFE on school months only
+            xs = x[(x.month <= 5) | (x.month >= 9)]
+            ms = pf.feols(f"{y} ~ log_mw + C(age) + female + black + hispanic | geo + ym", data=xs, weights="w", vcov={"CRV1": "state_fips"})
+            bs, ses = float(ms.coef()["log_mw"]), float(ms.se()["log_mw"])
             # (1b) TWFE with unit-specific linear trends
             mt = pf.feols(f"{y} ~ log_mw + C(age) + female + black + hispanic | geo[t] + ym", data=x, weights="w", vcov={"CRV1": "state_fips"})
             bt, set_ = float(mt.coef()["log_mw"]), float(mt.se()["log_mw"])
             if OLD is not None:
                 o = OLD[(OLD.group == gname) & (OLD.ages == aname) & (OLD.outcome == y)].iloc[0]
-                rows.append({"group": gname, "ages": aname, "outcome": y, "twfe": b1, "twfe_se": se1, "twfe_trend": bt, "twfe_trend_se": set_, "stacked": o.stacked, "stacked_se": o.stacked_se, "n": len(x), "n_events": o.n_events})
-                print(f"{gname:8s} {aname} {y:13s} TWFE {b1:+.4f} ({se1:.4f})  trend {bt:+.4f} ({set_:.4f})  stacked (reused) {o.stacked:+.4f} ({o.stacked_se:.4f})  n={len(x):,}", flush=True); continue
+                rows.append({"group": gname, "ages": aname, "outcome": y, "twfe": b1, "twfe_se": se1, "twfe_school": bs, "twfe_school_se": ses, "twfe_trend": bt, "twfe_trend_se": set_, "stacked": o.stacked, "stacked_se": o.stacked_se, "n": len(x), "n_events": o.n_events})
+                print(f"{gname:8s} {aname} {y:13s} TWFE {b1:+.4f} ({se1:.4f})  school {bs:+.4f} ({ses:.4f})  trend {bt:+.4f} ({set_:.4f})  stacked (reused) {o.stacked:+.4f} ({o.stacked_se:.4f})  n={len(x):,}", flush=True); continue
             # (2) stacked DiD on unit-month cells
             x["_wy"] = x.w * x[y]; c = x.groupby(["geo", "ym"]).agg(wy=("_wy", "sum"), w=("w", "sum")).reset_index(); c["ybar"] = c.wy / c.w
             parts = []
@@ -63,8 +70,8 @@ for gname, gcol in ({} if TABLES_ONLY else GROUPS).items():
             S = pd.concat(parts, ignore_index=True); S["eg"] = S.event.astype(str) + "_" + S.geo.astype(str); S["et"] = S.event.astype(str) + "_" + S.ym.astype(str); S["state"] = S.geo.map(geo_state)
             m2 = pf.feols("ybar ~ post | eg + et", data=S, weights="w", vcov={"CRV1": "state"})
             b2, se2 = float(m2.coef()["post"]), float(m2.se()["post"])
-            rows.append({"group": gname, "ages": aname, "outcome": y, "twfe": b1, "twfe_se": se1, "twfe_trend": bt, "twfe_trend_se": set_, "stacked": b2, "stacked_se": se2, "n": len(x), "n_events": int(S.event.nunique())})
-            print(f"{gname:8s} {aname} {y:13s} TWFE {b1:+.4f} ({se1:.4f})  trend {bt:+.4f} ({set_:.4f})  stacked {b2:+.4f} ({se2:.4f})  n={len(x):,} events={S.event.nunique()}", flush=True)
+            rows.append({"group": gname, "ages": aname, "outcome": y, "twfe": b1, "twfe_se": se1, "twfe_school": bs, "twfe_school_se": ses, "twfe_trend": bt, "twfe_trend_se": set_, "stacked": b2, "stacked_se": se2, "n": len(x), "n_events": int(S.event.nunique())})
+            print(f"{gname:8s} {aname} {y:13s} TWFE {b1:+.4f} ({se1:.4f})  school {bs:+.4f} ({ses:.4f})  trend {bt:+.4f} ({set_:.4f})  stacked {b2:+.4f} ({se2:.4f})  n={len(x):,} events={S.event.nunique()}", flush=True)
 if TABLES_ONLY: R = pd.read_csv(TAB / "mw_regressions.csv", dtype={"ages": str})
 else: R = pd.DataFrame(rows); R.to_csv(TAB / "mw_regressions.csv", index=False)
 
@@ -73,7 +80,7 @@ LAB = {"enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_onl
        "log_wage": "Log hourly wage, hourly paid", "log_earnweek": "Log weekly earnings"}
 def st(b, se): z = abs(b / se); return "$^{***}$" if z > 2.576 else "$^{**}$" if z > 1.96 else "$^{*}$" if z > 1.645 else ""
 def get(g, a, y, k): r = R[(R.group == g) & (R.ages == a) & (R.outcome == y)].iloc[0]; return r[k], r[k + "_se"]
-ROWS = (("twfe", "TWFE, log minimum wage"), ("stacked", "Stacked DiD, post $\\times$ treated"))
+ROWS = (("twfe", "TWFE, log minimum wage, all months"), ("twfe_school", "TWFE, log minimum wage, school months"), ("stacked", "Stacked DiD, post $\\times$ treated"))
 # the unit-linear-trend TWFE (twfe_trend) stays in the csv but not in the paper tables: with a treatment that trends
 # within units, unit trends absorb the treatment path and the residual estimates are erratic (Meer and West 2016).
 def block(y, cols):

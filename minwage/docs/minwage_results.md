@@ -67,6 +67,25 @@ wage 0.30 (0.03) at 16-19: trends absorb a trending treatment, Meer and West
 2016); those numbers are in the csv (`twfe_trend`) and a footnote, not in
 the tables.
 
+**Update (September 15): the TWFE enrollment coefficient is a summer-months
+effect.** The CPS enrollment item asks about attendance last week; in
+June-August it records summer school (63 percent of 16-17 year olds report
+enrollment in summer vs 93 percent in school months). On school months
+(Sept-May) the TWFE coefficients at 16-17 are enrolled -0.006 (0.010) and
+neither +0.006 (0.008), a fifth of the all-months values; in June-August
+alone they are -0.067 (0.029) and +0.067 (0.017). What survives in school
+months (neither +0.017 (0.006) at 18-19, +0.012 (0.003) pooled) rests on the
+comparison of raising units with the federal-floor states: among units whose
+minimum changed at all in 2010-2026 the school-months coefficients are
+-0.005 (0.017) at 18-19 and +0.008 (0.010) pooled. The wage elasticities are
+identical on school months and all months (0.22 vs 0.23 at 16-17). The
+regression tables now carry three rows (TWFE all months, TWFE school months,
+stacked DiD; `python/46_regressions.py`), and Appendix C of the paper
+(`python/47_twfe_diagnostics.py`, `paper/tables/tabA_twfe_diag.tex`,
+`output/tables/mw_twfe_diagnostics.csv`) reports the variants: months,
+raising units only, region x month FE, 2010-2019, drop 2020-2021, 24-month
+lead placebo (no predictive power), unit trends (erratic).
+
 ## 1. Headline (state design, first pass)
 
 The increases raised teen pay and changed nothing else. Hourly wages of

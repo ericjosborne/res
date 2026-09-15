@@ -56,7 +56,8 @@ python python/35_paper_tables.py             # summary, events, robustness and h
 python python/40_run_ses.py 99; python python/42_run_ses_rel.py 99   # family-income splits (nominal, within-year median)
 python python/43_run_dropout.py 99; python python/44_run_dropout_school.py 99   # dropout outcome (Smith 2021), all months and school months
 python python/45_paper_v2_tables.py          # results tables and figures in the paper's order
-python python/46_regressions.py              # TWFE log-MW and stacked-DiD regression tables (pyfixest; ~45 min; --tables_only rebuilds the tex from the csv)
+python python/46_regressions.py              # TWFE log-MW (all months, school months) and stacked-DiD regression tables (pyfixest; ~45 min; --reuse_stacked / --tables_only)
+python python/47_twfe_diagnostics.py         # Appendix C: what drives the TWFE enrollment coefficient (months, comparison states, leads, trends)
 cd paper && pdflatex minwage_teens.tex && pdflatex minwage_teens.tex
 ```
 
