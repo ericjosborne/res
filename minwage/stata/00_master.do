@@ -20,5 +20,7 @@ log using "$LOG/master.log", replace text
 do "$ROOT/stata/30_build_cps_monthly.do"
 * the event list is built by python/31_build_mw_events.py (data/raw/minwage/mw_events.csv)
 do "$ROOT/stata/32_stacked_csdid.do"
+* the unit panel is built by python/38_unit_panel.py (data/raw/minwage/unit_mw_monthly.csv)
+do "$ROOT/stata/46_twfe.do"
 
 log close

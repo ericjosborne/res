@@ -70,7 +70,7 @@ do-files have not been executed (no Stata in the build environment).
 ```
 python/   30_build_cps_monthly.py  31_build_mw_events.py  32_stacked_events.py  33_run_minwage.py  34_summarise_minwage.py  35_paper_tables.py
           36_substate.py  37_run_substate.py  38_unit_panel.py  39_run_units.py  aelib.py
-stata/    00_master.do  30_build_cps_monthly.do  32_stacked_csdid.do
+stata/    00_master.do  30_build_cps_monthly.do  32_stacked_csdid.do  46_twfe.do
 data/     raw/minwage/ (change lists, panel, events)  raw/monthly/ (extract, not committed)  clean/ (teen file, not committed)
 output/   tables/ (mw_<ages>_<outcome>_<eventset>[_variant]_{event,simple,byevent}.csv; mw_summary.md)  figures/
 docs/     minwage_design.md  minwage_results.md
