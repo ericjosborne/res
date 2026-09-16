@@ -273,3 +273,7 @@ corresponding rows of `mw_regressions.csv`. Post-event averages (points):
 * TWFE school months: neither at 18-19 is 0.040 (0.010) for white vs 0.000
   (0.007) for non-white teens (the federal-floor residual sits among white
   teens).
+
+### Time window (September 16)
+
+Everything in the paper is now restricted to the window of the main design: 73 events from January 2010 to March 2025, observations January 2007 to August 2026 (3.08 million person-months aged 16-24). The descriptive figures run 2007-2025, the robustness table no longer carries the all-events (1994-2025) and pre-2010 rows, and the text no longer quotes estimates or sample counts from before 2007; the pre-2000 decline in teen employment is mentioned only as background from the published CPS series.

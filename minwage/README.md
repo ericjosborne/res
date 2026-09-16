@@ -48,7 +48,7 @@ pip install -r requirements.txt
 python python/30_build_cps_monthly.py        # streams the extract, keeps ages 16-24
 python python/31_build_mw_events.py          # minimum wage panel and event list
 python python/38_unit_panel.py               # unit-level panel and events (run before the battery)
-python python/33_run_minwage.py --B 99 --P 4 # 105 unit-design runs, ~40 min; --design post2009 for the state design
+python python/33_run_minwage.py --B 99 --P 4 # 105 unit-design runs, ~40 min; --design post2009 for the state design (the _all and _pre2010 variants are no longer in the paper: everything is restricted to 2010+ events, observations 2007-2026)
 python python/36_substate.py                 # county minimum wage panel (input to 38); contamination flags; local events
 python python/37_run_substate.py 99          # optional: cleaned-control and treated-split checks on the state design
 python python/34_summarise_minwage.py        # mw_summary.md and the main figures
