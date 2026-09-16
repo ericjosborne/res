@@ -57,7 +57,25 @@ s = re.sub(r"\\bibitem\[[^\]]+\]\{[^}]+\}\s*", "\\\\noindent ", s)
 s = re.sub(r"\\cmidrule\([^)]*\)\{[^}]*\}", "", s)  # pandoc does not know booktabs cmidrule
 # wider first column for tables (pandoc takes relative widths from p{} specs)
 s = re.sub(r"\\begin\{tabular\}\{l(c+)\}", lambda m: "\\begin{tabular}{p{0.30\\textwidth}" + "".join("p{%.3f\\textwidth}" % (0.68 / len(m.group(1))) for _ in m.group(1)) + "}", s)
+s = re.sub(r"\$\^\{(\*+)\}\$", lambda m: "\\textsuperscript{" + m.group(1) + "}", s)  # significance stars as text superscripts
 # 8. misc
 s = s.replace("\\captionsetup{font=small,labelfont=bf}", "").replace("\\onehalfspacing", "").replace("\\graphicspath{{figures/}}", "")
 s = s.replace("\\clearpage", "").replace("[H]", "")
 (P / "minwage_teens_pandoc.tex").write_text(s); print("prepared", len(s))
+
+if "--post" in sys.argv:  # after pandoc: widen the first column of every table (pandoc ignores p{} widths)
+    import zipfile, shutil
+    src = P / "minwage_teens.docx"; tmp = P / "minwage_teens_tmp.docx"
+    zin = zipfile.ZipFile(src); zout = zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED)
+    for item in zin.infolist():
+        data = zin.read(item.filename)
+        if item.filename == "word/document.xml":
+            x = data.decode()
+            def grid(m):
+                n = len(re.findall(r"<w:gridCol", m.group(1))); W = 9360; first = int(W * 0.30); rest = (W - first) // max(n - 1, 1)
+                return "<w:tblGrid>" + '<w:gridCol w:w="%d"/>' % first + ''.join('<w:gridCol w:w="%d"/>' % rest for _ in range(n - 1)) + "</w:tblGrid>"
+            x = re.sub(r"<w:tblGrid>(.*?)</w:tblGrid>", grid, x)
+            x = x.replace('<w:tblW w:type="auto" w:w="0" />', '<w:tblW w:type="dxa" w:w="9360" />')
+            data = x.encode()
+        zout.writestr(item, data)
+    zin.close(); zout.close(); shutil.move(tmp, src); print("post-processed", src.name)
