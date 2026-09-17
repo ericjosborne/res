@@ -138,10 +138,10 @@ Identification requires that, absent the increase, teens in the treated unit wou
 
 Each event-study figure is preceded by a table with the stacked regression form of the event design \citep{cengiz2019}:
 \begin{equation}
-\bar{y}_{e,u,t} = \delta\, \mathrm{Post}_{e,t} \times \mathrm{Treated}_{e,u} + \alpha_{e,u} + \lambda_{e,t} + \varepsilon_{e,u,t},
+y_{i,e,t} = \delta\, \mathrm{Post}_{e,t} \times \mathrm{Treated}_{e,u(i)} + X_i'\gamma + \alpha_{e,u(i)} + \lambda_{e,t} + \varepsilon_{i,e,t},
 \label{eq:stacked}
 \end{equation}
-estimated on unit-month cell means stacked over the 73 events, each event contributing its treated unit and its clean controls over the 84 months from $-36$ to $+47$, with event-by-unit and event-by-month fixed effects, cells weighted by their population, and standard errors clustered by state. $\delta$ is a single post-event average on the same footing as the mean of $\hat\tau_0$ to $\hat\tau_3$; it differs from that mean in taking all 36 pre-event months rather than the twelve of year $-1$ as the base, and in weighting by cell population within the regression rather than by treated population across events, so the two need not coincide exactly. Appendix~\ref{app:twfe} reports the two-way fixed effects regression of the outcome on the log minimum wage, the specification of \citet{neumark2019} and \citet{smith2021}, and shows where it agrees with the event design and where it does not.
+estimated on every teen observation in the 84 months from $-36$ to $+47$ around each of the 73 events, the treated unit and its clean controls, with event-by-unit and event-by-month fixed effects, dummies for single year of age, sex, race and Hispanic origin (non-Hispanic white, Black, Hispanic, other) and the CPS family income category, survey weights, and standard errors clustered by state. The stacked file has 6.8 million observations at 16--17, 6.3 million at 18--19 and 13.1 million pooled, built from 620,000, 554,000 and 1.17 million teen-months, each control unit's teens entering the blocks of every event for which the unit is a clean control. $\delta$ is a single post-event average on the same footing as the mean of $\hat\tau_0$ to $\hat\tau_3$; it differs from that mean in taking all 36 pre-event months rather than the twelve of year $-1$ as the base, in weighting observations rather than events, and in the individual controls, so the two need not coincide exactly. Without the controls the regression is numerically the regression on unit-month cell means, and the controls move no coefficient by more than a tenth of a point. Appendix~\ref{app:twfe} reports the two-way fixed effects regression of the outcome on the log minimum wage, the specification of \citet{neumark2019} and \citet{smith2021}, and shows where it agrees with the event design and where it does not.
 
 \section{Results}\label{sec:results}
 
@@ -159,7 +159,7 @@ Table~\ref{tab:groupsreg} gives the stacked difference-in-differences coefficien
 \small
 \input{tables/tabR1b_groups_reg}
 \begin{tablenotes}\footnotesize
-\item Coefficient on post $\times$ treated in regression~\eqref{eq:stacked}: unit-month cells stacked over the 73 events with their clean controls, 36 months before to 47 months after the increase, event-by-unit and event-by-month fixed effects, population weights. Standard errors clustered by state in parentheses. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
+\item Coefficient on post $\times$ treated in regression~\eqref{eq:stacked}: teen observations stacked over the 73 events with their clean controls, 36 months before to 47 months after the increase, event-by-unit and event-by-month fixed effects, dummies for age, sex, race and Hispanic origin and family income category, survey weights. Standard errors clustered by state in parentheses. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
 \end{tablenotes}
 \end{table}
 
