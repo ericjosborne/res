@@ -5,7 +5,7 @@
 *==============================================================================
 version 16
 import delimited "$RAW/monthly/cps_00091.csv", clear varnames(1) case(lower)
-keep if inrange(age, 16, 24)
+keep if inrange(age, 16, 24) & inrange(year, 2010, 2025)   // analysis window, as in python/30_build_cps_monthly.py
 rename (statefip wtfinl) (state_fips weight)
 gen ym = year * 12 + month - 1
 gen enrolled = inrange(schlcoll, 1, 4) if schlcoll != 0

@@ -24,17 +24,17 @@ def cell(b, se, d=3):
     return f"{b:.{d}f}{st(b, se)}" if not np.isnan(b) else "", f"({se:.{d}f})" if not np.isnan(se) else ""
 
 
-# ---- descriptive figure: teen employment, enrollment and status, 2007-2025 (the observation window of the 2010+ events) -------------------------------
+# ---- descriptive figure: teen employment, enrollment and status, 2010-2025 (the observation window of the 2010+ events) -------------------------------
 d = pd.read_csv(PF / "data" / "clean" / "cps_monthly_1624.csv.gz", usecols=["year", "age", "weight", "enrolled", "employed", "inlf", "state_fips"])
 t = d[d.age.between(16, 19)].copy(); t["enr_emp"] = t.enrolled * t.employed; t["enr_only"] = t.enrolled * (1 - t.employed); t["emp_only"] = (1 - t.enrolled) * t.employed; t["neither"] = (1 - t.enrolled) * (1 - t.employed)
 wm = lambda g, y: np.average(g[y], weights=g.weight)
 fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
 for a, col in [((16, 17), PALETTE[0]), ((18, 19), PALETTE[1])]:
     s = t[t.age.between(*a)].groupby("year").apply(lambda g: pd.Series({"employed": wm(g, "employed"), "enrolled": wm(g, "enrolled")}))
-    s = s[(s.index >= 2007) & (s.index <= 2025)]
+    s = s[(s.index >= 2010) & (s.index <= 2025)]
     axes[0].plot(s.index, s.employed, marker="o", ms=3, color=col, label=f"Employed, {a[0]}-{a[1]}"); axes[0].plot(s.index, s.enrolled, marker="s", ms=3, color=col, linestyle="--", label=f"Enrolled, {a[0]}-{a[1]}")
 axes[0].set_title("Employment and school enrollment, ages 16-19", fontsize=10.5, loc="left"); axes[0].legend(frameon=False, fontsize=8.5, ncol=2, loc="center right"); axes[0].set_ylim(0, 1); style_axes(axes[0])
-s = t.groupby("year").apply(lambda g: pd.Series({k: wm(g, k) for k in ["enr_emp", "enr_only", "emp_only", "neither"]})); s = s[(s.index >= 2007) & (s.index <= 2025)]
+s = t.groupby("year").apply(lambda g: pd.Series({k: wm(g, k) for k in ["enr_emp", "enr_only", "emp_only", "neither"]})); s = s[(s.index >= 2010) & (s.index <= 2025)]
 for k, lab, col in [("enr_emp", "Enrolled and employed", PALETTE[0]), ("enr_only", "Enrolled only", PALETTE[1]), ("emp_only", "Employed only", PALETTE[2]), ("neither", "Neither", PALETTE[3])]:
     axes[1].plot(s.index, s[k], marker="o", ms=3, color=col, label=lab)
 axes[1].set_title("School-work status, ages 16-19", fontsize=10.5, loc="left"); axes[1].legend(frameon=False, fontsize=8.5); style_axes(axes[1])
@@ -46,12 +46,12 @@ fig.tight_layout(); fig.savefig(P / "figures" / "fig1_trends.png", dpi=200)
 mw = pd.read_csv(MW / "state_mw_monthly.csv"); mw["year"] = mw.ym.str[:4].astype(int)
 pop = t.groupby("state_fips").weight.sum(); mw["pop"] = mw.state_fips.map(pop).fillna(0)
 ann = mw.groupby("year").apply(lambda g: pd.Series({"mean_mw": np.average(g.mw, weights=g["pop"]), "share_above": np.average((g.mw > g.mw_federal + 0.01).astype(float), weights=g["pop"])}))
-ann = ann[(ann.index >= 2007) & (ann.index <= 2025)]
-E = pd.read_csv(MW / "mw_events.csv"); E = E[E.federal_induced == 0]; E["year"] = E.event_ym.str[:4].astype(int); E = E[E.year >= 2007]
+ann = ann[(ann.index >= 2010) & (ann.index <= 2025)]
+E = pd.read_csv(MW / "mw_events.csv"); E = E[E.federal_induced == 0]; E["year"] = E.event_ym.str[:4].astype(int); E = E[E.year >= 2010]
 fig, ax = plt.subplots(figsize=(7.5, 4)); ax2 = ax.twinx()
 ax.plot(ann.index, ann.mean_mw, color=PALETTE[0], marker="o", ms=3, label="Population-weighted effective minimum ($)"); ax.set_ylabel("Dollars")
 ax2.bar(E.groupby("year").size().index, E.groupby("year").size().values, color=PALETTE[1], alpha=0.5, label="Events (state increases of 5%+ after 3 quiet years)"); ax2.set_ylabel("Number of events")
-ax.set_xlabel("Year"); ax.set_title("Minimum wages and the event calendar, 2007-2025", fontsize=10.5, loc="left"); style_axes(ax); ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+ax.set_xlabel("Year"); ax.set_title("Minimum wages and the event calendar, 2010-2025", fontsize=10.5, loc="left"); style_axes(ax); ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 h1, l1 = ax.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels(); ax.legend(h1 + h2, l1 + l2, frameon=False, fontsize=8.5, loc="upper left")
 fig.tight_layout(); fig.savefig(P / "figures" / "fig2_minwage.png", dpi=200)
 

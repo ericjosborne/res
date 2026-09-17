@@ -16,7 +16,7 @@ cols = ["YEAR", "MONTH", "STATEFIP", "COUNTY", "METRO", "FAMINC", "WTFINL", "CPS
         "ELIGORG", "EARNWT", "PAIDHOUR", "HOURWAGE", "HOURWAGE2", "EARNWEEK", "EARNWEEK2", "UHRSWORKORG"]
 out = CLEAN / "cps_monthly_1624.csv.gz"; parts = []; n_in = 0
 for ch in pd.read_csv(src, usecols=cols, chunksize=2_000_000):
-    n_in += len(ch); ch = ch[ch.AGE.between(16, 24)]
+    n_in += len(ch); ch = ch[ch.AGE.between(16, 24) & ch.YEAR.between(2010, 2025)]   # analysis window: January 2010 to December 2025, for every estimate, table and figure
     d = pd.DataFrame({"year": ch.YEAR, "month": ch.MONTH, "state_fips": ch.STATEFIP, "county": ch.COUNTY, "metro": ch.METRO, "faminc": ch.FAMINC,
                       "weight": ch.WTFINL, "cpsidp": ch.CPSIDP, "mish": ch.MISH, "age": ch.AGE, "female": (ch.SEX == 2).astype(np.int8),
                       "black": (ch.RACE == 200).astype(np.int8), "hispanic": ch.HISPAN.between(1, 899).astype(np.int8), "white": ((ch.RACE == 100) & ~ch.HISPAN.between(1, 899)).astype(np.int8), "foreign_born": (ch.NATIVITY == 5).astype(np.int8),
