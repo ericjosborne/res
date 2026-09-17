@@ -92,12 +92,12 @@ rows = [f"{uname(r)} & {r.source} & {r.event_ym} & {r.mw_before:.2f} & {r.mw_fir
 E2 = E[E.event_ym >= "2010-01"].sort_values("event_ym")
 
 # ---- Table 2: summary statistics, year before the event, treated states vs clean controls ---------------------
-dd = pd.read_csv(PF / "data" / "clean" / "cps_monthly_1624.csv.gz", usecols=["ym", "age", "weight", "state_fips", "female", "black", "hispanic", "enrolled", "employed", "inlf", "hours", "org", "earnwt", "hourwage", "paidhour"])
-dd = dd[dd.age.between(16, 19)]; dd["enr_emp"] = dd.enrolled * dd.employed; dd["enr_only"] = dd.enrolled * (1 - dd.employed); dd["emp_only"] = (1 - dd.enrolled) * dd.employed; dd["neither"] = (1 - dd.enrolled) * (1 - dd.employed)
-E2["ym_idx"] = E2.event_ym.str[:4].astype(int) * 12 + E2.event_ym.str[5:7].astype(int) - 1
+dd = pd.read_csv(PF / "data" / "clean" / "cps_monthly_1624.csv.gz", usecols=["ym", "age", "weight", "state_fips", "county", "female", "black", "hispanic", "enrolled", "employed", "inlf", "hours", "org", "earnwt", "hourwage", "paidhour"])
+dd = dd[dd.age.between(16, 19)]; dd["county"] = dd.county.fillna(0).astype(int); dd["geo"] = np.where(dd.county.isin(set(UE.unit[UE.kind == "county"]) | set(pd.read_csv(MW / "unit_mw_monthly.csv", usecols=["unit", "kind"]).query("kind == 'county'").unit)), dd.county, dd.state_fips); dd["enr_emp"] = dd.enrolled * dd.employed; dd["enr_only"] = dd.enrolled * (1 - dd.employed); dd["emp_only"] = (1 - dd.enrolled) * dd.employed; dd["neither"] = (1 - dd.enrolled) * (1 - dd.employed)
+UE2 = UE.copy(); UE2["ym_idx"] = UE2.event_ym.str[:4].astype(int) * 12 + UE2.event_ym.str[5:7].astype(int) - 1
 tr, ct = [], []
-for r in E2.itertuples():
-    pre = dd[dd.ym.between(r.ym_idx - 12, r.ym_idx - 1)]; tr.append(pre[pre.state_fips == r.state_fips]); ct.append(pre[pre.state_fips.isin([int(x) for x in str(r.controls).split()])])   # summary statistics by state, as in the state design
+for r in UE2.itertuples():  # the 73 unit events of the main design: treated unit vs its clean control units, twelve months before the event
+    pre = dd[dd.ym.between(r.ym_idx - 12, r.ym_idx - 1)]; tr.append(pre[pre.geo == r.unit]); ct.append(pre[pre.geo.isin([int(x) for x in str(r.controls).split()])])
 tr = pd.concat(tr); ct = pd.concat(ct)
 def stats(x, band):
     x = x[x.age.between(*band)]; w = x.weight; o = {}
@@ -111,7 +111,7 @@ rows = []
 for k, lab in LABS.items():
     fmt = (lambda v: f"{v:,.0f}") if k == "n" else (lambda v: f"{v:.2f}") if k in ("hours", "hourwage") else (lambda v: f"{v:.3f}")
     rows.append(f"{lab} & " + " & ".join(fmt(c[k]) for c in cols) + " \\\\")
-(P / "tables" / "tab2_summary.tex").write_text("\\begin{tabular}{lrrrr}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\n & Event states & Controls & Event states & Controls \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
+(P / "tables" / "tab2_summary.tex").write_text("\\begin{tabular}{lrrrr}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\n & Event units & Controls & Event units & Controls \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 # ---- Table 3: main results ---------------------------------------------------------------------------------
 OUT = [("log_wage", "Log hourly wage, hourly paid (ORG)"), ("log_earnweek", "Log weekly earnings (ORG)"), ("enrolled", "Enrolled in school"), ("enr_hs", "Enrolled in high school"), ("enr_ft", "Enrolled full time"),
