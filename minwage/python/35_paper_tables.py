@@ -24,23 +24,24 @@ def cell(b, se, d=3):
     return f"{b:.{d}f}{st(b, se)}" if not np.isnan(b) else "", f"({se:.{d}f})" if not np.isnan(se) else ""
 
 
-# ---- descriptive figure: teen employment, enrollment and status, 2010-2025 (the observation window of the 2010+ events) -------------------------------
-d = pd.read_csv(PF / "data" / "clean" / "cps_monthly_1624.csv.gz", usecols=["year", "age", "weight", "enrolled", "employed", "inlf", "state_fips"])
-t = d[d.age.between(16, 19)].copy(); t["enr_emp"] = t.enrolled * t.employed; t["enr_only"] = t.enrolled * (1 - t.employed); t["emp_only"] = (1 - t.enrolled) * t.employed; t["neither"] = (1 - t.enrolled) * (1 - t.employed)
-wm = lambda g, y: np.average(g[y], weights=g.weight)
+# ---- descriptive figure: teen employment, enrollment and status, 1995-2025, from the annual series of 52_teen_trends_annual.py
+#      (the only use of years outside the 2010-2025 analysis window: it shows the decline in teen employment that motivates the paper)
+A = pd.read_csv(PF / "data" / "clean" / "teen_trends_annual.csv", dtype={"band": str}); A = A[(A.year >= 1995) & (A.year <= 2025)]
 fig, axes = plt.subplots(1, 2, figsize=(11, 4.2))
-for a, col in [((16, 17), PALETTE[0]), ((18, 19), PALETTE[1])]:
-    s = t[t.age.between(*a)].groupby("year").apply(lambda g: pd.Series({"employed": wm(g, "employed"), "enrolled": wm(g, "enrolled")}))
-    s = s[(s.index >= 2010) & (s.index <= 2025)]
+for band, a, col in [("1617", (16, 17), PALETTE[0]), ("1819", (18, 19), PALETTE[1])]:
+    s = A[A.band == band].set_index("year")
     axes[0].plot(s.index, s.employed, marker="o", ms=3, color=col, label=f"Employed, {a[0]}-{a[1]}"); axes[0].plot(s.index, s.enrolled, marker="s", ms=3, color=col, linestyle="--", label=f"Enrolled, {a[0]}-{a[1]}")
-axes[0].set_title("Employment and school enrollment, ages 16-19", fontsize=10.5, loc="left"); axes[0].legend(frameon=False, fontsize=8.5, ncol=2, loc="center right"); axes[0].set_ylim(0, 1); style_axes(axes[0])
-s = t.groupby("year").apply(lambda g: pd.Series({k: wm(g, k) for k in ["enr_emp", "enr_only", "emp_only", "neither"]})); s = s[(s.index >= 2010) & (s.index <= 2025)]
+axes[0].set_title("Employment and school enrollment, ages 16-19", fontsize=10.5, loc="left"); axes[0].legend(frameon=False, fontsize=8.5, ncol=2, loc="upper center"); axes[0].set_ylim(0, 1.1); style_axes(axes[0])
+s = A[A.band == "1619"].set_index("year")
 for k, lab, col in [("enr_emp", "Enrolled and employed", PALETTE[0]), ("enr_only", "Enrolled only", PALETTE[1]), ("emp_only", "Employed only", PALETTE[2]), ("neither", "Neither", PALETTE[3])]:
     axes[1].plot(s.index, s[k], marker="o", ms=3, color=col, label=lab)
 axes[1].set_title("School-work status, ages 16-19", fontsize=10.5, loc="left"); axes[1].legend(frameon=False, fontsize=8.5); style_axes(axes[1])
 from matplotlib.ticker import MaxNLocator
-for ax in axes: ax.set_xlabel("Year"); ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+for ax in axes: ax.set_xlabel("Year"); ax.axvspan(2009.5, 2025.5, color=GRID, alpha=0.25, lw=0); ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 fig.tight_layout(); fig.savefig(P / "figures" / "fig1_trends.png", dpi=200)
+# the analysis file is still needed below (minimum wage panel weights)
+d = pd.read_csv(PF / "data" / "clean" / "cps_monthly_1624.csv.gz", usecols=["year", "age", "weight", "enrolled", "employed", "inlf", "state_fips"])
+t = d[d.age.between(16, 19)].copy()
 
 # ---- minimum wage panel figure: population-weighted mean effective minimum and share of teens above the federal floor ----
 mw = pd.read_csv(MW / "state_mw_monthly.csv"); mw["year"] = mw.ym.str[:4].astype(int)
@@ -106,12 +107,12 @@ def stats(x, band):
     h = x[(x.org == 1) & (x.paidhour == 1) & (x.hourwage > 0)]; o["hourwage"] = np.average(h.hourwage, weights=h.earnwt); o["n"] = len(x)
     return o
 LABS = {"enrolled": "Enrolled in school", "employed": "Employed", "inlf": "In labor force", "enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_only": "Employed only", "neither": "Neither", "hours": "Usual weekly hours (0 if not working)", "hourwage": "Hourly wage, hourly paid (\\$)", "female": "Female", "black": "Black", "hispanic": "Hispanic", "n": "Person-months"}
-cols = [stats(tr, (16, 17)), stats(ct, (16, 17)), stats(tr, (18, 19)), stats(ct, (18, 19))]
+cols = [stats(tr, (16, 17)), stats(ct, (16, 17)), stats(tr, (18, 19)), stats(ct, (18, 19)), stats(tr, (16, 19)), stats(ct, (16, 19))]
 rows = []
 for k, lab in LABS.items():
     fmt = (lambda v: f"{v:,.0f}") if k == "n" else (lambda v: f"{v:.2f}") if k in ("hours", "hourwage") else (lambda v: f"{v:.3f}")
     rows.append(f"{lab} & " + " & ".join(fmt(c[k]) for c in cols) + " \\\\")
-(P / "tables" / "tab2_summary.tex").write_text("\\begin{tabular}{lrrrr}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\n & Event units & Controls & Event units & Controls \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
+(P / "tables" / "tab2_summary.tex").write_text("\\begin{tabular}{lrrrrrr}\n\\toprule\n & \\multicolumn{2}{c}{Ages 16--17} & \\multicolumn{2}{c}{Ages 18--19} & \\multicolumn{2}{c}{Ages 16--19} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & Event units & Controls & Event units & Controls & Event units & Controls \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 # ---- Table 3: main results ---------------------------------------------------------------------------------
 OUT = [("log_wage", "Log hourly wage, hourly paid (ORG)"), ("log_earnweek", "Log weekly earnings (ORG)"), ("enrolled", "Enrolled in school"), ("enr_hs", "Enrolled in high school"), ("enr_ft", "Enrolled full time"),

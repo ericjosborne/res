@@ -52,6 +52,7 @@ python python/33_run_minwage.py --B 99 --P 4 # 105 unit-design runs, ~40 min; --
 python python/36_substate.py                 # county minimum wage panel (input to 38); contamination flags; local events
 python python/37_run_substate.py 99          # optional: cleaned-control and treated-split checks on the state design
 python python/34_summarise_minwage.py        # mw_summary.md and the main figures
+python python/52_teen_trends_annual.py       # annual 1994-2026 teen series from the raw extract, used only by Figure 1 (the analysis file is 2010-2025)
 python python/35_paper_tables.py             # summary, events, robustness and heterogeneity tables for paper/
 python python/40_run_ses.py 99; python python/42_run_ses_rel.py 99   # family-income splits (nominal, within-year median)
 python python/43_run_dropout.py 99; python python/44_run_dropout_school.py 99   # dropout outcome (Smith 2021), all months and school months
