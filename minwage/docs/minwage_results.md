@@ -277,3 +277,7 @@ corresponding rows of `mw_regressions.csv`. Post-event averages (points):
 ### Time window (September 16)
 
 Everything in the paper is now restricted to the window of the main design: 73 events from January 2010 to March 2025, observations January 2007 to August 2026 (3.08 million person-months aged 16-24). The descriptive figures run 2007-2025, the robustness table no longer carries the all-events (1994-2025) and pre-2010 rows, and the text no longer quotes estimates or sample counts from before 2007; the pre-2000 decline in teen employment is mentioned only as background from the published CPS series.
+
+### Stacked DiD with individual controls (September 17)
+
+The paper's stacked-DiD tables now come from `python/51_stacked_controls.py`: cells are unit x month x age x sex x race/ethnicity (non-Hispanic white, Black, Hispanic, other) x CPS family income category, and those categories enter as fixed effects, which is numerically the person-level regression with those dummies (clustered by state). Stacked observations: 6.8M at 16-17, 6.3M at 18-19, 13.1M pooled, from 620k / 554k / 1.17M teen-months. The controls move no school-work coefficient by more than 0.25 points and no wage/earnings coefficient by more than 1.2 points (weekly earnings, low-income 16-17). Results: `output/tables/mw_stacked_controls.csv`; the uncontrolled cell-mean versions remain in `mw_regressions.csv`.

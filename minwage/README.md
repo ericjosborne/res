@@ -58,6 +58,7 @@ python python/43_run_dropout.py 99; python python/44_run_dropout_school.py 99   
 python python/45_paper_v2_tables.py          # results tables and figures in the paper's order
 python python/46_regressions.py              # TWFE log-MW (all months, school months) and stacked-DiD regression tables (pyfixest; ~45 min; --reuse_stacked / --tables_only)
 python python/47_twfe_diagnostics.py         # appendix: what drives the TWFE enrollment coefficient (months, comparison states, leads, trends)
+python python/51_stacked_controls.py --groups=all,lowses,highses,female,male,white,nonwhite,nohs_school; python python/51_stacked_controls.py --tables   # stacked DiD with individual controls (the paper's stacked tables); ~45 min
 python python/48_run_het.py 99                # heterogeneity by sex (girls/boys) and race (non-Hispanic white/other): 96 runs, ~65 min; then 46_regressions.py --reuse_stacked --only=female,male,white,nonwhite
 cd paper && pdflatex minwage_teens.tex && pdflatex minwage_teens.tex
 ```
