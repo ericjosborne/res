@@ -32,7 +32,7 @@ effects finding of Neumark and Shupe (2019).
 | File | What | Where it comes from |
 |---|---|---|
 | `data/raw/monthly/cps_00091.csv.gz` (1.45 GB, not committed) | IPUMS-CPS basic monthly 1994-2026, all persons; the variable list is in `docs/minwage_design.md` | GitHub release `data-cps-monthly`: `https://github.com/ericjosborne/res/releases/tag/data-cps-monthly` |
-| `data/clean/cps_monthly_1624.csv.gz` (100 MB, not committed) | 5.46 million person-months aged 16-24 | `python/30_build_cps_monthly.py` |
+| `data/clean/cps_monthly_1624.csv.gz` (100 MB, not committed) | 2.44 million person-months aged 16-24, January 2010 - December 2025 | `python/30_build_cps_monthly.py` |
 | `data/raw/minwage/state_mw_changes_1974_2022.csv`, `federal_mw_changes.csv` | Vaghul-Zipperer change lists (converted from the repository's raw spreadsheets) | https://github.com/benzipperer/historicalminwage |
 | `data/raw/minwage/state_mw_changes_2023plus_manual.csv` | 2023-2025 changes and index adjustments, **compiled from memory, verify** | state labour departments |
 | `data/raw/minwage/state_mw_monthly.csv`, `mw_events.csv` | Monthly effective minimum by state; the event list with clean controls | `python/31_build_mw_events.py` |
@@ -45,7 +45,7 @@ From this directory (`minwage/`):
 
 ```bash
 pip install -r requirements.txt
-python python/30_build_cps_monthly.py        # streams the extract, keeps ages 16-24
+python python/30_build_cps_monthly.py        # streams the extract, keeps ages 16-24; the analysis window (January 2010 - December 2025) is set here; ./run_all_2010_2025.sh reruns everything below
 python python/31_build_mw_events.py          # minimum wage panel and event list
 python python/38_unit_panel.py               # unit-level panel and events (run before the battery)
 python python/33_run_minwage.py --B 99 --P 4 # 105 unit-design runs, ~40 min; --design post2009 for the state design (the _all and _pre2010 variants are no longer in the paper: everything is restricted to 2010+ events, observations 2007-2026)

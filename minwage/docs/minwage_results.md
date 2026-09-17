@@ -281,3 +281,19 @@ Everything in the paper is now restricted to the window of the main design: 73 e
 ### Stacked DiD with individual controls (September 17)
 
 The paper's stacked-DiD tables now come from `python/51_stacked_controls.py`: cells are unit x month x age x sex x race/ethnicity (non-Hispanic white, Black, Hispanic, other) x CPS family income category, and those categories enter as fixed effects, which is numerically the person-level regression with those dummies (clustered by state). Stacked observations: 6.8M at 16-17, 6.3M at 18-19, 13.1M pooled, from 620k / 554k / 1.17M teen-months. The controls move no school-work coefficient by more than 0.25 points and no wage/earnings coefficient by more than 1.2 points (weekly earnings, low-income 16-17). Results: `output/tables/mw_stacked_controls.csv`; the uncontrolled cell-mean versions remain in `mw_regressions.csv`.
+
+### Single analysis window, rerun (September 17-18)
+
+Every estimate, table and descriptive statistic now uses January 2010 to
+December 2025; the build (`30_build_cps_monthly.py`) keeps only those years,
+so downstream scripts inherit the window. Events need their whole window
+(36 pre, at least 12 post months) inside the data, which leaves 70 events,
+January 2013 to January 2024 (37 state remainders, 18 county both, 15 county
+local). The stacked and TWFE regressions use the same 70 events / 2010-2025
+sample. The only figure that reaches outside the window is Figure 1
+(1995-2025, from `52_teen_trends_annual.py`), which shows the pre-window
+decline in teen employment. Headline numbers after the rerun: hourly wage
++5.4 (1.3) at 16-17, +3.0 (0.9) at 18-19; the four shares at 16-17
+-0.3/+0.2/+0.1/+0.0 and at 18-19 +0.7/-0.7/+0.5/-0.5 (s.e. 0.4-0.8);
+girls 16-17 enrolled-and-employed -1.4 (0.5), enrolled-only +1.3 (0.7).
+`run_all_2010_2025.sh` reruns the whole pipeline (~5 h).
