@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from aelib import PALETTE, INK2, GRID, style_axes, to_markdown
 PF = Path(__file__).resolve().parents[1]; TAB = PF / "output" / "tables"; FIG = PF / "output" / "figures"
 LAB = {"enrolled": "Enrolled in school", "enr_hs": "Enrolled in high school", "enr_ft": "Enrolled full time", "employed": "Employed", "atwork": "At work last week",
-       "inlf": "In labour force", "hours": "Usual hours (0 if not working)", "enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_only": "Employed only",
+       "inlf": "In labor force", "hours": "Usual hours (0 if not working)", "enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_only": "Employed only",
        "neither": "Neither enrolled nor employed", "log_wage": "Log hourly wage (hourly paid, ORG)", "log_earnweek": "Log weekly earnings (ORG)"}
 
 

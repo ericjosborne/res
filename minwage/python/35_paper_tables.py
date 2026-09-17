@@ -105,7 +105,7 @@ def stats(x, band):
         m = x[k].notna(); o[k] = np.average(x.loc[m, k], weights=w[m])
     h = x[(x.org == 1) & (x.paidhour == 1) & (x.hourwage > 0)]; o["hourwage"] = np.average(h.hourwage, weights=h.earnwt); o["n"] = len(x)
     return o
-LABS = {"enrolled": "Enrolled in school", "employed": "Employed", "inlf": "In labour force", "enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_only": "Employed only", "neither": "Neither", "hours": "Usual weekly hours (0 if not working)", "hourwage": "Hourly wage, hourly paid (\\$)", "female": "Female", "black": "Black", "hispanic": "Hispanic", "n": "Person-months"}
+LABS = {"enrolled": "Enrolled in school", "employed": "Employed", "inlf": "In labor force", "enr_emp": "Enrolled and employed", "enr_only": "Enrolled only", "emp_only": "Employed only", "neither": "Neither", "hours": "Usual weekly hours (0 if not working)", "hourwage": "Hourly wage, hourly paid (\\$)", "female": "Female", "black": "Black", "hispanic": "Hispanic", "n": "Person-months"}
 cols = [stats(tr, (16, 17)), stats(ct, (16, 17)), stats(tr, (18, 19)), stats(ct, (18, 19))]
 rows = []
 for k, lab in LABS.items():
@@ -115,7 +115,7 @@ for k, lab in LABS.items():
 
 # ---- Table 3: main results ---------------------------------------------------------------------------------
 OUT = [("log_wage", "Log hourly wage, hourly paid (ORG)"), ("log_earnweek", "Log weekly earnings (ORG)"), ("enrolled", "Enrolled in school"), ("enr_hs", "Enrolled in high school"), ("enr_ft", "Enrolled full time"),
-       ("employed", "Employed"), ("inlf", "In labour force"), ("hours", "Usual weekly hours"), ("enr_emp", "Enrolled and employed"), ("enr_only", "Enrolled only"), ("emp_only", "Employed only"), ("neither", "Neither enrolled nor employed")]
+       ("employed", "Employed"), ("inlf", "In labor force"), ("hours", "Usual weekly hours"), ("enr_emp", "Enrolled and employed"), ("enr_only", "Enrolled only"), ("emp_only", "Employed only"), ("neither", "Neither enrolled nor employed")]
 rows = []
 for y, lab in OUT:
     line1, line2 = [lab], [""]
