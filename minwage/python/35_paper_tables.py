@@ -140,8 +140,8 @@ for k in (-3, -2, -1, 0, 1, 2, 3):
 (P / "tables" / "tab4_eventtime.tex").write_text("\\begin{tabular}{lcccccc}\n\\toprule\n & \\multicolumn{2}{c}{Log hourly wage} & \\multicolumn{2}{c}{Enrolled} & \\multicolumn{2}{c}{Employed} \\\\\n\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}\n & 16--17 & 18--19 & 16--17 & 18--19 & 16--17 & 18--19 \\\\\n\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\n\\end{tabular}\n")
 
 # ---- Table 5: robustness ------------------------------------------------------------------------------------
-VAR = [(D, "Main: unit design, 73 events from 2010, clean controls, population weights"), ("post2009", "State design (states as units), 39 events (Appendix)"),
-       (D + "_state", "Unit design: state-remainder events only (39)"), (D + "_both", "Unit design: county events, state and local rise (18)"), (D + "_local", "Unit design: county events, local rise only (16)"),
+VAR = [(D, "Main: unit design, 70 events, clean controls, population weights"), ("post2009", "State design (states as units), 37 events (Appendix)"),
+       (D + "_state", "Unit design: state-remainder events only (37)"), (D + "_both", "Unit design: county events, state and local rise (18)"), (D + "_local", "Unit design: county events, local rise only (15)"),
        (D + "_large", "Large events only (window rise $\\geq$ 20\\%)"),
        (D + "_strict", "Strict controls (no rise of any kind)"), (D + "_federal", "Federal-floor controls only"), (D + "_eq", "Equal weight per event"), (D + "_nopandemic", "Drop 2020--21"), (D + "_schoolmonths", "September--May only")]
 rows = []

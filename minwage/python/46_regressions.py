@@ -37,7 +37,8 @@ d["log_wage"] = np.log(d.hourwage.where((d.org == 1) & (d.paidhour == 1) & (d.ho
 d["lowses"] = (d.faminc <= 740).astype(int); d["highses"] = ((d.faminc >= 820) & (d.faminc < 900)).astype(int)
 d["male"] = 1 - d.female; d["nonwhite"] = 1 - d.white
 d["nohs_school"] = ((d.hs_grad == 0) & ((d.month <= 5) | (d.month >= 9))).astype(int)  # no diploma or GED, September-May
-E = pd.read_csv(MW / "unit_events.csv"); E = E[(E.event_ym >= "2010-01") & (E.pct_window >= 0.05)]; E["ymi"] = E.event_ym.str[:4].astype(int) * 12 + E.event_ym.str[5:7].astype(int) - 1
+E = pd.read_csv(MW / "unit_events.csv"); E = E[(E.event_ym >= "2010-01") & (E.pct_window >= 0.05)]
+E = E[(E.event_ym >= "2013-01") & (E.event_ym <= "2025-01")]; E["ymi"] = E.event_ym.str[:4].astype(int) * 12 + E.event_ym.str[5:7].astype(int) - 1  # full 36-month pre-period and 12 post months inside the 2010-2025 window, as in the event studies (70 events)
 geo_state = dict(zip(d.geo, d.state_fips))
 OUT = ["enr_emp", "enr_only", "emp_only", "neither", "enrolled", "employed", "log_wage", "log_earnweek"]
 AGES = {"1617": (16, 17), "1819": (18, 19), "1619": (16, 19)}; GROUPS = {"all": None, "lowses": "lowses", "highses": "highses", "female": "female", "male": "male", "white": "white", "nonwhite": "nonwhite", "nohs_school": "nohs_school"}
