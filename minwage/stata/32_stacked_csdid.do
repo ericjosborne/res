@@ -66,10 +66,14 @@ forvalues i = 1/`N' {
     gen relyear = floor(rel / 12)
     gen time = relyear + 4                    // 1..8 for csdid; event at time 4 (relative year 0)
     gen gvar = cond(treated, 4, 0)
-    if `first' { save `stack', replace
-                 local first = 0 }
-    else { append using `stack'
-           save `stack', replace }
+    if `first' {
+        save `stack', replace
+        local first = 0
+    }
+    else {
+        append using `stack'
+        save `stack', replace
+    }
 }
 use `stack', clear
 egen eg = group(event_id geo)
