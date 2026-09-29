@@ -4,12 +4,13 @@
 *   python/38_unit_panel.py; events and clean controls from data/raw/minwage/unit_events.csv; the same 70 events
 *   as the paper (whole window inside January 2010 - December 2025).
 *   (a) Cengiz-Dube-Lindner-Zipperer stacked regression on unit x month cells: event x unit and event x month
-*       fixed effects, clustered by state, plus the wild cluster bootstrap (boottest) for the post x treated term
+*       fixed effects, clustered by state (boottest cannot run after reghdfe with two absorbed sets, so the wild
+*       cluster bootstrap is applied in (b) only)
 *   (b) Callaway-Sant'Anna csdid on the stacked cells (treated unit = cohort, clean controls = never treated)
 *   (c) de Chaisemartin-D'Haultfoeuille did_multiplegt_dyn on the unit x month panel with the log minimum
 *       wage as a continuous treatment (no event definition)
-*   Packages: reghdfe ftools boottest csdid drdid did_multiplegt_dyn estout.  NOT EXECUTED for the current draft
-*   (no Stata in the build environment); provided as a check on the Python estimates.
+*   Packages: reghdfe ftools csdid drdid did_multiplegt_dyn estout.  Part (a) has been run and reproduces the
+*   Python stacked estimates; (b) and (c) are provided as checks.
 *==============================================================================
 version 16
 local outcomes "enrolled employed enr_emp enr_only emp_only neither log_wage"
@@ -81,14 +82,13 @@ egen et = group(event_id ym)
 save "$CLEAN/mw_stacked_cells.dta", replace
 
 * (a) stacked regression: (i) relative-year coefficients, base year -1; (ii) the single post x treated
-*     coefficient of the paper's stacked tables, with analytic state clustering and the wild cluster bootstrap
+*     coefficient of the paper's stacked tables, with analytic state clustering
 foreach y of local outcomes {
     foreach b in 1 2 {
         reghdfe `y' ib3.time#1.treated [aw = n] if band == `b', absorb(eg et) cluster(state_fips)
         estimates store st_`y'_b`b'
         reghdfe `y' post [aw = n] if band == `b', absorb(eg et) cluster(state_fips)
         estimates store post_`y'_b`b'
-        boottest post, cluster(state_fips) reps(999) seed(30) weighttype(rademacher) nograph
     }
 }
 esttab st_enrolled_b1 st_enrolled_b2 st_employed_b1 st_employed_b2 st_enr_emp_b1 st_enr_emp_b2 st_neither_b1 st_neither_b2 ///
@@ -104,13 +104,19 @@ foreach y of local outcomes {
         preserve
         keep if band == `b'
         collapse (mean) `y' [aw = n], by(event_id geo state_fips eg time gvar)
-        csdid `y' [iw = 1], ivar(eg) time(time) gvar(gvar) method(reg) cluster(state_fips) wboot rseed(30) reps(999)
-        estat event, estore(cs_`y'_b`b')
-        estat simple
+        capture noisily csdid `y', ivar(eg) time(time) gvar(gvar) method(reg) cluster(state_fips) wboot rseed(30) reps(999)
+        if _rc == 0 {
+            estat simple
+            estat event, post
+            estimates store cs_`y'_b`b'
+        }
+        else {
+            display as error "csdid failed for `y' band `b' (rc = " _rc "); continuing"
+        }
         restore
     }
 }
-esttab cs_enrolled_b1 cs_enrolled_b2 cs_employed_b1 cs_employed_b2 ///
+capture noisily esttab cs_enrolled_b1 cs_enrolled_b2 cs_employed_b1 cs_employed_b2 ///
     using "$TAB/t21_mw_csdid.tex", replace se star(* 0.10 ** 0.05 *** 0.01) booktabs ///
     mtitles("Enrolled 16-17" "Enrolled 18-19" "Employed 16-17" "Employed 18-19")
 
@@ -128,7 +134,9 @@ use `cells', clear
 merge m:1 geo ym using `mw', keep(match) nogen
 foreach y in enrolled employed neither log_wage {
     foreach b in 1 2 {
-        did_multiplegt_dyn `y' geo ym lmw if band == `b', effects(4) placebo(3) cluster(state_fips) weight(n) continuous(1)
-        graph export "$FIG/mw_dcdh_`y'_b`b'.png", replace width(1600)
+        capture noisily did_multiplegt_dyn `y' geo ym lmw if band == `b', effects(4) placebo(3) cluster(state_fips) weight(n) continuous(1)
+        if _rc == 0 {
+            graph export "$FIG/mw_dcdh_`y'_b`b'.png", replace width(1600)
+        }
     }
 }
