@@ -1,0 +1,121 @@
+id,age,sex,race,marital_status,education,income,parents_income,iq
+1,26,female,white,divorced,high school,41300,107200,117
+2,57,female,white,married,bachelor's,120400,41000,109
+3,48,male,white,married,some college,66600,85300,88
+4,56,male,other,married,high school,64200,56400,93
+5,48,male,black,married,some college,108500,183000,101
+6,60,male,white,married,high school,61300,41300,85
+7,59,female,hispanic,married,bachelor's,96900,57100,102
+8,61,male,asian,married,high school,38500,104900,83
+9,23,male,white,married,high school,43800,40600,110
+10,49,female,white,never married,some college,54900,110000,99
+11,70,female,white,married,some college,35700,39400,104
+12,70,female,white,never married,high school,8400,89900,93
+13,57,male,white,married,master's,96400,91200,109
+14,55,female,white,widowed,less than high school,19700,28700,76
+15,44,male,hispanic,married,high school,38900,43000,108
+16,43,female,white,never married,high school,21900,24200,100
+17,22,female,black,married,master's,32400,58200,100
+18,59,male,white,married,master's,73200,154500,117
+19,60,male,hispanic,never married,high school,22300,42100,78
+20,42,male,asian,divorced,doctorate,93400,118800,132
+21,48,male,white,never married,high school,83200,42000,91
+22,22,female,white,never married,less than high school,25700,36700,73
+23,57,female,asian,never married,high school,33200,129500,98
+24,48,male,hispanic,married,bachelor's,82600,88000,89
+25,66,male,hispanic,widowed,high school,45600,69500,94
+26,63,female,hispanic,married,bachelor's,119300,63200,118
+27,65,male,asian,married,less than high school,77000,80200,84
+28,65,male,white,divorced,high school,39000,164200,91
+29,46,female,white,married,master's,39600,83700,121
+30,36,female,black,married,less than high school,18200,24400,81
+31,62,male,white,married,some college,84500,91600,96
+32,37,female,white,married,high school,27400,45000,94
+33,57,male,white,divorced,doctorate,96200,309500,137
+34,53,female,white,married,some college,59900,140900,95
+35,59,female,hispanic,married,some college,29000,200500,100
+36,35,male,white,never married,some college,30400,31600,80
+37,45,female,white,divorced,some college,74500,192800,93
+38,29,male,white,never married,high school,31300,29900,91
+39,43,female,black,divorced,some college,40300,55600,104
+40,48,male,white,married,doctorate,142200,369800,141
+41,22,male,white,married,bachelor's,23000,35100,113
+42,63,female,hispanic,married,high school,32100,27300,88
+43,58,male,white,married,high school,66200,74900,122
+44,34,male,white,married,bachelor's,98600,23800,98
+45,58,male,white,widowed,some college,127200,36300,91
+46,59,male,white,married,doctorate,178800,194600,113
+47,25,male,asian,married,some college,68000,35400,107
+48,52,female,white,divorced,less than high school,64500,26600,93
+49,43,female,hispanic,never married,less than high school,39700,29000,95
+50,28,female,white,married,high school,70500,17300,95
+51,33,female,hispanic,married,some college,71200,75900,79
+52,67,female,black,married,bachelor's,20300,96100,106
+53,37,male,white,married,some college,49400,124500,90
+54,68,female,asian,divorced,master's,51100,119200,104
+55,35,female,black,never married,high school,69800,15200,113
+56,57,female,white,widowed,high school,41800,26100,83
+57,48,male,other,never married,some college,70500,63900,93
+58,52,male,hispanic,divorced,high school,77300,73100,91
+59,22,female,black,married,some college,19800,43200,96
+60,69,male,hispanic,divorced,high school,61800,35400,106
+61,43,male,white,never married,some college,38400,153900,107
+62,24,male,white,never married,bachelor's,37500,110700,128
+63,22,male,hispanic,never married,high school,20200,17700,104
+64,51,male,asian,widowed,bachelor's,72700,64100,105
+65,42,female,black,married,bachelor's,84400,41500,113
+66,66,male,white,married,master's,115300,71200,103
+67,69,male,white,never married,less than high school,9400,26300,65
+68,29,male,white,married,some college,75400,84200,96
+69,34,female,white,married,master's,127300,34400,96
+70,49,female,hispanic,married,high school,33000,51400,96
+71,40,male,white,married,master's,136100,101900,118
+72,45,male,white,divorced,less than high school,72500,22800,88
+73,56,male,black,widowed,less than high school,39300,20600,65
+74,42,male,black,never married,high school,66500,19800,88
+75,59,female,white,married,master's,60200,45200,110
+76,61,female,white,divorced,master's,99300,158600,100
+77,45,male,white,married,high school,73400,38900,90
+78,31,male,white,divorced,less than high school,36100,16200,80
+79,49,female,black,married,high school,65800,46000,101
+80,67,female,white,widowed,master's,60400,81600,130
+81,40,male,white,divorced,high school,51100,50200,86
+82,41,male,white,married,some college,81500,106500,101
+83,28,female,white,widowed,some college,75500,80000,89
+84,65,male,asian,divorced,less than high school,19100,89300,68
+85,25,male,asian,divorced,high school,20500,35500,84
+86,29,male,asian,never married,less than high school,46200,26700,76
+87,64,male,other,married,bachelor's,59900,84200,94
+88,35,female,hispanic,never married,high school,43400,69600,77
+89,59,female,asian,never married,high school,28100,44300,79
+90,26,female,hispanic,never married,high school,27100,54300,103
+91,56,female,black,divorced,high school,29100,27100,65
+92,56,female,white,never married,high school,54200,57500,97
+93,44,female,hispanic,never married,bachelor's,102400,182400,109
+94,31,female,black,married,high school,33800,17900,94
+95,27,male,white,married,some college,98600,97200,107
+96,44,male,hispanic,divorced,high school,23900,52700,86
+97,49,male,hispanic,married,high school,36100,38900,65
+98,63,male,white,divorced,doctorate,144700,84300,135
+99,53,male,white,married,some college,111800,144800,98
+100,37,male,black,never married,high school,18200,39200,101
+101,58,male,white,married,less than high school,57700,17000,78
+102,24,male,white,never married,some college,61100,66000,115
+103,46,male,white,never married,high school,53100,67800,110
+104,35,male,white,married,high school,95100,103100,98
+105,51,male,white,widowed,bachelor's,50800,39300,117
+106,46,male,black,divorced,some college,73100,52400,106
+107,67,male,white,married,high school,22600,25900,65
+108,46,male,hispanic,divorced,bachelor's,94900,156500,113
+109,34,female,white,divorced,doctorate,158500,233600,134
+110,48,female,black,never married,master's,107700,107100,112
+111,58,male,white,divorced,some college,106000,48900,80
+112,28,female,white,never married,high school,38300,68800,103
+113,27,female,white,never married,master's,66500,65100,125
+114,26,female,white,never married,high school,40100,35700,94
+115,38,female,hispanic,divorced,master's,76100,49400,112
+116,52,female,white,married,master's,91500,84000,107
+117,57,female,white,married,high school,37700,77800,98
+118,68,male,hispanic,widowed,some college,18200,41800,100
+119,67,female,hispanic,divorced,less than high school,21600,26500,65
+120,26,female,asian,married,bachelor's,40100,91100,124
