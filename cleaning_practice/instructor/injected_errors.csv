@@ -1,0 +1,127 @@
+id,variable,true_value,raw_value,problem
+1,Sex,female,F,text label instead of numeric code
+2,Income,120400,"$120,400",dollar sign / thousands separator
+3,Sex,male,M,text label instead of numeric code
+3,Income,66600,66600.00,decimal formatting
+4,Income,64200,"$64,200",dollar sign / thousands separator
+4,Parents' Income,56400,(blank),missing (codebook code or blank)
+5,Parents' Income,183000,183,entered in thousands of dollars
+5,(row),,,exact duplicate record
+8,Marital,married,Married,text label instead of numeric code
+9,Educ,high school,6,doctorate at age 23
+12,Race,white,White,text label instead of numeric code
+14,Income,19700,"$19,700",dollar sign / thousands separator
+14,Parents' Income,28700,-9,missing (codebook code or blank)
+15,IQ,108,-9,missing (codebook code or blank)
+16,Marital,never married,never married,text label instead of numeric code
+17,Income,32400,"$32,400",dollar sign / thousands separator
+17,Parents' Income,58200,58.2,entered in thousands of dollars
+17,Marital,married,4,widowed at age 22 (possible but worth flagging)
+18,Educ,master's,Masters,text label instead of numeric code
+21,Educ,high school,high school,text label instead of numeric code
+22,Sex,female,f,text label instead of numeric code
+22,Income,25700,"$25,700",dollar sign / thousands separator
+22,Parents' Income,36700,(blank),missing (codebook code or blank)
+23,ID,23,32,ID mistyped; collides with another respondent
+24,Sex,male,m,text label instead of numeric code
+24,Race,hispanic,hispanic ,text label instead of numeric code
+24,Educ,bachelor's,B.S.,text label instead of numeric code
+24,Parents' Income,88000,88,entered in thousands of dollars
+25,Educ,high school,GED,text label instead of numeric code
+25,IQ,94,-8,missing (codebook code or blank)
+27,Parents' Income,80200,-9,missing (codebook code or blank)
+31,Sex,male,Male ,text label instead of numeric code
+32,Sex,female, Female,text label instead of numeric code
+32,Race,white,white ,text label instead of numeric code
+33,Income,96200,-9,missing (codebook code or blank)
+34,Sex,female,f,text label instead of numeric code
+34,Age,53,(blank),missing (codebook code or blank)
+35,Race,hispanic,hispanic ,text label instead of numeric code
+35,IQ,100,(blank),missing (codebook code or blank)
+36,Income,30400,30400.00,decimal formatting
+38,Educ,high school,GED,text label instead of numeric code
+39,Income,40300,"$40,300",dollar sign / thousands separator
+39,Income,"$40,300",-9,missing (codebook code or blank)
+39,(row),,,exact duplicate record
+40,Sex,male,M,text label instead of numeric code
+40,Educ,doctorate,doctorate,text label instead of numeric code
+42,Race,hispanic,hispanic ,text label instead of numeric code
+43,Sex,male,Male ,text label instead of numeric code
+43,Income,66200,"$66,200",dollar sign / thousands separator
+43,Parents' Income,74900,(blank),missing (codebook code or blank)
+44,Race,white,white ,text label instead of numeric code
+45,Marital,widowed,Widowed,text label instead of numeric code
+45,IQ,91,999,undocumented missing code (999)
+49,Marital,never married,never married,text label instead of numeric code
+50,Parents' Income,17300,17.3,entered in thousands of dollars
+50,Age,28,280,extra digit typed
+55,Race,black,African American,text label instead of numeric code
+56,Race,white,white ,text label instead of numeric code
+56,Marital,widowed,Widowed,text label instead of numeric code
+56,Income,41800,41.8k,'k' shorthand
+57,Income,70500,(blank),missing (codebook code or blank)
+58,IQ,91,(blank),missing (codebook code or blank)
+59,Race,black,Black,text label instead of numeric code
+60,IQ,106,0,zero entered for unknown
+63,Sex,male,Male ,text label instead of numeric code
+63,Age,22,(blank),missing (codebook code or blank)
+64,Parents' Income,64100,64.1,entered in thousands of dollars
+64,Income,72700,-72700,negative sign
+66,(row),,,exact duplicate record
+67,Sex,male,Male ,text label instead of numeric code
+68,Race,white,White,text label instead of numeric code
+70,Income,33000,33000.00,decimal formatting
+71,Sex,male,m,text label instead of numeric code
+71,Income,136100,"$136,100",dollar sign / thousands separator
+73,Parents' Income,20600,20.6,entered in thousands of dollars
+74,Sex,male,Male ,text label instead of numeric code
+74,Parents' Income,19800,(blank),missing (codebook code or blank)
+75,Race,white,white ,text label instead of numeric code
+77,Marital,married,Married,text label instead of numeric code
+77,IQ,90,900,digit dropped / added
+78,Income,36100,"$36,100",dollar sign / thousands separator
+82,Parents' Income,106500,-8,missing (codebook code or blank)
+86,Parents' Income,26700,26.7,entered in thousands of dollars
+86,Age,29,2,digit dropped
+87,Race,other,other,text label instead of numeric code
+87,Income,59900,59900.00,decimal formatting
+87,Age,64,999,undocumented missing code (999)
+93,Marital,never married,Single,text label instead of numeric code
+93,(row),,,exact duplicate record
+94,Income,33800,(blank),missing (codebook code or blank)
+95,Income,98600,"$98,600",dollar sign / thousands separator
+95,Age,27,27 yrs,units text in numeric field
+96,Race,hispanic,Latino,text label instead of numeric code
+97,Race,hispanic,Latino,text label instead of numeric code
+97,Educ,high school,HS,text label instead of numeric code
+97,Income,36100,36.1k,'k' shorthand
+97,Age,49,49 yrs,units text in numeric field
+98,Sex,male,M,text label instead of numeric code
+99,Income,111800,111800.00,decimal formatting
+99,Income,111800.00,-9,missing (codebook code or blank)
+100,Race,black,Black,text label instead of numeric code
+101,Race,white,White,text label instead of numeric code
+101,Educ,less than high school,<HS,text label instead of numeric code
+104,Income,95100,95100.00,decimal formatting
+105,Parents' Income,39300,39.3,entered in thousands of dollars
+106,Marital,divorced,Divorced,text label instead of numeric code
+106,Income,73100,"$73,100",dollar sign / thousands separator
+107,Income,22600,-9,missing (codebook code or blank)
+108,Marital,divorced,Divorced,text label instead of numeric code
+108,Income,94900,"$94,900",dollar sign / thousands separator
+110,Income,107700,107700.00,decimal formatting
+111,Sex,male,m,text label instead of numeric code
+111,Marital,divorced,Divorced,text label instead of numeric code
+111,Income,106000,106k,'k' shorthand
+111,Parents' Income,48900,-9,missing (codebook code or blank)
+112,Income,38300,"$38,300",dollar sign / thousands separator
+113,Income,66500,665000,extra zero typed
+115,Income,76100,"$76,100",dollar sign / thousands separator
+115,Age,38,38 yrs,units text in numeric field
+116,Race,white,White,text label instead of numeric code
+117,Race,white,White,text label instead of numeric code
+117,Parents' Income,77800,-8,missing (codebook code or blank)
+118,IQ,100,(blank),missing (codebook code or blank)
+120,Race,asian,Asian,text label instead of numeric code
+120,Marital,married,married ,text label instead of numeric code
+120,Income,40100,"$40,100",dollar sign / thousands separator
