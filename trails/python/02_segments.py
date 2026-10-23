@@ -28,6 +28,7 @@ ap = argparse.ArgumentParser(); ap.add_argument("--cutoff_month", type=int, defa
 
 S = pd.concat([pd.read_csv(f, dtype=str) for f in sorted((RAW / "trails").glob("segments_*.csv"))], ignore_index=True)
 S = S[S.segment_id.notna()].drop_duplicates("segment_id")
+if "duplicate_of" in S: S = S[S.duplicate_of.isna()]   # the same opening found from two trail lists
 man = RAW / "trails" / "segment_endpoints_manual.csv"
 if man.exists():
     M = pd.read_csv(man, dtype={"segment_id": str, "osm_name": str}); S = S.merge(M, on="segment_id", how="left")

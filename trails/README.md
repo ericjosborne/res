@@ -6,7 +6,8 @@ rail-trail and off-road bike/pedestrian path, the Empire State Trail and everyth
 Data sources and access, including Advan/SafeGraph: `docs/data_access.md`.
 
 **Status: pipeline only, no results yet.** The scripts have been smoke-tested on synthetic data but never run on real
-data. The segment inventory is being compiled.
+data. The segment inventory has 135 segments; 76 meet the default sample rules. It was compiled from web-search
+summaries and must be checked against its sources; status and gaps are in `docs/inventory.md`.
 
 ## Files
 
