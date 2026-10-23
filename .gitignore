@@ -10,3 +10,6 @@
 */output/logs/
 __pycache__/
 *.pyc
+trails/data/raw/lodes/
+trails/data/raw/osm/
+trails/data/raw/gazetteer/
