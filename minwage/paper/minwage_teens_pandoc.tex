@@ -160,7 +160,7 @@ For event $e$ in unit $u_e$ at month $t_e$, define relative year $k = \lfloor (t
 \end{equation}
 which is the group-time average treatment effect of Callaway and Sant'Anna (2021) for a single cohort with the base period fixed at the year before treatment, and the coefficient a stacked regression with event-by-unit and event-by-year fixed effects recovers. The aggregate effect at relative year $k$ is $\hat\tau_k = \sum_e \omega_e \hat\tau_{e,k}$, with $\omega_e$ proportional to the treated unit's teen population in the base year, and the post-event average is the mean of $\hat\tau_0$ to $\hat\tau_3$. Because each event's controls are chosen to be untreated throughout its window, the design uses none of the comparisons between earlier- and later-treated units that bias two-way fixed effects estimates (Goodman-Bacon, 2021; de Chaisemartin and D'Haultf{\oe}uille, 2020; Sun and Abraham, 2021; Baker et al., 2022). The state remainders carry most of the population weight; the county units add 34 events, including the largest local increases.
 
-Inference is by block bootstrap over states: in each of 99 draws the 51 states are resampled with replacement, every unit moves with its state, the event effects are recomputed with treated units entering as many times as their state is drawn and controls weighted by their multiplicity, and the standard error is the standard deviation of the aggregate across draws. This treats the state as the unit of both policy and sampling and accounts for the repeated observation of the same teens across months. The Stata implementation in the replication files runs the stacked regression with the wild cluster bootstrap and the estimator of de Chaisemartin and D'Haultf{\oe}uille (2024) on the log minimum wage as a continuous treatment.
+Inference is by block bootstrap over states: in each of 99 draws the 51 states are resampled with replacement, every unit moves with its state, the event effects are recomputed with treated units entering as many times as their state is drawn and controls weighted by their multiplicity, and the standard error is the standard deviation of the aggregate across draws. This treats the state as the unit of both policy and sampling and accounts for the repeated observation of the same teens across months. The replication files also contain a Stata implementation of the same design, which runs the stacked regression with analytic state clustering, the estimator of Callaway and Sant'Anna (2021) on the stacked cells with the wild cluster bootstrap, and the estimator of de Chaisemartin and D'Haultf{\oe}uille (2024) on the log minimum wage as a continuous treatment without any event definition; the stacked regression reproduces the estimates reported here, and the other two are provided as checks.
 
 Identification requires that, absent the increase, teens in the treated unit would have followed the same path as teens in the control units over the seven-year window. The three pre-event coefficients test the assumption directly. Because the events are laws passed by legislatures, councils and ballot measures, and treated jurisdictions are on average richer and more urban than federal-floor states, the assumption is about trends rather than levels, and Section 6 shows the results with control sets that vary from all clean units to federal-floor states only, with equal weights, without the pandemic years, in school months only, and with states rather than counties as the units.
 
@@ -175,16 +175,243 @@ estimated on every teen observation in the 84 months from $-36$ to $+47$ around 
 
 \section{5 Results}
 
-\subsection{5.1 School and work}
+The wage results come first, because they establish that the increases bound: a minimum wage that did not raise teen pay could not be expected to move anything else, and the size of the wage response sets the scale against which the time-allocation estimates should be read. The school--work results follow.
 
-Appendix Table 15 reports the post-event average effect of the increases on the four school--work shares for ages 16--17, 18--19 and 16--19 pooled, with the average of the pre-event coefficients beside each estimate; the last two rows give enrollment and employment, which are sums of the shares. Nothing moves. The share enrolled and employed changes by $-0.3$ points (s.e.\ 0.5) at 16--17 and $+0.7$ (0.7) at 18--19; enrolled only by $+0.2$ (0.6) and $-0.7$ (0.6); employed only by $+0.1$ (0.3) and $+0.5$ (0.8); neither enrolled nor employed by $+0.0$ (0.4) and $-0.5$ (0.5). Enrollment changes by $-0.2$ (0.4) and $+0.0$ (1.0), so the 95 percent intervals exclude a fall larger than 1.0 point at the younger ages and 2.0 at the older; employment by $-0.2$ (0.5) and $+1.2$ (0.7). The pre-event averages are of the same order as the post-event ones and of no consistent sign.
+\subsection{5.1 Wages}
+
+Appendix Table 15 and Figure 3 give the effect on teen pay. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.9 percent in the year of the increase, 7.2 percent in the first full year after it, 5.6 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.3, 3.7, 2.9 and 5.1 percent for 18--19 year olds; pooling the ages, by 0.8, 4.8, 3.7 and 6.1 percent. The post-event averages are 5.4 percent (s.e.\ 1.3), 3.0 percent (0.9) and 3.9 percent (0.9). The year-0 effect is small because that year averages up to eleven pre-increase months with the first months after, and because most schedules add their later steps in years 1 to 3; from year 1 the wage effect is three to six standard errors from zero and grows with the schedule. The pre-event coefficients are within two standard errors of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 5.4 percent (3.3) at 16--17 and 4.5 percent (2.5) at 18--19, so hours did not fall to offset the wage.
+
+The wage gain is about a seventh of the rise in the minimum. That is what one expects: a large share of hourly-paid teens already earn above the old minimum, the minimum binds most for the youngest and least experienced, and the hourly wage question is asked only of those paid by the hour. The point for the rest of the paper is that the events moved the pay of teenagers by an amount that is large relative to the precision of the time-allocation estimates, so the nulls on time allocation in Sections 5.5 to 5.8 are not nulls on the treatment.
 
 
-Table 2 gives the stacked difference-in-differences coefficients of Section 4.4, one post-event average per share and age. They reproduce the event-study averages of Appendix Table 15: $-0.1$ points (s.e.\ 0.4) for enrolled-and-employed at 16--17 and $+0.4$ (0.5) at 18--19, $+0.0$ (0.5) and $-0.7$ (0.6) for enrolled only, $+0.3$ (0.2) and $+0.5$ (0.6) for employed only, $-0.2$ (0.3) and $-0.3$ (0.4) for neither, and nothing beyond about one standard error from zero for any share or age. The two-way fixed effects regression of the earlier literature, reported in Appendix C, agrees with these estimates in school months and departs from them only when the summer months, in which the enrollment item records summer school, are included.
+The stacked coefficients for the wage (Table 2) are 5.1 percent (s.e.\ 0.8) at 16--17, 3.1 (0.8) at 18--19 and 3.9 (0.7) pooled, next to the event-study averages of 5.4, 3.0 and 3.9; for weekly earnings they are 5.7 (2.4), 4.9 (1.4) and 5.2 (1.7). The two-way fixed effects elasticity of the teen wage with respect to the minimum, in Appendix C, is about 0.2 at every age, which for the average event implies gains of 5 to 7 percent. Where the treatment has a real effect the designs agree in sign and roughly in size.
 
 \begin{table}
 \centering
-\caption{Table 2: Stacked difference-in-differences estimates for teen school--work status, 70 events, 2013--2024}
+\caption{Table 2: Stacked difference-in-differences estimates for teen wages and earnings, 70 events, 2013--2024}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.227\textwidth}p{0.227\textwidth}p{0.227\textwidth}}
+\toprule
+ & Ages 16--17 & Ages 18--19 & Ages 16--19 \\
+\midrule
+Log hourly wage, hourly paid & 0.051\textsuperscript{***} & 0.031\textsuperscript{***} & 0.039\textsuperscript{***} \\
+ & (0.008) & (0.008) & (0.007) \\
+Log weekly earnings & 0.057\textsuperscript{**} & 0.049\textsuperscript{***} & 0.052\textsuperscript{***} \\
+ & (0.024) & (0.014) & (0.017) \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+
+\end{table}
+
+\begin{figure}
+\centering
+
+\includegraphics[width=0.85\textwidth]{figures/figR3_wage.png}
+
+\caption{Figure 3: Event-time effects on the log hourly wage of hourly-paid teens, by age}
+
+\end{figure}
+
+\subsection{5.2 Wages by socioeconomic standing}
+
+Table 3 and Figure 4 split the wage effect by family income. The gain reaches both groups. Pooling the ages, the hourly wage of low-income teens rises 4.3 percent (s.e.\ 1.1) and of high-income teens 3.8 percent (1.0). At 18--19 the gain is larger for low-income teens, 4.6 percent (1.1) against 2.3 (1.0), which is what one expects if their jobs sit closer to the floor. At 16--17 the low-income estimate is imprecise, 2.6 percent (2.7), because few low-income 16--17 year olds are hourly-paid workers in an outgoing rotation month; under the within-year median split of Appendix D it is 4.8 percent (1.9). The first stage is therefore present for exactly the teens for whom the liquidity channel should operate, and Sections 5.5 and 5.6 below show that their time allocation did not respond to it.
+
+\begin{table}
+\centering
+\caption{Table 3: Wages and earnings by family income: below versus at or above \$50,000, post-event averages}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
+\toprule
+ & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
+
+ & Low & High & Low & High & Low & High \\
+\midrule
+Log hourly wage, hourly-paid teens & 0.026 & 0.060\textsuperscript{***} & 0.046\textsuperscript{***} & 0.023\textsuperscript{**} & 0.043\textsuperscript{***} & 0.038\textsuperscript{***} \\
+ & (0.027) & (0.014) & (0.011) & (0.010) & (0.011) & (0.010) \\
+Log weekly earnings, all teen workers &  &  &  &  &  &  \\
+ &  &  &  &  &  &  \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
+
+\end{table}
+
+The stacked coefficients by income (Table 4) confirm that the gain reached both groups and was somewhat larger for the poorer one. Because the stacked regression pools the base period over 36 months, it is more precise than the event-study average for the thin low-income 16--17 cell: it gives 7.6 percent (s.e.\ 1.3) for low-income against 4.5 (0.9) for high-income teens at 16--17, 4.0 (1.1) against 2.5 (0.9) at 18--19, and 5.0 (1.1) against 3.4 (0.7) pooled.
+
+\begin{table}
+\centering
+\caption{Table 4: Stacked difference-in-differences estimates for wages and earnings by family income}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
+\toprule
+ & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
+
+ & Low & High & Low & High & Low & High \\
+\midrule
+Log hourly wage, hourly paid & 0.076\textsuperscript{***} & 0.045\textsuperscript{***} & 0.040\textsuperscript{***} & 0.025\textsuperscript{***} & 0.050\textsuperscript{***} & 0.034\textsuperscript{***} \\
+ & (0.013) & (0.009) & (0.011) & (0.009) & (0.011) & (0.007) \\
+Log weekly earnings & 0.070\textsuperscript{**} & 0.065\textsuperscript{***} & 0.047 & 0.041\textsuperscript{***} & 0.054\textsuperscript{**} & 0.050\textsuperscript{***} \\
+ & (0.035) & (0.025) & (0.029) & (0.014) & (0.026) & (0.016) \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+
+\end{table}
+
+\begin{figure}
+\centering
+
+\includegraphics[width=\textwidth]{figures/figR4_wage_ses.png}
+
+\caption{Figure 4: Event-time effects on the log hourly wage by family income and age}
+
+\end{figure}
+
+\subsection{5.3 Wages by sex}
+
+Table 5 and Figure 5 split the wage effect by sex. The gain reaches both. Girls' hourly wage rises 5.4 percent (s.e.\ 1.9) at 16--17, 3.0 (0.9) at 18--19 and 3.9 (1.0) pooled; boys' 4.9 (1.7), 2.8 (1.4) and 3.7 (1.3). The girls' gain is slightly larger at every age, as their lower starting wage implies, but by a fraction of a standard error. Weekly earnings rise 5.7 (3.3) at 16--17 and 5.0 (2.7) at 18--19 for girls and 6.2 (5.0) and 3.8 (3.6) for boys, so hours did not fall for either. The employment estimate for girls at 16--17 in Section 5.7 below therefore does not come with a smaller wage gain or a fall in the earnings of those who work. The stacked coefficients (Table 6) are 5.4 percent (s.e.\ 1.2), 2.4 (0.8) and 3.7 (0.8) for girls and 4.8 (0.9), 3.8 (1.0) and 4.3 (0.8) for boys.
+
+\begin{table}
+\centering
+\caption{Table 5: Wages and earnings by sex: post-event averages}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
+\toprule
+ & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
+
+ & Girls & Boys & Girls & Boys & Girls & Boys \\
+\midrule
+Log hourly wage, hourly-paid teens & 0.054\textsuperscript{***} & 0.049\textsuperscript{***} & 0.030\textsuperscript{***} & 0.028\textsuperscript{**} & 0.039\textsuperscript{***} & 0.037\textsuperscript{***} \\
+ & (0.019) & (0.017) & (0.009) & (0.014) & (0.010) & (0.013) \\
+Log weekly earnings, all teen workers & 0.057\textsuperscript{*} & 0.062 & 0.050\textsuperscript{*} & 0.038 & 0.050\textsuperscript{**} & 0.045 \\
+ & (0.033) & (0.050) & (0.027) & (0.036) & (0.022) & (0.038) \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
+
+\end{table}
+
+\begin{table}
+\centering
+\caption{Table 6: Stacked difference-in-differences estimates for wages and earnings by sex}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
+\toprule
+ & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
+
+ & Girls & Boys & Girls & Boys & Girls & Boys \\
+\midrule
+Log hourly wage, hourly paid & 0.054\textsuperscript{***} & 0.048\textsuperscript{***} & 0.024\textsuperscript{***} & 0.038\textsuperscript{***} & 0.037\textsuperscript{***} & 0.043\textsuperscript{***} \\
+ & (0.012) & (0.009) & (0.008) & (0.010) & (0.008) & (0.008) \\
+Log weekly earnings & 0.051\textsuperscript{*} & 0.062\textsuperscript{**} & 0.057\textsuperscript{***} & 0.043\textsuperscript{**} & 0.056\textsuperscript{***} & 0.053\textsuperscript{**} \\
+ & (0.031) & (0.031) & (0.018) & (0.019) & (0.019) & (0.021) \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+
+\end{table}
+
+\begin{figure}
+\centering
+
+\includegraphics[width=\textwidth]{figures/figR4_wage_sex.png}
+
+\caption{Figure 5: Event-time effects on the log hourly wage by sex and age}
+
+\end{figure}
+
+\subsection{5.4 Wages by race}
+
+Table 7 and Figure 6 split the wage effect by race. Non-white teens gain more: 7.4 percent (s.e.\ 1.7) at 16--17 against 5.1 (1.9) for white teens, 3.5 (1.4) against 2.9 (1.4) at 18--19, and 4.4 (1.3) against 3.7 (1.3) pooled. The 2.3-point difference at 16--17 is what one expects if non-white teens' jobs sit closer to the floor and if they are concentrated in the units with the largest increases. Weekly earnings of non-white teen workers are too thinly measured to say much, $+4.8$ (7.5) at 16--17 and $+3.9$ (3.8) at 18--19, against $+6.6$ (3.3) and $+6.0$ (3.2) for white teens. The first stage is present, and larger, for the group whose families have lower incomes, and Section 5.8 below shows that their time allocation did not respond to it. The stacked coefficients (Table 8) are 4.9 percent (s.e.\ 1.1), 2.6 (1.2) and 3.6 (0.9) for white teens and 5.9 (1.2), 4.0 (1.1) and 4.6 (0.9) for non-white teens.
+
+\begin{table}
+\centering
+\caption{Table 7: Wages and earnings by race: post-event averages}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
+\toprule
+ & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
+
+ & White & Non-white & White & Non-white & White & Non-white \\
+\midrule
+Log hourly wage, hourly-paid teens & 0.051\textsuperscript{***} & 0.074\textsuperscript{***} & 0.029\textsuperscript{**} & 0.035\textsuperscript{**} & 0.037\textsuperscript{***} & 0.044\textsuperscript{***} \\
+ & (0.019) & (0.017) & (0.014) & (0.014) & (0.013) & (0.013) \\
+Log weekly earnings, all teen workers & 0.066\textsuperscript{**} & 0.048 & 0.060\textsuperscript{*} & 0.039 & 0.063\textsuperscript{**} & 0.038 \\
+ & (0.033) & (0.075) & (0.032) & (0.038) & (0.027) & (0.040) \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
+
+\end{table}
+
+\begin{table}
+\centering
+\caption{Table 8: Stacked difference-in-differences estimates for wages and earnings by race}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
+\toprule
+ & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
+
+ & White & Non-white & White & Non-white & White & Non-white \\
+\midrule
+Log hourly wage, hourly paid & 0.049\textsuperscript{***} & 0.059\textsuperscript{***} & 0.026\textsuperscript{**} & 0.040\textsuperscript{***} & 0.036\textsuperscript{***} & 0.046\textsuperscript{***} \\
+ & (0.011) & (0.012) & (0.012) & (0.011) & (0.009) & (0.009) \\
+Log weekly earnings & 0.057\textsuperscript{***} & 0.074\textsuperscript{*} & 0.054\textsuperscript{**} & 0.042\textsuperscript{*} & 0.055\textsuperscript{***} & 0.047\textsuperscript{**} \\
+ & (0.022) & (0.039) & (0.022) & (0.022) & (0.019) & (0.023) \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+
+\end{table}
+
+\begin{figure}
+\centering
+
+\includegraphics[width=\textwidth]{figures/figR4_wage_race.png}
+
+\caption{Figure 6: Event-time effects on the log hourly wage by race and age}
+
+\end{figure}
+
+\subsection{5.5 School and work}
+
+Appendix Table 16 reports the post-event average effect of the increases on the four school--work shares for ages 16--17, 18--19 and 16--19 pooled, with the average of the pre-event coefficients beside each estimate; the last two rows give enrollment and employment, which are sums of the shares. Nothing moves. The share enrolled and employed changes by $-0.3$ points (s.e.\ 0.5) at 16--17 and $+0.7$ (0.7) at 18--19; enrolled only by $+0.2$ (0.6) and $-0.7$ (0.6); employed only by $+0.1$ (0.3) and $+0.5$ (0.8); neither enrolled nor employed by $+0.0$ (0.4) and $-0.5$ (0.5). Enrollment changes by $-0.2$ (0.4) and $+0.0$ (1.0), so the 95 percent intervals exclude a fall larger than 1.0 point at the younger ages and 2.0 at the older; employment by $-0.2$ (0.5) and $+1.2$ (0.7). The pre-event averages are of the same order as the post-event ones and of no consistent sign.
+
+
+Table 9 gives the stacked difference-in-differences coefficients of Section 4.4, one post-event average per share and age. They reproduce the event-study averages of Appendix Table 16: $-0.1$ points (s.e.\ 0.4) for enrolled-and-employed at 16--17 and $+0.4$ (0.5) at 18--19, $+0.0$ (0.5) and $-0.7$ (0.6) for enrolled only, $+0.3$ (0.2) and $+0.5$ (0.6) for employed only, $-0.2$ (0.3) and $-0.3$ (0.4) for neither, and nothing beyond about one standard error from zero for any share or age. The two-way fixed effects regression of the earlier literature, reported in Appendix C, agrees with these estimates in school months and departs from them only when the summer months, in which the enrollment item records summer school, are included.
+
+\begin{table}
+\centering
+\caption{Table 9: Stacked difference-in-differences estimates for teen school--work status, 70 events, 2013--2024}
 
 \small
 \begin{tabular}{p{0.30\textwidth}p{0.227\textwidth}p{0.227\textwidth}p{0.227\textwidth}}
@@ -212,32 +439,32 @@ Employed & 0.002 & 0.010 & 0.006 \\
 
 \end{table}
 
-Figure 3 plots the coefficients by relative year for each share and age bracket. Every post-event point sits inside an interval that includes zero, and the pre-event points look the same as the post-event ones. Enrolled-and-employed at 18--19 drifts up by about half a point and enrolled-only down by the same, which is the mirror image and within noise. The shift from enrolled-and-employed to enrolled-only that Neumark and Shupe (2019) attribute to the minimum wage would appear as a fall in the first panel and a rise in the second; if anything the movements are in the opposite direction.
+Figure 7 plots the coefficients by relative year for each share and age bracket. Every post-event point sits inside an interval that includes zero, and the pre-event points look the same as the post-event ones. Enrolled-and-employed at 18--19 drifts up by about half a point and enrolled-only down by the same, which is the mirror image and within noise. The shift from enrolled-and-employed to enrolled-only that Neumark and Shupe (2019) attribute to the minimum wage would appear as a fall in the first panel and a rise in the second; if anything the movements are in the opposite direction.
 
 \begin{figure}
 \centering
 
 \includegraphics[width=\textwidth]{figures/figR1_groups.png}
 
-\caption{Figure 3: Event-time effects on the four school--work shares, by age, 70 events, 2013--2024}
+\caption{Figure 7: Event-time effects on the four school--work shares, by age, 70 events, 2013--2024}
 
 
 
 \noindent\small Notes: Effects relative to the year before the increase, population-weighted across events; 95 percent intervals from the state block bootstrap.
 \end{figure}
 
-\subsection{5.2 School and work by socioeconomic standing}
+\subsection{5.6 School and work by socioeconomic standing}
 
 The theory of Section 2 and the evidence of Ehrenberg and Marcus (1982) and Smith (2021) put the schooling response, if there is one, among teens from poorer families: the opportunity-cost channel binds hardest where the alternative to school is a minimum wage job, and the liquidity channel operates only where the family cannot pay for school. Smith (2021) finds that a 10 percent rise in the state minimum lowers dropout by 0.5 to 1.0 points among teens whose parents lack a diploma and does nothing for the rest. The CPS basic monthly files identify the family's income category, so I split teens by family income below versus at or above \$50,000, close to the median for teen households over the period; Appendix D repeats the analysis with a split at the weighted median income category among teens in the same survey year, which removes the drift of a nominal threshold (45 percent of teens were below \$50,000 in 2007, 28 percent in 2024). Smith (2021) reports his own estimates with income-percentile splits and finds the effect concentrated in the bottom of the distribution and shrinking as the threshold rises toward the median, so a median split is a test of the same claim at a coarser cut.
 
-Appendix Tables 16 and 17 give the post-event averages for the four shares by family income and age, and Figure 4 plots the event-time coefficients for the pooled ages. No share differs by income. For low-income teens, enrolled-and-employed changes by $+0.4$ points (s.e.\ 0.8) at 16--17 and $+0.7$ (0.8) at 18--19, enrolled-only by $-0.3$ (1.0) and $-0.3$ (0.9), employed-only by $-0.2$ (0.4) and $+0.7$ (1.1), neither by $+0.2$ (0.5) and $-1.1$ (0.7); for high-income teens the corresponding figures are $-0.6$ (0.5) and $+0.8$ (0.9), $+0.3$ (0.6) and $-0.8$ (0.8), $+0.4$ (0.3) and $+0.4$ (1.0), $-0.1$ (0.4) and $-0.4$ (0.6). Enrollment among low-income teens changes by $+0.0$ (0.5) at 16--17 and $+0.4$ (1.2) at 18--19. The low-minus-high differences are within about one standard error of zero for every share and age, and the within-year median split in the appendix gives the same picture. The prediction of the liquidity channel, a rise in enrollment among poorer teens, does not appear: the low-income enrollment interval at 16--17 excludes a rise larger than 1.0 point.
+Appendix Tables 17 and 18 give the post-event averages for the four shares by family income and age, and Figure 8 plots the event-time coefficients for the pooled ages. No share differs by income. For low-income teens, enrolled-and-employed changes by $+0.4$ points (s.e.\ 0.8) at 16--17 and $+0.7$ (0.8) at 18--19, enrolled-only by $-0.3$ (1.0) and $-0.3$ (0.9), employed-only by $-0.2$ (0.4) and $+0.7$ (1.1), neither by $+0.2$ (0.5) and $-1.1$ (0.7); for high-income teens the corresponding figures are $-0.6$ (0.5) and $+0.8$ (0.9), $+0.3$ (0.6) and $-0.8$ (0.8), $+0.4$ (0.3) and $+0.4$ (1.0), $-0.1$ (0.4) and $-0.4$ (0.6). Enrollment among low-income teens changes by $+0.0$ (0.5) at 16--17 and $+0.4$ (1.2) at 18--19. The low-minus-high differences are within about one standard error of zero for every share and age, and the within-year median split in the appendix gives the same picture. The prediction of the liquidity channel, a rise in enrollment among poorer teens, does not appear: the low-income enrollment interval at 16--17 excludes a rise larger than 1.0 point.
 
 
-The stacked coefficients in Table 3 repeat the pattern within each income group. The only coefficient at two standard errors is employed-only among high-income 16--17 year olds, $+0.4$ points (s.e.\ 0.2), a rise; the neither share changes by $-0.4$ (0.5) for low-income and $-0.2$ (0.3) for high-income 16--17 year olds.
+The stacked coefficients in Table 10 repeat the pattern within each income group. The only coefficient at two standard errors is employed-only among high-income 16--17 year olds, $+0.4$ points (s.e.\ 0.2), a rise; the neither share changes by $-0.4$ (0.5) for low-income and $-0.2$ (0.3) for high-income 16--17 year olds.
 
 \begin{table}
 \centering
-\caption{Table 3: Stacked difference-in-differences estimates for school--work status by family income}
+\caption{Table 10: Stacked difference-in-differences estimates for school--work status by family income}
 
 \small
 \begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
@@ -259,7 +486,7 @@ Neither enrolled nor employed & -0.004 & -0.002 & -0.006 & -0.003 & -0.005 & -0.
 
 
 
-\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Specification as in Table 2; standard errors clustered by state in parentheses.
+\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Specification as in Table 9; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -268,19 +495,19 @@ Neither enrolled nor employed & -0.004 & -0.002 & -0.006 & -0.003 & -0.005 & -0.
 
 \includegraphics[width=\textwidth]{figures/figR2_groups_ses.png}
 
-\caption{Figure 4: Event-time effects on the four school--work shares by family income, ages 16--19}
+\caption{Figure 8: Event-time effects on the four school--work shares by family income, ages 16--19}
 
 \end{figure}
 
-\subsection{5.3 School and work by sex}
+\subsection{5.7 School and work by sex}
 
-Girls and boys differ on both margins that the theory of Section 2 turns on. Over 2007--2026, 76 percent of 16--19 year old girls are enrolled and 31 percent employed, against 74 and 30 percent of boys, and hourly-paid girls earn \$10.35 an hour against \$11.19 for boys, so a rise in the minimum binds on more of the jobs girls hold. If the opportunity-cost channel operates, it should show first among girls, whose wage moves more; if the liquidity channel operates, it should show among whichever group is closer to the enrollment margin, which at 18--19 is boys. Appendix Tables 19 and 20 give the post-event averages for the four shares by sex and age, Table 4 the stacked coefficients, and Figure 5 the event-time coefficients for the pooled ages.
+Girls and boys differ on both margins that the theory of Section 2 turns on. Over 2007--2026, 76 percent of 16--19 year old girls are enrolled and 31 percent employed, against 74 and 30 percent of boys, and hourly-paid girls earn \$10.35 an hour against \$11.19 for boys, so a rise in the minimum binds on more of the jobs girls hold. If the opportunity-cost channel operates, it should show first among girls, whose wage moves more; if the liquidity channel operates, it should show among whichever group is closer to the enrollment margin, which at 18--19 is boys. Appendix Tables 19 and 20 give the post-event averages for the four shares by sex and age, Table 11 the stacked coefficients, and Figure 9 the event-time coefficients for the pooled ages.
 
-The one place where the shares move is the youngest girls. At 16--17 their share enrolled and employed falls by 1.4 points (s.e.\ 0.5) and their employment by 1.3 (0.5), with pre-event averages of $-0.1$ and $-0.0$, and their share enrolled only rises by 1.3 (0.7), so enrollment is unchanged ($-0.0$, s.e.\ 0.5) and the movement is out of work and into school only, the shift that Neumark and Shupe (2019) describe. Boys of the same age move the other way, $+0.7$ (1.0) on enrolled-and-employed and $+1.0$ (0.9) on employment, so the girl--boy difference on employment is $-2.3$ points with a standard error of about 1.0. At 18--19 girls' four shares change by $+0.8$ (1.0), $+0.4$ (0.9), $-0.0$ (0.9) and $-1.2$ (0.8), with pre-event averages of the same size and sign ($+1.8$, $+1.2$, $-1.3$, $-1.7$), which is drift rather than response, and boys' by $+0.7$ (0.7), $-1.8$ (0.9), $+1.0$ (0.9) and $+0.2$ (0.6). Pooling the ages, girls' employment changes by $-0.6$ (0.6) and boys' by $+1.3$ (0.7), and boys' enrolled-only share falls by 1.4 (0.5) with a pre-event average of $-0.6$. These two cells, girls' work at 16--17 and boys' enrolled-only share pooled, are the only ones of the 36 in the sex split beyond two standard errors, and they point in opposite directions: girls move from work-while-enrolled toward school only, boys from school only toward work-while-enrolled. The wage first stage for girls at 16--17, 5.4 percent (1.9), is no larger than boys' 4.9 (1.7), and in Figure 5 the pooled enrolled-only series for girls sits about a point above the boys' series after the increases but also in the two years before them, so the divergence between the sexes is not timed to the events. I read the 16--17 estimate as the upper bound of what the design can find: a fall of about one point in the employment of the youngest girls, balanced by more schooling only, and no change in their enrollment. The stacked coefficients (Table 4) say the same. At 16--17, girls' enrolled-and-employed changes by $-1.2$ points (s.e.\ 0.6) and enrolled-only by $+1.1$ (0.7); boys' by $+1.0$ (0.6) and $-1.0$ (0.6). At 18--19 girls' four shares change by $-0.3$ (0.6), $-0.3$ (0.8), $+0.7$ (0.7) and $-0.1$ (0.5), and boys' by $+1.1$ (0.6), $-0.9$ (0.7), $+0.3$ (0.7) and $-0.5$ (0.5). Pooling the ages, boys shift about a point from enrolled-only to enrolled-and-employed ($+1.1$, s.e.\ 0.5, and $-1.0$, 0.5) and girls about half a point the other way ($-0.7$, 0.4, and $+0.4$, 0.7), which is why the two sexes cancel in Table 2: the pooled estimates are nulls because the sexes offset, not because nothing happens to either. Enrollment does not change for either sex at any age.
+The one place where the shares move is the youngest girls. At 16--17 their share enrolled and employed falls by 1.4 points (s.e.\ 0.5) and their employment by 1.3 (0.5), with pre-event averages of $-0.1$ and $-0.0$, and their share enrolled only rises by 1.3 (0.7), so enrollment is unchanged ($-0.0$, s.e.\ 0.5) and the movement is out of work and into school only, the shift that Neumark and Shupe (2019) describe. Boys of the same age move the other way, $+0.7$ (1.0) on enrolled-and-employed and $+1.0$ (0.9) on employment, so the girl--boy difference on employment is $-2.3$ points with a standard error of about 1.0. At 18--19 girls' four shares change by $+0.8$ (1.0), $+0.4$ (0.9), $-0.0$ (0.9) and $-1.2$ (0.8), with pre-event averages of the same size and sign ($+1.8$, $+1.2$, $-1.3$, $-1.7$), which is drift rather than response, and boys' by $+0.7$ (0.7), $-1.8$ (0.9), $+1.0$ (0.9) and $+0.2$ (0.6). Pooling the ages, girls' employment changes by $-0.6$ (0.6) and boys' by $+1.3$ (0.7), and boys' enrolled-only share falls by 1.4 (0.5) with a pre-event average of $-0.6$. These two cells, girls' work at 16--17 and boys' enrolled-only share pooled, are the only ones of the 36 in the sex split beyond two standard errors, and they point in opposite directions: girls move from work-while-enrolled toward school only, boys from school only toward work-while-enrolled. The wage first stage for girls at 16--17, 5.4 percent (1.9), is no larger than boys' 4.9 (1.7), and in Figure 9 the pooled enrolled-only series for girls sits about a point above the boys' series after the increases but also in the two years before them, so the divergence between the sexes is not timed to the events. I read the 16--17 estimate as the upper bound of what the design can find: a fall of about one point in the employment of the youngest girls, balanced by more schooling only, and no change in their enrollment. The stacked coefficients (Table 11) say the same. At 16--17, girls' enrolled-and-employed changes by $-1.2$ points (s.e.\ 0.6) and enrolled-only by $+1.1$ (0.7); boys' by $+1.0$ (0.6) and $-1.0$ (0.6). At 18--19 girls' four shares change by $-0.3$ (0.6), $-0.3$ (0.8), $+0.7$ (0.7) and $-0.1$ (0.5), and boys' by $+1.1$ (0.6), $-0.9$ (0.7), $+0.3$ (0.7) and $-0.5$ (0.5). Pooling the ages, boys shift about a point from enrolled-only to enrolled-and-employed ($+1.1$, s.e.\ 0.5, and $-1.0$, 0.5) and girls about half a point the other way ($-0.7$, 0.4, and $+0.4$, 0.7), which is why the two sexes cancel in Table 9: the pooled estimates are nulls because the sexes offset, not because nothing happens to either. Enrollment does not change for either sex at any age.
 
 \begin{table}
 \centering
-\caption{Table 4: Stacked difference-in-differences estimates for school--work status by sex}
+\caption{Table 11: Stacked difference-in-differences estimates for school--work status by sex}
 
 \small
 \begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
@@ -302,7 +529,7 @@ Neither enrolled nor employed & 0.000 & -0.005 & -0.001 & -0.005 & -0.000 & -0.0
 
 
 
-\noindent\small Notes: Specification as in Table 2; standard errors clustered by state in parentheses.
+\noindent\small Notes: Specification as in Table 9; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -311,19 +538,19 @@ Neither enrolled nor employed & 0.000 & -0.005 & -0.001 & -0.005 & -0.000 & -0.0
 
 \includegraphics[width=\textwidth]{figures/figR2_groups_sex.png}
 
-\caption{Figure 5: Event-time effects on the four school--work shares by sex, ages 16--19}
+\caption{Figure 9: Event-time effects on the four school--work shares by sex, ages 16--19}
 
 \end{figure}
 
-\subsection{5.4 School and work by race}
+\subsection{5.8 School and work by race}
 
-Non-Hispanic white teens are 54 percent of 16--19 year olds over 2007--2026; the rest are Hispanic (half of the non-white group), Black (a third) and other. The two groups enroll at the same rate, 75 percent, but white teens are employed at 35 percent against 25 percent for non-white teens, and the share neither in school nor at work is 11 against 14 percent. Non-white teens are concentrated in the jurisdictions that raised their minimums, the large states of the West and Northeast and the big-city counties, so they carry more of the weight in the treated population than in the controls, and their families have lower incomes on average, so the liquidity channel, if it operates, should show among them. Appendix Tables 21 and 22 give the post-event averages by race and age, Table 5 the stacked coefficients, and Figure 6 the event-time coefficients for the pooled ages.
+Non-Hispanic white teens are 54 percent of 16--19 year olds over 2007--2026; the rest are Hispanic (half of the non-white group), Black (a third) and other. The two groups enroll at the same rate, 75 percent, but white teens are employed at 35 percent against 25 percent for non-white teens, and the share neither in school nor at work is 11 against 14 percent. Non-white teens are concentrated in the jurisdictions that raised their minimums, the large states of the West and Northeast and the big-city counties, so they carry more of the weight in the treated population than in the controls, and their families have lower incomes on average, so the liquidity channel, if it operates, should show among them. Appendix Tables 21 and 22 give the post-event averages by race and age, Table 12 the stacked coefficients, and Figure 10 the event-time coefficients for the pooled ages.
 
-Nothing differs by race. For white teens the four shares change by $+0.3$ (s.e.\ 0.7), $-0.2$ (0.7), $+0.2$ (0.4) and $-0.3$ (0.5) at 16--17 and by $-0.0$ (1.1), $-1.1$ (0.8), $+0.8$ (1.1) and $+0.3$ (0.8) at 18--19; for non-white teens by $-1.3$ (0.7), $+1.0$ (1.1), $+0.0$ (0.4) and $+0.2$ (0.5), and by $+1.2$ (0.7), $+0.1$ (1.1), $-0.0$ (1.0) and $-1.3$ (0.8). Enrollment of non-white teens changes by $-0.3$ (0.7) at 16--17 and $+1.3$ (1.0) at 18--19, employment by $-1.3$ (0.9) and $+1.2$ (1.3), and the pooled estimates are within about half a point of zero for every share. The non-white enrolled-and-employed estimate at 16--17 has the sign of the girls' estimate of Section 5.3, but it is under two standard errors, its pre-event average is $-0.6$, and the enrolled-only estimate beside it is $+1.0$ (1.1). The liquidity channel's prediction, a rise in enrollment among the group with lower family incomes, does not appear: the non-white enrollment interval at 16--17 excludes a rise larger than 1.1 points. The stacked coefficients (Table 5) agree. At 16--17 the white shares change by $+0.4$ (s.e.\ 0.5), $-0.6$ (0.7), $+0.3$ (0.3) and $-0.1$ (0.4), and the non-white shares by $-0.7$ (0.5), $+0.8$ (0.8), $+0.3$ (0.3) and $-0.5$ (0.4). The one coefficient beyond two standard errors is non-white enrolled-and-employed at 18--19, $+1.6$ (0.4), a rise, beside $-0.8$ (0.7) for white teens.
+Nothing differs by race. For white teens the four shares change by $+0.3$ (s.e.\ 0.7), $-0.2$ (0.7), $+0.2$ (0.4) and $-0.3$ (0.5) at 16--17 and by $-0.0$ (1.1), $-1.1$ (0.8), $+0.8$ (1.1) and $+0.3$ (0.8) at 18--19; for non-white teens by $-1.3$ (0.7), $+1.0$ (1.1), $+0.0$ (0.4) and $+0.2$ (0.5), and by $+1.2$ (0.7), $+0.1$ (1.1), $-0.0$ (1.0) and $-1.3$ (0.8). Enrollment of non-white teens changes by $-0.3$ (0.7) at 16--17 and $+1.3$ (1.0) at 18--19, employment by $-1.3$ (0.9) and $+1.2$ (1.3), and the pooled estimates are within about half a point of zero for every share. The non-white enrolled-and-employed estimate at 16--17 has the sign of the girls' estimate of Section 5.7, but it is under two standard errors, its pre-event average is $-0.6$, and the enrolled-only estimate beside it is $+1.0$ (1.1). The liquidity channel's prediction, a rise in enrollment among the group with lower family incomes, does not appear: the non-white enrollment interval at 16--17 excludes a rise larger than 1.1 points. The stacked coefficients (Table 12) agree. At 16--17 the white shares change by $+0.4$ (s.e.\ 0.5), $-0.6$ (0.7), $+0.3$ (0.3) and $-0.1$ (0.4), and the non-white shares by $-0.7$ (0.5), $+0.8$ (0.8), $+0.3$ (0.3) and $-0.5$ (0.4). The one coefficient beyond two standard errors is non-white enrolled-and-employed at 18--19, $+1.6$ (0.4), a rise, beside $-0.8$ (0.7) for white teens.
 
 \begin{table}
 \centering
-\caption{Table 5: Stacked difference-in-differences estimates for school--work status by race}
+\caption{Table 12: Stacked difference-in-differences estimates for school--work status by race}
 
 \small
 \begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
@@ -345,7 +572,7 @@ Neither enrolled nor employed & -0.001 & -0.005 & 0.002 & -0.008 & 0.001 & -0.00
 
 
 
-\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table 2; standard errors clustered by state in parentheses.
+\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table 9; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -354,232 +581,7 @@ Neither enrolled nor employed & -0.001 & -0.005 & 0.002 & -0.008 & 0.001 & -0.00
 
 \includegraphics[width=\textwidth]{figures/figR2_groups_race.png}
 
-\caption{Figure 6: Event-time effects on the four school--work shares by race, ages 16--19}
-
-\end{figure}
-
-\subsection{5.5 Wages}
-
-Appendix Table 18 and Figure 7 give the effect on teen pay. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.9 percent in the year of the increase, 7.2 percent in the first full year after it, 5.6 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.3, 3.7, 2.9 and 5.1 percent for 18--19 year olds; pooling the ages, by 0.8, 4.8, 3.7 and 6.1 percent. The post-event averages are 5.4 percent (s.e.\ 1.3), 3.0 percent (0.9) and 3.9 percent (0.9). The year-0 effect is small because that year averages up to eleven pre-increase months with the first months after, and because most schedules add their later steps in years 1 to 3; from year 1 the wage effect is three to six standard errors from zero and grows with the schedule. The pre-event coefficients are within two standard errors of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 5.4 percent (3.3) at 16--17 and 4.5 percent (2.5) at 18--19, so hours did not fall to offset the wage.
-
-The wage gain is about a seventh of the rise in the minimum. That is what one expects: a large share of hourly-paid teens already earn above the old minimum, the minimum binds most for the youngest and least experienced, and the hourly wage question is asked only of those paid by the hour. The point for the rest of the paper is that the events moved the pay of teenagers by an amount that is large relative to the precision of the time-allocation estimates, so the nulls of the previous two subsections are not nulls on the treatment.
-
-
-The stacked coefficients for the wage (Table 6) are 5.1 percent (s.e.\ 0.8) at 16--17, 3.1 (0.8) at 18--19 and 3.9 (0.7) pooled, next to the event-study averages of 5.4, 3.0 and 3.9; for weekly earnings they are 5.7 (2.4), 4.9 (1.4) and 5.2 (1.7). The two-way fixed effects elasticity of the teen wage with respect to the minimum, in Appendix C, is about 0.2 at every age, which for the average event implies gains of 5 to 7 percent. Where the treatment has a real effect the designs agree in sign and roughly in size.
-
-\begin{table}
-\centering
-\caption{Table 6: Stacked difference-in-differences estimates for teen wages and earnings, 70 events, 2013--2024}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.227\textwidth}p{0.227\textwidth}p{0.227\textwidth}}
-\toprule
- & Ages 16--17 & Ages 18--19 & Ages 16--19 \\
-\midrule
-Log hourly wage, hourly paid & 0.051\textsuperscript{***} & 0.031\textsuperscript{***} & 0.039\textsuperscript{***} \\
- & (0.008) & (0.008) & (0.007) \\
-Log weekly earnings & 0.057\textsuperscript{**} & 0.049\textsuperscript{***} & 0.052\textsuperscript{***} \\
- & (0.024) & (0.014) & (0.017) \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: Outgoing rotation groups, earnings weights. Specification as in Table 2; standard errors clustered by state in parentheses.
-
-\end{table}
-
-\begin{figure}
-\centering
-
-\includegraphics[width=0.85\textwidth]{figures/figR3_wage.png}
-
-\caption{Figure 7: Event-time effects on the log hourly wage of hourly-paid teens, by age}
-
-\end{figure}
-
-\subsection{5.6 Wages by socioeconomic standing}
-
-Table 7 and Figure 8 split the wage effect by family income. The gain reaches both groups. Pooling the ages, the hourly wage of low-income teens rises 4.3 percent (s.e.\ 1.1) and of high-income teens 3.8 percent (1.0). At 18--19 the gain is larger for low-income teens, 4.6 percent (1.1) against 2.3 (1.0), which is what one expects if their jobs sit closer to the floor. At 16--17 the low-income estimate is imprecise, 2.6 percent (2.7), because few low-income 16--17 year olds are hourly-paid workers in an outgoing rotation month; under the within-year median split of Appendix D it is 4.8 percent (1.9). The first stage is therefore present for exactly the teens for whom the liquidity channel should operate, and the previous subsections show that their time allocation did not respond to it.
-
-\begin{table}
-\centering
-\caption{Table 7: Wages and earnings by family income: below versus at or above \$50,000, post-event averages}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
-\toprule
- & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
-
- & Low & High & Low & High & Low & High \\
-\midrule
-Log hourly wage, hourly-paid teens & 0.026 & 0.060\textsuperscript{***} & 0.046\textsuperscript{***} & 0.023\textsuperscript{**} & 0.043\textsuperscript{***} & 0.038\textsuperscript{***} \\
- & (0.027) & (0.014) & (0.011) & (0.010) & (0.011) & (0.010) \\
-Log weekly earnings, all teen workers &  &  &  &  &  &  \\
- &  &  &  &  &  &  \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
-
-\end{table}
-
-The stacked coefficients by income (Table 8) confirm that the gain reached both groups and was somewhat larger for the poorer one. Because the stacked regression pools the base period over 36 months, it is more precise than the event-study average for the thin low-income 16--17 cell: it gives 7.6 percent (s.e.\ 1.3) for low-income against 4.5 (0.9) for high-income teens at 16--17, 4.0 (1.1) against 2.5 (0.9) at 18--19, and 5.0 (1.1) against 3.4 (0.7) pooled.
-
-\begin{table}
-\centering
-\caption{Table 8: Stacked difference-in-differences estimates for wages and earnings by family income}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
-\toprule
- & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
-
- & Low & High & Low & High & Low & High \\
-\midrule
-Log hourly wage, hourly paid & 0.076\textsuperscript{***} & 0.045\textsuperscript{***} & 0.040\textsuperscript{***} & 0.025\textsuperscript{***} & 0.050\textsuperscript{***} & 0.034\textsuperscript{***} \\
- & (0.013) & (0.009) & (0.011) & (0.009) & (0.011) & (0.007) \\
-Log weekly earnings & 0.070\textsuperscript{**} & 0.065\textsuperscript{***} & 0.047 & 0.041\textsuperscript{***} & 0.054\textsuperscript{**} & 0.050\textsuperscript{***} \\
- & (0.035) & (0.025) & (0.029) & (0.014) & (0.026) & (0.016) \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Outgoing rotation groups, earnings weights. Specification as in Table 2; standard errors clustered by state in parentheses.
-
-\end{table}
-
-\begin{figure}
-\centering
-
-\includegraphics[width=\textwidth]{figures/figR4_wage_ses.png}
-
-\caption{Figure 8: Event-time effects on the log hourly wage by family income and age}
-
-\end{figure}
-
-\subsection{5.7 Wages by sex}
-
-Table 9 and Figure 9 split the wage effect by sex. The gain reaches both. Girls' hourly wage rises 5.4 percent (s.e.\ 1.9) at 16--17, 3.0 (0.9) at 18--19 and 3.9 (1.0) pooled; boys' 4.9 (1.7), 2.8 (1.4) and 3.7 (1.3). The girls' gain is slightly larger at every age, as their lower starting wage implies, but by a fraction of a standard error. Weekly earnings rise 5.7 (3.3) at 16--17 and 5.0 (2.7) at 18--19 for girls and 6.2 (5.0) and 3.8 (3.6) for boys, so hours did not fall for either. The employment estimate for girls at 16--17 in Section 5.3 therefore does not come with a smaller wage gain or a fall in the earnings of those who work. The stacked coefficients (Table 10) are 5.4 percent (s.e.\ 1.2), 2.4 (0.8) and 3.7 (0.8) for girls and 4.8 (0.9), 3.8 (1.0) and 4.3 (0.8) for boys.
-
-\begin{table}
-\centering
-\caption{Table 9: Wages and earnings by sex: post-event averages}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
-\toprule
- & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
-
- & Girls & Boys & Girls & Boys & Girls & Boys \\
-\midrule
-Log hourly wage, hourly-paid teens & 0.054\textsuperscript{***} & 0.049\textsuperscript{***} & 0.030\textsuperscript{***} & 0.028\textsuperscript{**} & 0.039\textsuperscript{***} & 0.037\textsuperscript{***} \\
- & (0.019) & (0.017) & (0.009) & (0.014) & (0.010) & (0.013) \\
-Log weekly earnings, all teen workers & 0.057\textsuperscript{*} & 0.062 & 0.050\textsuperscript{*} & 0.038 & 0.050\textsuperscript{**} & 0.045 \\
- & (0.033) & (0.050) & (0.027) & (0.036) & (0.022) & (0.038) \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
-
-\end{table}
-
-\begin{table}
-\centering
-\caption{Table 10: Stacked difference-in-differences estimates for wages and earnings by sex}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
-\toprule
- & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
-
- & Girls & Boys & Girls & Boys & Girls & Boys \\
-\midrule
-Log hourly wage, hourly paid & 0.054\textsuperscript{***} & 0.048\textsuperscript{***} & 0.024\textsuperscript{***} & 0.038\textsuperscript{***} & 0.037\textsuperscript{***} & 0.043\textsuperscript{***} \\
- & (0.012) & (0.009) & (0.008) & (0.010) & (0.008) & (0.008) \\
-Log weekly earnings & 0.051\textsuperscript{*} & 0.062\textsuperscript{**} & 0.057\textsuperscript{***} & 0.043\textsuperscript{**} & 0.056\textsuperscript{***} & 0.053\textsuperscript{**} \\
- & (0.031) & (0.031) & (0.018) & (0.019) & (0.019) & (0.021) \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: Outgoing rotation groups, earnings weights. Specification as in Table 2; standard errors clustered by state in parentheses.
-
-\end{table}
-
-\begin{figure}
-\centering
-
-\includegraphics[width=\textwidth]{figures/figR4_wage_sex.png}
-
-\caption{Figure 9: Event-time effects on the log hourly wage by sex and age}
-
-\end{figure}
-
-\subsection{5.8 Wages by race}
-
-Table 11 and Figure 10 split the wage effect by race. Non-white teens gain more: 7.4 percent (s.e.\ 1.7) at 16--17 against 5.1 (1.9) for white teens, 3.5 (1.4) against 2.9 (1.4) at 18--19, and 4.4 (1.3) against 3.7 (1.3) pooled. The 2.3-point difference at 16--17 is what one expects if non-white teens' jobs sit closer to the floor and if they are concentrated in the units with the largest increases. Weekly earnings of non-white teen workers are too thinly measured to say much, $+4.8$ (7.5) at 16--17 and $+3.9$ (3.8) at 18--19, against $+6.6$ (3.3) and $+6.0$ (3.2) for white teens. The first stage is present, and larger, for the group whose families have lower incomes, and Section 5.4 shows that their time allocation did not respond to it. The stacked coefficients (Table 12) are 4.9 percent (s.e.\ 1.1), 2.6 (1.2) and 3.6 (0.9) for white teens and 5.9 (1.2), 4.0 (1.1) and 4.6 (0.9) for non-white teens.
-
-\begin{table}
-\centering
-\caption{Table 11: Wages and earnings by race: post-event averages}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
-\toprule
- & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
-
- & White & Non-white & White & Non-white & White & Non-white \\
-\midrule
-Log hourly wage, hourly-paid teens & 0.051\textsuperscript{***} & 0.074\textsuperscript{***} & 0.029\textsuperscript{**} & 0.035\textsuperscript{**} & 0.037\textsuperscript{***} & 0.044\textsuperscript{***} \\
- & (0.019) & (0.017) & (0.014) & (0.014) & (0.013) & (0.013) \\
-Log weekly earnings, all teen workers & 0.066\textsuperscript{**} & 0.048 & 0.060\textsuperscript{*} & 0.039 & 0.063\textsuperscript{**} & 0.038 \\
- & (0.033) & (0.075) & (0.032) & (0.038) & (0.027) & (0.040) \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Block-bootstrap standard errors in parentheses.
-
-\end{table}
-
-\begin{table}
-\centering
-\caption{Table 12: Stacked difference-in-differences estimates for wages and earnings by race}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
-\toprule
- & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
-
- & White & Non-white & White & Non-white & White & Non-white \\
-\midrule
-Log hourly wage, hourly paid & 0.049\textsuperscript{***} & 0.059\textsuperscript{***} & 0.026\textsuperscript{**} & 0.040\textsuperscript{***} & 0.036\textsuperscript{***} & 0.046\textsuperscript{***} \\
- & (0.011) & (0.012) & (0.012) & (0.011) & (0.009) & (0.009) \\
-Log weekly earnings & 0.057\textsuperscript{***} & 0.074\textsuperscript{*} & 0.054\textsuperscript{**} & 0.042\textsuperscript{*} & 0.055\textsuperscript{***} & 0.047\textsuperscript{**} \\
- & (0.022) & (0.039) & (0.022) & (0.022) & (0.019) & (0.023) \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table 2; standard errors clustered by state in parentheses.
-
-\end{table}
-
-\begin{figure}
-\centering
-
-\includegraphics[width=\textwidth]{figures/figR4_wage_race.png}
-
-\caption{Figure 10: Event-time effects on the log hourly wage by race and age}
+\caption{Figure 10: Event-time effects on the four school--work shares by race, ages 16--19}
 
 \end{figure}
 
@@ -787,11 +789,35 @@ This paper estimates the effect of minimum wage increases on the wages and the t
 \appendix
 \section{A Post-event average tables}
 
-Tables 15 to 18 collect the post-event averages that Section 5 discusses. Each reports the post-event average effect of the increases, the mean of the relative-year effects for the four years from the increase relative to the year before it, population-weighted across the 70 events, 2013--2024, with the block-bootstrap standard error beneath and the average of the two pre-event coefficients beside it. Table 15 gives the four school--work shares, enrollment and employment for all teens by age; Tables 16 and 17 repeat it for teens from families with income below \$50,000 and at or above it; Table 18 gives the log hourly wage of hourly-paid teens and the log weekly earnings of all teen workers; Tables 19 to 22 repeat Table 15 for girls, boys, non-Hispanic white teens and all other teens.
+Tables 15 to 18 collect the post-event averages that Section 5 discusses. Each reports the post-event average effect of the increases, the mean of the relative-year effects for the four years from the increase relative to the year before it, population-weighted across the 70 events, 2013--2024, with the block-bootstrap standard error beneath and the average of the two pre-event coefficients beside it. Table 15 gives the log hourly wage of hourly-paid teens and the log weekly earnings of all teen workers; Table 16 gives the four school--work shares, enrollment and employment for all teens by age; Tables 17 and 18 repeat it for teens from families with income below \$50,000 and at or above it; Tables 19 to 22 repeat Table 16 for girls, boys, non-Hispanic white teens and all other teens.
 
 \begin{table}
 \centering
-\caption{Table 15: Effects of minimum wage increases on teen school--work status: post-event averages, 70 events, 2013--2024}
+\caption{Table 15: Effects of minimum wage increases on teen wages and earnings: post-event averages, 70 events, 2013--2024}
+
+\small
+\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
+\toprule
+ & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
+
+ & Post & Pre & Post & Pre & Post & Pre \\
+\midrule
+Log hourly wage, hourly-paid teens & 0.054\textsuperscript{***} & -0.005 & 0.030\textsuperscript{***} & -0.005 & 0.039\textsuperscript{***} & -0.005 \\
+ & (0.013) &  & (0.009) &  & (0.009) &  \\
+Log weekly earnings, all teen workers & 0.054\textsuperscript{*} & -0.008 & 0.045\textsuperscript{*} & -0.004 & 0.051\textsuperscript{**} & -0.004 \\
+ & (0.033) &  & (0.025) &  & (0.025) &  \\
+\bottomrule
+\end{tabular}
+
+
+
+\noindent\small Notes: Outgoing rotation groups, earnings weights. Hourly wage among workers paid by the hour; weekly earnings among all workers. Block-bootstrap standard errors in parentheses.
+
+\end{table}
+
+\begin{table}
+\centering
+\caption{Table 16: Effects of minimum wage increases on teen school--work status: post-event averages, 70 events, 2013--2024}
 
 \small
 \begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
@@ -823,7 +849,7 @@ Employed (first and third rows) & -0.002 & -0.005 & 0.012 & 0.003 & 0.003 & -0.0
 
 \begin{table}
 \centering
-\caption{Table 16: Effects on school--work status, teens from families with income below \$50,000: post-event averages}
+\caption{Table 17: Effects on school--work status, teens from families with income below \$50,000: post-event averages}
 
 \small
 \begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
@@ -849,13 +875,13 @@ Employed (first and third rows) & 0.001 & 0.002 & 0.014 & 0.011 & 0.008 & 0.007 
 
 
 
-\noindent\small Notes: Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table 15.
+\noindent\small Notes: Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table 16.
 
 \end{table}
 
 \begin{table}
 \centering
-\caption{Table 17: Effects on school--work status, teens from families with income of \$50,000 or more: post-event averages}
+\caption{Table 18: Effects on school--work status, teens from families with income of \$50,000 or more: post-event averages}
 
 \small
 \begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
@@ -881,33 +907,10 @@ Employed (first and third rows) & -0.002 & -0.012 & 0.012 & -0.002 & 0.001 & -0.
 
 
 
-\noindent\small Notes: Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table 15.
+\noindent\small Notes: Family income is the CPS household income category, nominal; teens with missing or refused income (7 percent) are excluded. Post, Pre and standard errors as in Table 16.
 
 \end{table}
 
-\begin{table}
-\centering
-\caption{Table 18: Effects of minimum wage increases on teen wages and earnings: post-event averages, 70 events, 2013--2024}
-
-\small
-\begin{tabular}{p{0.30\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}p{0.113\textwidth}}
-\toprule
- & \multicolumn{2}{c}{Ages 16--17} & \multicolumn{2}{c}{Ages 18--19} & \multicolumn{2}{c}{Ages 16--19} \\
-
- & Post & Pre & Post & Pre & Post & Pre \\
-\midrule
-Log hourly wage, hourly-paid teens & 0.054\textsuperscript{***} & -0.005 & 0.030\textsuperscript{***} & -0.005 & 0.039\textsuperscript{***} & -0.005 \\
- & (0.013) &  & (0.009) &  & (0.009) &  \\
-Log weekly earnings, all teen workers & 0.054\textsuperscript{*} & -0.008 & 0.045\textsuperscript{*} & -0.004 & 0.051\textsuperscript{**} & -0.004 \\
- & (0.033) &  & (0.025) &  & (0.025) &  \\
-\bottomrule
-\end{tabular}
-
-
-
-\noindent\small Notes: Outgoing rotation groups, earnings weights. Hourly wage among workers paid by the hour; weekly earnings among all workers. Block-bootstrap standard errors in parentheses.
-
-\end{table}
 
 \begin{table}
 \centering
@@ -937,7 +940,7 @@ Employed (first and third rows) & -0.013\textsuperscript{***} & -0.000 & 0.008 &
 
 
 
-\noindent\small Notes: Post, Pre and standard errors as in Table 15.
+\noindent\small Notes: Post, Pre and standard errors as in Table 16.
 
 \end{table}
 
@@ -969,7 +972,7 @@ Employed (first and third rows) & 0.010 & -0.011 & 0.016\textsuperscript{*} & 0.
 
 
 
-\noindent\small Notes: Post, Pre and standard errors as in Table 15.
+\noindent\small Notes: Post, Pre and standard errors as in Table 16.
 
 \end{table}
 
@@ -1001,7 +1004,7 @@ Employed (first and third rows) & 0.005 & -0.001 & 0.008 & 0.008 & 0.005 & 0.001
 
 
 
-\noindent\small Notes: Post, Pre and standard errors as in Table 15.
+\noindent\small Notes: Post, Pre and standard errors as in Table 16.
 
 \end{table}
 
@@ -1033,7 +1036,7 @@ Employed (first and third rows) & -0.013 & -0.010 & 0.012 & 0.002 & -0.001 & -0.
 
 
 
-\noindent\small Notes: Post, Pre and standard errors as in Table 15.
+\noindent\small Notes: Post, Pre and standard errors as in Table 16.
 
 \end{table}
 
@@ -1246,7 +1249,7 @@ Log weekly earnings & 0.219\textsuperscript{*} & 0.185\textsuperscript{**} & 0.2
 
 \end{table}
 
-By sex and race (Tables 28 to 31) the school-months coefficients repeat the pattern. Enrolled-and-employed at 16--17 is $-0.030$ (s.e.\ 0.017) for girls and $-0.014$ (0.017) for boys, the sex difference of Section 5.3 at about the same size. The neither coefficient at 18--19 is 0.030 (0.013) for girls and 0.004 (0.013) for boys, and 0.040 (0.010) for white teens against 0.000 (0.007) for non-white teens; the federal-floor residual sits among white teens, who are the majority of teens in the federal-floor states. The wage elasticities are 0.21 (0.03) for girls and 0.23 (0.03) for boys at 16--17, and 0.25 (0.03) for white against 0.15 (0.05) for non-white teens at 16--17, 0.21 (0.02) against 0.17 (0.03) pooled.
+By sex and race (Tables 28 to 31) the school-months coefficients repeat the pattern. Enrolled-and-employed at 16--17 is $-0.030$ (s.e.\ 0.017) for girls and $-0.014$ (0.017) for boys, the sex difference of Section 5.7 at about the same size. The neither coefficient at 18--19 is 0.030 (0.013) for girls and 0.004 (0.013) for boys, and 0.040 (0.010) for white teens against 0.000 (0.007) for non-white teens; the federal-floor residual sits among white teens, who are the majority of teens in the federal-floor states. The wage elasticities are 0.21 (0.03) for girls and 0.23 (0.03) for boys at 16--17, and 0.25 (0.03) for white against 0.15 (0.05) for non-white teens at 16--17, 0.21 (0.02) against 0.17 (0.03) pooled.
 
 \begin{table}
 \centering
