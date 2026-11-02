@@ -149,12 +149,12 @@ The wage results come first, because they establish that the increases bound: a 
 
 \subsection{Wages}
 
-Appendix Table~\ref{tab:wage} and Figure~\ref{fig:wage} give the effect on teen pay. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.9 percent in the year of the increase, 7.2 percent in the first full year after it, 5.6 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.3, 3.7, 2.9 and 5.1 percent for 18--19 year olds; pooling the ages, by 0.8, 4.8, 3.7 and 6.1 percent. The post-event averages are 5.4 percent (s.e.\ 1.3), 3.0 percent (0.9) and 3.9 percent (0.9). The year-0 effect is small because the first step of a schedule is a fraction of its cumulative rise: the average first step is 12.5 percent against a 39 percent rise over the window, and most schedules add their later steps in years 1 to 3; from year 1 the wage effect is three to six standard errors from zero and grows with the schedule. The pre-event coefficients are within two standard errors of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 5.4 percent (3.3) at 16--17 and 4.5 percent (2.5) at 18--19, so hours did not fall to offset the wage.
+Three objects give the effect on teen pay: Table~\ref{tab:wagereg}, the stacked regression's post-event average with individual controls; Appendix Table~\ref{tab:wage}, the event-study post-event average with the pre-event average beside it; and Figure~\ref{fig:wage}, the coefficients by relative year. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.9 percent in the year of the increase, 7.2 percent in the first full year after it, 5.6 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.3, 3.7, 2.9 and 5.1 percent for 18--19 year olds; pooling the ages, by 0.8, 4.8, 3.7 and 6.1 percent. The post-event averages are 5.4 percent (s.e.\ 1.3), 3.0 percent (0.9) and 3.9 percent (0.9). The year-0 effect is small because the first step of a schedule is a fraction of its cumulative rise: the average first step is 12.5 percent against a 39 percent rise over the window, and most schedules add their later steps in years 1 to 3; from year 1 the wage effect is three to six standard errors from zero and grows with the schedule. The pre-event coefficients are within two standard errors of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 5.4 percent (3.3) at 16--17 and 4.5 percent (2.5) at 18--19, so hours did not fall to offset the wage.
 
 The wage gain is about a seventh of the rise in the minimum. That is what one expects: a large share of hourly-paid teens already earn above the old minimum, the minimum binds most for the youngest and least experienced, and the hourly wage question is asked only of those paid by the hour. The point for the rest of the paper is that the events moved the pay of teenagers by an amount that is large relative to the precision of the time-allocation estimates, so the nulls on time allocation in Sections~\ref{sec:groups} to \ref{sec:racegroups} are not nulls on the treatment.
 
 
-The stacked coefficients for the wage (Table~\ref{tab:wagereg}) are 5.1 percent (s.e.\ 0.8) at 16--17, 3.1 (0.8) at 18--19 and 3.9 (0.7) pooled, next to the event-study averages of 5.4, 3.0 and 3.9; for weekly earnings they are 5.7 (2.4), 4.9 (1.4) and 5.2 (1.7). The two-way fixed effects elasticity of the teen wage with respect to the minimum, in Appendix~\ref{app:twfe}, is about 0.2 at every age, which for the average event implies gains of 5 to 7 percent. Where the treatment has a real effect the designs agree in sign and roughly in size.
+The stacked regression (Table~\ref{tab:wagereg}) gives 5.1 percent (s.e.\ 0.8) at 16--17, 3.1 (0.8) at 18--19 and 3.9 (0.7) pooled, next to the event-study averages of 5.4, 3.0 and 3.9; for weekly earnings they are 5.7 (2.4), 4.9 (1.4) and 5.2 (1.7). The two-way fixed effects elasticity of the teen wage with respect to the minimum, in Appendix~\ref{app:twfe}, is about 0.2 at every age, which for the average event implies gains of 5 to 7 percent. Where the treatment has a real effect the designs agree in sign and roughly in size.
 
 \begin{table}[H]
 \centering
@@ -163,7 +163,7 @@ The stacked coefficients for the wage (Table~\ref{tab:wagereg}) are 5.1 percent 
 \small
 \input{tables/tabR3b_wage_reg}
 \begin{tablenotes}\footnotesize
-\item Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\item Coefficient on post $\times$ treated in regression~\eqref{eq:stacked}: teen observations in the outgoing rotation groups stacked over the 70 events with their clean controls, 36 months before to 47 months after the increase, event-by-unit and event-by-month fixed effects, dummies for age, sex, race and Hispanic origin and family income category, earnings weights. Hourly wage among workers paid by the hour; weekly earnings among all workers. Standard errors clustered by state in parentheses. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
 \end{tablenotes}
 \end{table}
 
@@ -198,7 +198,7 @@ The stacked coefficients by income (Table~\ref{tab:wagesesreg}) confirm that the
 \small
 \input{tables/tabR4b_wage_ses_reg}
 \begin{tablenotes}\footnotesize
-\item Low: family income below \$50,000; High: \$50,000 or more. Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\item Low: family income below \$50,000; High: \$50,000 or more. Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:wagereg}; standard errors clustered by state in parentheses.
 \end{tablenotes}
 \end{table}
 
@@ -231,7 +231,7 @@ Table~\ref{tab:wagesex} and Figure~\ref{fig:wagesex} split the wage effect by se
 \small
 \input{tables/tabR4b_wage_sex_reg}
 \begin{tablenotes}\footnotesize
-\item Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\item Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:wagereg}; standard errors clustered by state in parentheses.
 \end{tablenotes}
 \end{table}
 
@@ -264,7 +264,7 @@ Table~\ref{tab:wagerace} and Figure~\ref{fig:wagerace} split the wage effect by 
 \small
 \input{tables/tabR4b_wage_race_reg}
 \begin{tablenotes}\footnotesize
-\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table~\ref{tab:wagereg}; standard errors clustered by state in parentheses.
 \end{tablenotes}
 \end{table}
 
@@ -289,7 +289,7 @@ Table~\ref{tab:groupsreg} gives the stacked difference-in-differences coefficien
 \small
 \input{tables/tabR1b_groups_reg}
 \begin{tablenotes}\footnotesize
-\item Coefficient on post $\times$ treated in regression~\eqref{eq:stacked}: teen observations stacked over the 70 events with their clean controls, 36 months before to 47 months after the increase, event-by-unit and event-by-month fixed effects, dummies for age, sex, race and Hispanic origin and family income category, survey weights. Standard errors clustered by state in parentheses. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
+\item Specification as in Table~\ref{tab:wagereg}, with survey weights; standard errors clustered by state in parentheses. $^{*}$, $^{**}$, $^{***}$: significant at 10, 5 and 1 percent.
 \end{tablenotes}
 \end{table}
 
@@ -319,7 +319,7 @@ The stacked coefficients in Table~\ref{tab:groupssesreg} repeat the pattern with
 \small
 \input{tables/tabR2b_groups_ses_reg}
 \begin{tablenotes}\footnotesize
-\item Low: family income below \$50,000; High: \$50,000 or more. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\item Low: family income below \$50,000; High: \$50,000 or more. Specification as in Table~\ref{tab:wagereg}; standard errors clustered by state in parentheses.
 \end{tablenotes}
 \end{table}
 
@@ -343,7 +343,7 @@ The one place where the shares move is the youngest girls. At 16--17 their share
 \small
 \input{tables/tabR2b_groups_sex_reg}
 \begin{tablenotes}\footnotesize
-\item Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\item Specification as in Table~\ref{tab:wagereg}; standard errors clustered by state in parentheses.
 \end{tablenotes}
 \end{table}
 
@@ -367,7 +367,7 @@ Nothing differs by race. For white teens the four shares change by $+0.3$ (s.e.\
 \small
 \input{tables/tabR2b_groups_race_reg}
 \begin{tablenotes}\footnotesize
-\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table~\ref{tab:groupsreg}; standard errors clustered by state in parentheses.
+\item White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table~\ref{tab:wagereg}; standard errors clustered by state in parentheses.
 \end{tablenotes}
 \end{table}
 
