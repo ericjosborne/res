@@ -32,7 +32,11 @@ gen female   = sex == 2
 gen black    = race == 200
 gen hispanic = inrange(hispan, 1, 899)
 gen white    = race == 100 & hispanic == 0             // non-Hispanic white
-gen race4    = cond(hispanic, 3, cond(black, 2, cond(white, 1, 4)))   // 1 white, 2 Black, 3 Hispanic, 4 other
+gen asian    = race == 651 & hispanic == 0             // non-Hispanic Asian (IPUMS RACE 651 = Asian only, 2003 on;
+                                                       //   652 = Hawaiian/Pacific Islander only, 801+ = two or more races)
+gen race4    = cond(hispanic, 3, cond(black, 2, cond(white, 1, 4)))   // 1 white, 2 Black, 3 Hispanic, 4 other (Asian, Pacific Islander,
+                                                                           //   American Indian, multiracial) -- the categories used as controls
+gen race5    = cond(asian, 5, race4)                                   // the same with Asian separated, if wanted as a control instead
 gen hs_grad  = educ >= 73                              // high school diploma or GED
 gen dropout  = (1 - enrolled) * (1 - hs_grad)          // Smith (2021): not enrolled and no diploma
 
@@ -67,7 +71,7 @@ foreach c of local county_units {
 rename statefip state_fips
 rename wtfinl   weight
 
-keep year month ym state_fips county geo age weight earnwt female black hispanic white race4 faminc finc lowses highses ///
+keep year month ym state_fips county geo age weight earnwt female black hispanic white asian race4 race5 faminc finc lowses highses ///
      hs_grad enrolled employed unemp inlf enr_emp enr_only emp_only neither dropout org log_wage log_earnweek
 compress
 save "$CLEAN/cps2.dta", replace

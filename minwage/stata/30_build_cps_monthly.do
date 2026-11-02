@@ -24,6 +24,7 @@ gen neither = (1 - enrolled) * (1 - employed)
 gen female = sex == 2
 gen black = race == 200
 gen white = race == 100 & !inrange(hispan, 1, 899)   // non-Hispanic white
+gen asian = race == 651 & !inrange(hispan, 1, 899)   // non-Hispanic Asian
 gen hispanic = inrange(hispan, 1, 899)
 gen org = eligorg == 1
 capture confirm variable hourwage2
