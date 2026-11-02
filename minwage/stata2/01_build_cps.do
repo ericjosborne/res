@@ -17,8 +17,9 @@ gen enrolled = inrange(schlcoll, 1, 4) if schlcoll != 0   // 0 = not asked (not 
 drop if missing(enrolled)
 
 * ---- work ----
-gen employed = inlist(empstat, 10, 12)
-gen inlf     = labforce == 2
+gen employed = inlist(empstat, 10, 12)                // 10 at work, 12 has a job but not at work last week
+gen unemp    = inlist(empstat, 21, 22)                // 21 unemployed experienced worker, 22 unemployed new worker
+gen inlf     = labforce == 2                          // = employed + unemployed
 
 * ---- the four school-work states ----
 gen enr_emp  = enrolled * employed
@@ -67,6 +68,6 @@ rename statefip state_fips
 rename wtfinl   weight
 
 keep year month ym state_fips county geo age weight earnwt female black hispanic white race4 faminc finc lowses highses ///
-     hs_grad enrolled employed inlf enr_emp enr_only emp_only neither dropout org log_wage log_earnweek
+     hs_grad enrolled employed unemp inlf enr_emp enr_only emp_only neither dropout org log_wage log_earnweek
 compress
 save "$CLEAN/cps2.dta", replace
