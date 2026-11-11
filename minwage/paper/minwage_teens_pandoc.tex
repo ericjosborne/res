@@ -74,7 +74,7 @@ In the non-competitive case the minimum wage raises the expected unskilled wage 
 
 \section{3 Data and Descriptive Statistics}
 
-The individual data are the basic monthly files of the Current Population Survey from January 2010 to December 2025, from IPUMS-CPS (Flood et al., 2024); every estimate and table in the paper uses this window, and the only figure that reaches outside it is the descriptive Figure 1. The basic monthly survey asks every person aged 16--24 whether they attended school or college in the previous week and whether full or part time, which is the enrollment measure used here; the March and October supplements ask enrollment of wider age ranges but only once a year. I keep all 16--24 year olds, 2.44 million person-months, about 6,000 aged 16--19 each month. Employment, labor force status and usual hours come from the standard labor force items. In the outgoing rotation groups, the fourth and eighth months a household is in the survey and a quarter of the sample, the survey records the hourly wage of workers paid by the hour and weekly earnings of all workers; these give the wage outcomes. Person weights are the monthly final weights, and the earnings weights for the outgoing rotation items. The household's income category is recorded for every teen and is the measure of socioeconomic standing; parents' education is not available in an extract of 16--24 year olds.
+The individual data are the basic monthly files of the Current Population Survey from January 2010 to December 2025, from IPUMS-CPS (Flood et al., 2024); every estimate and table in the paper uses this window, and the only figure that reaches outside it is the descriptive Figure 1. The basic monthly survey asks every person aged 16--24 whether they attended school or college in the previous week and whether full or part time, which is the enrollment measure used here; the March and October supplements ask enrollment of wider age ranges but only once a year. I keep all 16--24 year olds, 2.44 million person-months, of which 1.14 million are aged 16--19, about 6,000 teens in each month. Employment, labor force status and usual hours come from the standard labor force items. In the outgoing rotation groups, the fourth and eighth months a household is in the survey and a quarter of the sample, the survey records the hourly wage of workers paid by the hour and weekly earnings of all workers; these give the wage outcomes. Person weights are the monthly final weights, and the earnings weights for the outgoing rotation items. The household's income category is recorded for every teen and is the measure of socioeconomic standing; parents' education is not available in an extract of 16--24 year olds.
 
 The school--work status of a teen is one of four states: enrolled and employed, enrolled only, employed only, and neither enrolled nor employed. These four shares are the main outcomes; enrollment is the sum of the first two and employment the sum of the first and third.
 
@@ -147,13 +147,13 @@ The minimum wage a teenager faces is set by the state and, in a growing number o
 
 \subsection{4.2 Events and clean controls}
 
-The minimum wage is a continuous policy that most jurisdictions now change every January by legislation or indexation, so it cannot be used as a once-and-for-all treatment. Following Cengiz et al. (2019), I define events. An event occurs in unit $u$ and month $t$ if the unit's effective minimum rises by at least 5 percent because of state or local law and there has been no such rise in the unit in the preceding 36 months. Later increases in the following 48 months, which in the modern schedules are the subsequent steps of the same law, are part of the same event, so a multi-year schedule is one event and its dose is the cumulative rise over the window. Increases caused by a change in the federal minimum are not events. An event enters the estimates if its treated unit has CPS teens and its whole window, 36 months before to 47 months after, lies inside the 2010--2025 data, with at least twelve post-event months; this yields 70 events between January 2013 and January 2024 (Appendix Table 23): 37 in state remainders, 18 in counties where state and local rates rose together, and 15 driven by a local rise alone. The events raise the minimum by 5 to 86 percent over the window, 39 percent on average, in 62 cases through two or more steps.
+The minimum wage is a continuous policy that most jurisdictions now change every January by legislation or indexation, so it cannot be used as a once-and-for-all treatment. Following Cengiz et al. (2019), I define events. An event occurs in unit $u$ and month $t$ if the unit's effective minimum rises by at least 5 percent because of state or local law and there has been no such rise in the unit in the preceding 36 months. Later increases in the following 48 months, which in the modern schedules are the subsequent steps of the same law, are part of the same event, so a multi-year schedule is one event and its dose is the cumulative rise over the window. Increases caused by a change in the federal minimum are not events. An event enters the estimates if its treated unit has CPS teens, its full 36-month pre-period lies inside the 2010--2025 data, and at least twelve of its 48 post-event months, the event month and the 47 that follow it, do; events from 2022 on therefore have shortened post-periods, the last, in January 2024, 24 months, and the relative-year effects for years 2 and 3 are averaged over the events that reach them. This yields 70 events between January 2013 and January 2024 (Appendix Table 23): 37 in state remainders, 18 in counties where state and local rates rose together, and 15 driven by a local rise alone. The events raise the minimum by 5 to 86 percent over the window, 39 percent on average, in 62 cases through two or more steps.
 
 The controls for an event are the units in other states that had no qualifying increase in the window from 36 months before the event to 47 months after it. The federal minimum did not change over the window, so these units had no change in their minimum at all; each event has a median of 28 such controls. Increases before 2013, whose pre-event years would fall outside the data, are not events, and every observation in every estimate lies between January 2010 and December 2025.
 
 \subsection{4.3 Estimator}
 
-For event $e$ in unit $u_e$ at month $t_e$, define relative year $k = \lfloor (t - t_e)/12 \rfloor$, so that $k = -1$ is the twelve months before the increase, $k = 0$ the twelve months starting with it, and $k = 3$ the fourth year after. Let $\bar{y}^T_{e,k}$ be the weighted mean of an outcome among teens in the treated unit in relative year $k$, and $\bar{y}^C_{e,k}$ the same among teens in the pooled control units. The event-specific effect in relative year $k$ is
+For event $e$ in unit $u_e$ at month $t_e$, define relative year $k = \lfloor (t - t_e)/12 \rfloor$, so that $k = -1$ is the twelve months before the increase, $k = 0$ the twelve months starting with it, and $k = 3$ the fourth year after; the years are counted from each event's own month, so every relative year covers the same twelve calendar months for the treated unit and its controls, and the same calendar months as the base year, which removes seasonality from the comparison. Let $\bar{y}^T_{e,k}$ be the weighted mean of an outcome among teens in the treated unit in relative year $k$, and $\bar{y}^C_{e,k}$ the same among teens in the pooled control units. The event-specific effect in relative year $k$ is
 \begin{equation}
 \hat\tau_{e,k} = \left( \bar{y}^T_{e,k} - \bar{y}^T_{e,-1} \right) - \left( \bar{y}^C_{e,k} - \bar{y}^C_{e,-1} \right), \qquad k \in \{-3,-2,0,1,2,3\},
 
@@ -179,12 +179,12 @@ The wage results come first, because they establish that the increases bound: a 
 
 \subsection{5.1 Wages}
 
-Appendix Table 15 and Figure 3 give the effect on teen pay. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.9 percent in the year of the increase, 7.2 percent in the first full year after it, 5.6 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.3, 3.7, 2.9 and 5.1 percent for 18--19 year olds; pooling the ages, by 0.8, 4.8, 3.7 and 6.1 percent. The post-event averages are 5.4 percent (s.e.\ 1.3), 3.0 percent (0.9) and 3.9 percent (0.9). The year-0 effect is small because that year averages up to eleven pre-increase months with the first months after, and because most schedules add their later steps in years 1 to 3; from year 1 the wage effect is three to six standard errors from zero and grows with the schedule. The pre-event coefficients are within two standard errors of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 5.4 percent (3.3) at 16--17 and 4.5 percent (2.5) at 18--19, so hours did not fall to offset the wage.
+Three objects give the effect on teen pay: Table 2, the stacked regression's post-event average with individual controls; Appendix Table 15, the event-study post-event average with the pre-event average beside it; and Figure 3, the coefficients by relative year. Among hourly-paid teens in the outgoing rotation groups, the hourly wage in the event units rises relative to controls by 1.9 percent in the year of the increase, 7.2 percent in the first full year after it, 5.6 percent in the second and 7.0 percent in the third for 16--17 year olds, and by 0.3, 3.7, 2.9 and 5.1 percent for 18--19 year olds; pooling the ages, by 0.8, 4.8, 3.7 and 6.1 percent. The post-event averages are 5.4 percent (s.e.\ 1.3), 3.0 percent (0.9) and 3.9 percent (0.9). The year-0 effect is small because the first step of a schedule is a fraction of its cumulative rise: the average first step is 12.5 percent against a 39 percent rise over the window, and most schedules add their later steps in years 1 to 3; from year 1 the wage effect is three to six standard errors from zero and grows with the schedule. The pre-event coefficients are within two standard errors of zero. Weekly earnings of all teen workers, which combine the wage with hours, rise by 5.4 percent (3.3) at 16--17 and 4.5 percent (2.5) at 18--19, so hours did not fall to offset the wage.
 
 The wage gain is about a seventh of the rise in the minimum. That is what one expects: a large share of hourly-paid teens already earn above the old minimum, the minimum binds most for the youngest and least experienced, and the hourly wage question is asked only of those paid by the hour. The point for the rest of the paper is that the events moved the pay of teenagers by an amount that is large relative to the precision of the time-allocation estimates, so the nulls on time allocation in Sections 5.5 to 5.8 are not nulls on the treatment.
 
 
-The stacked coefficients for the wage (Table 2) are 5.1 percent (s.e.\ 0.8) at 16--17, 3.1 (0.8) at 18--19 and 3.9 (0.7) pooled, next to the event-study averages of 5.4, 3.0 and 3.9; for weekly earnings they are 5.7 (2.4), 4.9 (1.4) and 5.2 (1.7). The two-way fixed effects elasticity of the teen wage with respect to the minimum, in Appendix C, is about 0.2 at every age, which for the average event implies gains of 5 to 7 percent. Where the treatment has a real effect the designs agree in sign and roughly in size.
+The stacked regression (Table 2) gives 5.1 percent (s.e.\ 0.8) at 16--17, 3.1 (0.8) at 18--19 and 3.9 (0.7) pooled, next to the event-study averages of 5.4, 3.0 and 3.9; for weekly earnings they are 5.7 (2.4), 4.9 (1.4) and 5.2 (1.7). The two-way fixed effects elasticity of the teen wage with respect to the minimum, in Appendix C, is about 0.2 at every age, which for the average event implies gains of 5 to 7 percent. Where the treatment has a real effect the designs agree in sign and roughly in size.
 
 \begin{table}
 \centering
@@ -204,7 +204,7 @@ Log weekly earnings & 0.057\textsuperscript{**} & 0.049\textsuperscript{***} & 0
 
 
 
-\noindent\small Notes: Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+\noindent\small Notes: Coefficient on post $\times$ treated in regression (6): teen observations in the outgoing rotation groups stacked over the 70 events with their clean controls, 36 months before to 47 months after the increase, event-by-unit and event-by-month fixed effects, dummies for age, sex, race and Hispanic origin and family income category, earnings weights. Hourly wage among workers paid by the hour; weekly earnings among all workers. Standard errors clustered by state in parentheses. \textsuperscript{*}, \textsuperscript{**}, \textsuperscript{***}: significant at 10, 5 and 1 percent.
 
 \end{table}
 
@@ -267,7 +267,7 @@ Log weekly earnings & 0.070\textsuperscript{**} & 0.065\textsuperscript{***} & 0
 
 
 
-\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Outgoing rotation groups, earnings weights. Specification as in Table 2; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -328,7 +328,7 @@ Log weekly earnings & 0.051\textsuperscript{*} & 0.062\textsuperscript{**} & 0.0
 
 
 
-\noindent\small Notes: Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+\noindent\small Notes: Outgoing rotation groups, earnings weights. Specification as in Table 2; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -389,7 +389,7 @@ Log weekly earnings & 0.057\textsuperscript{***} & 0.074\textsuperscript{*} & 0.
 
 
 
-\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table 9; standard errors clustered by state in parentheses.
+\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Outgoing rotation groups, earnings weights. Specification as in Table 2; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -435,7 +435,7 @@ Employed & 0.002 & 0.010 & 0.006 \\
 
 
 
-\noindent\small Notes: Coefficient on post $\times$ treated in regression (6): teen observations stacked over the 70 events with their clean controls, 36 months before to 47 months after the increase, event-by-unit and event-by-month fixed effects, dummies for age, sex, race and Hispanic origin and family income category, survey weights. Standard errors clustered by state in parentheses. \textsuperscript{*}, \textsuperscript{**}, \textsuperscript{***}: significant at 10, 5 and 1 percent.
+\noindent\small Notes: Specification as in Table 2, with survey weights; standard errors clustered by state in parentheses. \textsuperscript{*}, \textsuperscript{**}, \textsuperscript{***}: significant at 10, 5 and 1 percent.
 
 \end{table}
 
@@ -486,7 +486,7 @@ Neither enrolled nor employed & -0.004 & -0.002 & -0.006 & -0.003 & -0.005 & -0.
 
 
 
-\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Specification as in Table 9; standard errors clustered by state in parentheses.
+\noindent\small Notes: Low: family income below \$50,000; High: \$50,000 or more. Specification as in Table 2; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -529,7 +529,7 @@ Neither enrolled nor employed & 0.000 & -0.005 & -0.001 & -0.005 & -0.000 & -0.0
 
 
 
-\noindent\small Notes: Specification as in Table 9; standard errors clustered by state in parentheses.
+\noindent\small Notes: Specification as in Table 2; standard errors clustered by state in parentheses.
 
 \end{table}
 
@@ -572,7 +572,7 @@ Neither enrolled nor employed & -0.001 & -0.005 & 0.002 & -0.008 & 0.001 & -0.00
 
 
 
-\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table 9; standard errors clustered by state in parentheses.
+\noindent\small Notes: White: non-Hispanic white; Non-white: Black, Hispanic and other. Specification as in Table 2; standard errors clustered by state in parentheses.
 
 \end{table}
 
