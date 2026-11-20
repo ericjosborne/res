@@ -12,7 +12,7 @@ gen nonwhite = 1 - white
 tempfile res
 postfile P str20 outcome str10 grp str10 ages double b double se long cells using `res', replace
 foreach g in lowses highses {
-    foreach y in enr_emp enr_only emp_only neither {
+    foreach y in enr_emp enr_only emp_only neither enrolled employed {
         foreach a in 1 2 3 {
             local cond = cond(`a' == 3, "`g' == 1", "`g' == 1 & band == `a'")
             reghdfe `y' post [aw = n] if `cond', absorb(eg et age female race4 finc) cluster(state_fips)

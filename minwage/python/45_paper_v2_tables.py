@@ -11,6 +11,7 @@ D = "unit"; AGES = [("1617", "16--17"), ("1819", "18--19"), ("1619", "16--19")]
 GROUPS = [("enr_emp", "Enrolled and employed"), ("enr_only", "Enrolled only"), ("emp_only", "Employed only"), ("neither", "Neither enrolled nor employed")]
 MEMO = [("enrolled", "Enrolled (first two rows)"), ("employed", "Employed (first and third rows)")]
 WAGE = [("log_wage", "Log hourly wage, hourly-paid teens"), ("log_earnweek", "Log weekly earnings, all teen workers")]
+MEMO_FIG = [("enrolled", "Enrolled"), ("employed", "Employed")]   # figure panel titles without the table-row pointers
 SES = [("lowses", "Low"), ("highses", "High")]; SESREL = [("lowsesrel", "Low"), ("highsesrel", "High")]
 
 
@@ -70,7 +71,7 @@ def ses_series(a, groups, suffix=" family income"): return [(lambda y, a=a, g=g:
 
 # results, part 1: the four school-work groupings
 table_main(GROUPS + MEMO, "tabR1_groups.tex")
-fig_grid(GROUPS, AGE_SERIES, "figR1_groups.png", 2, "School-work status, 73 events from 2010: event-time effects by age, 95% intervals", "Effect (share)")
+fig_grid(GROUPS + MEMO_FIG, AGE_SERIES, "figR1_groups.png", 3, "School-work status, 73 events from 2010: event-time effects by age, 95% intervals", "Effect (share)")
 table_ses(GROUPS + MEMO, SES, "tabR2_groups_ses.tex"); table_ses(GROUPS + MEMO, SESREL, "tabA_groups_sesrel.tex")
 table_main(GROUPS + MEMO, "tabR2_groups_low.tex", group="_lowses"); table_main(GROUPS + MEMO, "tabR2_groups_high.tex", group="_highses")  # separate low / high tables, layout of tabR1
 SEX = [("female", "Girls"), ("male", "Boys")]; RACE = [("white", "White"), ("nonwhite", "Non-white")]
@@ -78,9 +79,9 @@ for g, _ in SEX + RACE:
     table_main(GROUPS + MEMO, f"tabR2_groups_{g}.tex", group=f"_{g}")
 table_ses(WAGE, SEX, "tabR4_wage_sex.tex", heads=("Girls", "Boys")); table_ses(WAGE, RACE, "tabR4_wage_race.tex", heads=("White", "Non-white"))
 for tagn, grp, ttl in (("sex", SEX, "girls vs boys"), ("race", RACE, "non-Hispanic white vs all other")):
-    fig_grid(GROUPS, ses_series("1619", grp, ""), f"figR2_groups_{tagn}.png", 2, f"School-work status by {tagn} ({ttl}), ages 16-19, 95% intervals", "Effect (share)")
-fig_grid(GROUPS, ses_series("1619", SES), "figR2_groups_ses.png", 2, "School-work status by family income (below vs at or above $50,000), ages 16-19, 95% intervals", "Effect (share)")
-fig_grid(GROUPS, ses_series("1619", SESREL), "figA_groups_sesrel.png", 2, "School-work status by family income (within-year median split), ages 16-19, 95% intervals", "Effect (share)")
+    fig_grid(GROUPS + MEMO_FIG, ses_series("1619", grp, ""), f"figR2_groups_{tagn}.png", 3, f"School-work status by {tagn} ({ttl}), ages 16-19, 95% intervals", "Effect (share)")
+fig_grid(GROUPS + MEMO_FIG, ses_series("1619", SES), "figR2_groups_ses.png", 3, "School-work status by family income (below vs at or above $50,000), ages 16-19, 95% intervals", "Effect (share)")
+fig_grid(GROUPS + MEMO_FIG, ses_series("1619", SESREL), "figA_groups_sesrel.png", 3, "School-work status by family income (within-year median split), ages 16-19, 95% intervals", "Effect (share)")
 # results, part 2: log wages
 table_main(WAGE, "tabR3_wage.tex")
 fig_grid([("log_wage", "Log hourly wage, hourly-paid teens (ORG)")], AGE_SERIES, "figR3_wage.png", 1, "First stage: teen wages, 73 events from 2010, 95% intervals", "Effect (log points)")

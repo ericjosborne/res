@@ -22,7 +22,7 @@ foreach g in lowsesrel highsesrel {
             local se = r(se)
             lincom (_b[1.rk#1.treated] + _b[2.rk#1.treated]) / 2
             post P ("`g'") ("`y'") ("`a'") (`post') (`se') (r(estimate))
-            if `a' == 3 & inlist("`y'", "enr_emp", "enr_only", "emp_only", "neither") {
+            if `a' == 3 & inlist("`y'", "enr_emp", "enr_only", "emp_only", "neither", "enrolled", "employed") {
                 forvalues k = 1/7 {
                     if `k' == 3 {
                         post C ("`g'") ("`y'") (-1) (0) (0)
@@ -47,12 +47,12 @@ gen lo = b - 1.96 * se
 gen hi = b + 1.96 * se
 gen kk = k + cond(grp == "lowsesrel", -0.1, 0.1)
 local i = 0
-foreach y in enr_emp enr_only emp_only neither {
+foreach y in enr_emp enr_only emp_only neither enrolled employed {
     local ++i
     twoway (rcap lo hi kk if outcome == "`y'" & grp == "lowsesrel", lcolor(navy)) (scatter b kk if outcome == "`y'" & grp == "lowsesrel", mcolor(navy)) ///
            (rcap lo hi kk if outcome == "`y'" & grp == "highsesrel", lcolor(maroon)) (scatter b kk if outcome == "`y'" & grp == "highsesrel", mcolor(maroon)), ///
         yline(0) xline(-0.5, lcolor(gs12)) xlabel(-3(1)3) title("`y'", size(medsmall)) ///
         xtitle("Years relative to the increase") ytitle("Effect (share)") legend(order(2 "Below median" 4 "At or above median") rows(1) size(small)) name(p`i', replace)
 }
-grc1leg p1 p2 p3 p4, cols(2) title("School-work status by family income, within-year median split, ages 16-19", size(small))
+grc1leg p1 p2 p3 p4 p5 p6, cols(3) title("School-work status by family income, within-year median split, ages 16-19", size(small))
 graph export "$OUT/fig14_groups_sesrel.png", replace width(2000)

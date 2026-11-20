@@ -52,8 +52,8 @@ def fig_grid(outs, a, fname, ncols, title, ylabel):
     for k in range(n, nrows * ncols): axes.flat[k].axis("off")
     axes.flat[0].legend(frameon=False, fontsize=9, loc="upper left", ncol=2)
     fig.suptitle(title, fontsize=10.5, x=0.01, ha="left"); fig.tight_layout(); fig.savefig(PFG / fname, dpi=200); plt.close(fig)
-fig_grid(OUTS[:4], "1619", f"fig{PRE}_groups.png", 2, f"School-work status by family income {GL} (within-year), ages 16-19, 95% intervals", "Effect (share)")
-fig_grid(OUTS[:4], "1617", f"fig{PRE}_groups_1617.png", 2, f"School-work status by family income {GL} (within-year), ages 16-17, 95% intervals", "Effect (share)")
+fig_grid(OUTS[:6], "1619", f"fig{PRE}_groups.png", 3, f"School-work status by family income {GL} (within-year), ages 16-19, 95% intervals", "Effect (share)")
+fig_grid(OUTS[:6], "1617", f"fig{PRE}_groups_1617.png", 3, f"School-work status by family income {GL} (within-year), ages 16-17, 95% intervals", "Effect (share)")
 fig, axes = plt.subplots(1, 3, figsize=(15, 4.2), sharey=True)
 for ax, (a, lab) in zip(axes, AGES):
     for (q, ql), col, off in zip(Q, PALETTE[:len(Q)], OFF):

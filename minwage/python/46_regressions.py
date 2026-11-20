@@ -102,13 +102,13 @@ def tab_rows(outs, fname, key, ses=False, pair=("lowses", "highses"), heads=("Lo
     else: head = "\\begin{tabular}{lccc}\n\\toprule\n & Ages 16--17 & Ages 18--19 & Ages 16--19 \\\\\n\\midrule\n"
     (PT / fname).write_text(head + "\n".join(L) + "\n\\bottomrule\n\\end{tabular}\n")
 G6 = ["enr_emp", "enr_only", "emp_only", "neither", "enrolled", "employed"]; G4 = G6[:4]; W = ["log_wage", "log_earnweek"]
-tab_rows(G6, "tabR1b_groups_reg.tex", "stacked"); tab_rows(G4, "tabR2b_groups_ses_reg.tex", "stacked", ses=True)
+tab_rows(G6, "tabR1b_groups_reg.tex", "stacked"); tab_rows(G6, "tabR2b_groups_ses_reg.tex", "stacked", ses=True)
 tab_rows(W, "tabR3b_wage_reg.tex", "stacked"); tab_rows(W, "tabR4b_wage_ses_reg.tex", "stacked", ses=True)
-tab_rows(G6, "tabT1_groups_twfe.tex", "twfe_school"); tab_rows(G4, "tabT2_groups_ses_twfe.tex", "twfe_school", ses=True)
+tab_rows(G6, "tabT1_groups_twfe.tex", "twfe_school"); tab_rows(G6, "tabT2_groups_ses_twfe.tex", "twfe_school", ses=True)
 tab_rows(W, "tabT3_wage_twfe.tex", "twfe_school"); tab_rows(W, "tabT4_wage_ses_twfe.tex", "twfe_school", ses=True)
 if (R.group == "nohs_school").any(): tab_rows(G6, "tabR1b_groups_reg_nohs.tex", "stacked", group="nohs_school"); tab_rows(G6, "tabT1_groups_twfe_nohs.tex", "twfe_school", group="nohs_school")
 for tagn, pair, heads in (("sex", ("female", "male"), ("Girls", "Boys")), ("race", ("white", "nonwhite"), ("White", "Non-white"))):
     if not all(((R.group == g).any()) for g in pair): continue
-    tab_rows(G4, f"tabR2b_groups_{tagn}_reg.tex", "stacked", ses=True, pair=pair, heads=heads); tab_rows(W, f"tabR4b_wage_{tagn}_reg.tex", "stacked", ses=True, pair=pair, heads=heads)
-    tab_rows(G4, f"tabT2_groups_{tagn}_twfe.tex", "twfe_school", ses=True, pair=pair, heads=heads); tab_rows(W, f"tabT4_wage_{tagn}_twfe.tex", "twfe_school", ses=True, pair=pair, heads=heads)
+    tab_rows(G6, f"tabR2b_groups_{tagn}_reg.tex", "stacked", ses=True, pair=pair, heads=heads); tab_rows(W, f"tabR4b_wage_{tagn}_reg.tex", "stacked", ses=True, pair=pair, heads=heads)
+    tab_rows(G6, f"tabT2_groups_{tagn}_twfe.tex", "twfe_school", ses=True, pair=pair, heads=heads); tab_rows(W, f"tabT4_wage_{tagn}_twfe.tex", "twfe_school", ses=True, pair=pair, heads=heads)
 print("done")

@@ -50,7 +50,7 @@ gen hi = b + 1.96 * se
 gen off = cond(grp == "q1", -0.24, cond(grp == "q2", -0.08, cond(grp == "q3", 0.08, 0.24)))
 gen kk = k + off
 local i = 0
-foreach y in enr_emp enr_only emp_only neither {
+foreach y in enr_emp enr_only emp_only neither enrolled employed {
     local ++i
     twoway (rcap lo hi kk if outcome == "`y'" & grp == "q1", lcolor(navy))    (scatter b kk if outcome == "`y'" & grp == "q1", mcolor(navy)) ///
            (rcap lo hi kk if outcome == "`y'" & grp == "q2", lcolor(maroon))  (scatter b kk if outcome == "`y'" & grp == "q2", mcolor(maroon)) ///
@@ -60,7 +60,7 @@ foreach y in enr_emp enr_only emp_only neither {
         xtitle("Years relative to the increase") ytitle("Effect (share)") ///
         legend(order(2 "Bottom quarter" 4 "Second quarter" 6 "Third quarter" 8 "Top quarter") rows(1) size(small)) name(p`i', replace)
 }
-grc1leg p1 p2 p3 p4, cols(2) title("School-work status by family income quartile (within-year), ages 16-19", size(small))
+grc1leg p1 p2 p3 p4 p5 p6, cols(3) title("School-work status by family income quartile (within-year), ages 16-19", size(small))
 graph export "$OUT/figQ_groups.png", replace width(2000)
 twoway (rcap lo hi kk if outcome == "log_wage" & grp == "q1", lcolor(navy))    (scatter b kk if outcome == "log_wage" & grp == "q1", mcolor(navy)) ///
        (rcap lo hi kk if outcome == "log_wage" & grp == "q2", lcolor(maroon))  (scatter b kk if outcome == "log_wage" & grp == "q2", mcolor(maroon)) ///

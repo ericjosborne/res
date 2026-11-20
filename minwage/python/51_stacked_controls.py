@@ -87,14 +87,14 @@ if "--tables" in sys.argv:
     if "all" in have: tab(G6, "tabR1b_groups_reg.tex", [("all", a) for a in AGES]); tab(W, "tabR3b_wage_reg.tex", [("all", a) for a in AGES])
     for tagn, pair, heads in (("ses", ("lowses", "highses"), ("Low", "High")), ("sex", ("female", "male"), ("Girls", "Boys")), ("race", ("white", "nonwhite"), ("White", "Non-white"))):
         if set(pair) <= have:
-            cols = [(g, a) for a in AGES for g in pair]; tab(G4, f"tabR2b_groups_{tagn}_reg.tex", cols, heads); tab(W, f"tabR4b_wage_{tagn}_reg.tex", cols, heads)
+            cols = [(g, a) for a in AGES for g in pair]; tab(G6, f"tabR2b_groups_{tagn}_reg.tex", cols, heads); tab(W, f"tabR4b_wage_{tagn}_reg.tex", cols, heads)
     if "nohs_school" in have: tab(G6, "tabR1b_groups_reg_nohs.tex", [("nohs_school", a) for a in AGES])
     for pre, grps, heads in (("Q", ("q1", "q2", "q3", "q4"), ("Bottom quarter", "Second quarter", "Third quarter", "Top quarter")),
                              ("T", ("t1", "t2", "t3"), ("Low income", "Middle income", "Upper income"))):   # income quartiles / terciles: one table per age band
         if not set(grps) <= have: continue
         for a, al in zip(AGES, ("16--17", "18--19", "16--19")):
             L = []
-            for y in G4 + W:
+            for y in G6 + W:
                 l1, l2 = [LAB[y]], [""]
                 for g in grps: b, se = get(g, a, y); l1.append(f"{b:.3f}{st(b, se)}"); l2.append(f"({se:.3f})")
                 L += [" & ".join(l1) + " \\\\", " & ".join(l2) + " \\\\"]
