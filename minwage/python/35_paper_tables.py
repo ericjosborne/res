@@ -61,7 +61,7 @@ import shutil
 for f, g in [("mw_event_grid.png", "fig4_event_main.png"), ("mw_status_1819.png", "fig5_status_1819.png"), ("mw_byevent_1819.png", "fig6_byevent.png")]:
     shutil.copy(PF / "output" / "figures" / f, P / "figures" / g)
 # first-stage figures: main (unit design, three age brackets on one image) and appendix (state design)
-for design, out, title in [(D, "fig3_first_stage.png", "First stage: log hourly wage of hourly-paid teens, unit design, 73 events from 2010"),
+for design, out, title in [(D, "fig3_first_stage.png", "First stage: log hourly wage of hourly-paid teens, unit design, 70 events, 2013-2024"),
                            ("post2009", "figA1_state_first_stage.png", "First stage: log hourly wage of hourly-paid teens, state design, 39 events from 2010")]:
     fig, ax = plt.subplots(figsize=(8, 4.4))
     for ages, col, off in [("1617", PALETTE[0], -0.15), ("1819", PALETTE[1], 0.0), ("1619", PALETTE[2], 0.15)]:
