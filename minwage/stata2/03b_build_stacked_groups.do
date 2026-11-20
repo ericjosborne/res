@@ -1,10 +1,11 @@
 *==============================================================================
 * 03b_build_stacked_groups.do -- the stacked file for a subgroup of teens.  Same steps as 03, on a subset.
 *   Usage:  do "stata2/03b_build_stacked_groups.do" lowses      (one word: the group name below)
-*   Groups: lowses highses female male white nonwhite lowsesrel highsesrel school
+*   Groups: lowses highses female male white nonwhite lowsesrel highsesrel q1 q2 q3 q4 school
 *           school_lowses school_highses school_lowsesrel school_highsesrel (school months x income, for the dropout table)
 *           lowses/highses  = family income below / at or above $50,000 (missing excluded)
 *           lowsesrel/highsesrel = below / at or above the weighted median income category among 16-19 year olds
+*           q1..q4 = within-year weighted quartiles of the income category (missing income excluded)
 *                                  in the same survey year
 *           school          = September-May only (used for the dropout outcome and the school-months check)
 *   Output: data/clean/stacked2_<group>.dta
@@ -28,6 +29,23 @@ if inlist("`g'", "lowsesrel", "highsesrel") {
     }
     gen lowsesrel  = faminc < medcat if faminc < 900
     gen highsesrel = faminc >= medcat if faminc < 900
+}
+
+* ---- income quartiles: within-year weighted quartiles of the income category among 16-19 year olds ----
+if inlist("`g'", "q1", "q2", "q3", "q4") {
+    gen c25 = .
+    gen c50 = .
+    gen c75 = .
+    forvalues y = 2010/2025 {
+        quietly _pctile faminc [pw = weight] if year == `y' & faminc < 900, p(25 50 75)
+        quietly replace c25 = r(r1) if year == `y'
+        quietly replace c50 = r(r2) if year == `y'
+        quietly replace c75 = r(r3) if year == `y'
+    }
+    gen q1 = faminc < c25               if faminc < 900    // bottom quarter
+    gen q2 = inrange(faminc, c25, c50 - 1) if faminc < 900 // second quarter (categories from c25 up to but excluding c50)
+    gen q3 = inrange(faminc, c50, c75 - 1) if faminc < 900 // third quarter
+    gen q4 = faminc >= c75              if faminc < 900    // top quarter
 }
 gen male     = 1 - female
 gen nonwhite = 1 - white
