@@ -26,7 +26,7 @@ ap.add_argument("--events", default="post2009", help="post2009 (events from 2010
 ap.add_argument("--controls", default="clean", help="clean (no state-driven rise in window) | strict (no rise of any kind) | federal (federal-floor states only) | cleanlocal (clean, and control teens in counties with a local minimum above the state rate, or of unknown county in a state-month with one, dropped)")
 ap.add_argument("--treated", default="all", help="all | nolocal (identified counties without a local minimum) | localonly (identified counties with a local minimum above the state rate)")
 ap.add_argument("--B", type=int, default=199); ap.add_argument("--equal", action="store_true", help="equal weight per event (default: treated teen population)")
-ap.add_argument("--ses", default=None, help="rel_low | rel_high: family income below / at or above the within-year weighted median category among 16-19 year olds (missing excluded); rel_q1..rel_q4: within-year weighted quartiles")
+ap.add_argument("--ses", default=None, help="rel_low | rel_high: family income below / at or above the within-year weighted median category among 16-19 year olds (missing excluded); rel_q1..rel_q4: within-year weighted quartiles; rel_t1..rel_t3: terciles")
 ap.add_argument("--query", default=None); ap.add_argument("--tag", default=None); ap.add_argument("--min_post", type=int, default=12, help="events need this many post months in the data")
 a = ap.parse_args()
 
@@ -39,11 +39,12 @@ if a.ses:
         g = g.sort_values("faminc"); cw = g.weight.cumsum() / g.weight.sum(); cut[yr] = int(g.faminc.values[np.searchsorted(cw.values, 0.5)])
     if a.ses in ("rel_low", "rel_high"):
         med = d.year.map(cut); d = d[(d.faminc < 900) & ((d.faminc < med) if a.ses == "rel_low" else (d.faminc >= med))]
-    else:                                                 # rel_q1..rel_q4: within-year weighted quartiles of the income category among 16-19 year olds
-        q = int(a.ses[-1]); cuts = {}
-        for yr, g in t.groupby("year"):
-            g = g.sort_values("faminc"); cw = g.weight.cumsum() / g.weight.sum(); cuts[yr] = [int(g.faminc.values[np.searchsorted(cw.values, p)]) for p in (0.25, 0.5, 0.75)]
-        lo = d.year.map(lambda y: cuts[y][q - 2] if q >= 2 else 0); hi = d.year.map(lambda y: cuts[y][q - 1] if q <= 3 else 9999)
+    else:                                                 # rel_q1..rel_q4 (quartiles) or rel_t1..rel_t3 (terciles): within-year weighted cuts of the income category among 16-19 year olds
+        q = int(a.ses[-1]); G = 4 if a.ses[-2] == "q" else 3; P = [i / G for i in range(1, G)]; cuts = {}
+        for yr, g in t.groupby("year"):                   # each bracket goes to the side that brings the cumulative share closest to the target (brackets are coarse)
+            sw = g.groupby("faminc").weight.sum().sort_index(); cw = (sw.cumsum() / sw.sum()).values; cats = list(sw.index)
+            cuts[yr] = [cats[j + 1] if (j := int(np.argmin(np.abs(cw - p)))) + 1 < len(cats) else 9999 for p in P]
+        lo = d.year.map(lambda y: cuts[y][q - 2] if q >= 2 else 0); hi = d.year.map(lambda y: cuts[y][q - 1] if q <= G - 1 else 9999)
         d = d[(d.faminc < 900) & (d.faminc >= lo) & (d.faminc < hi)]
 d = d[d.age.between(a.ages[0], a.ages[1])]
 if a.query: d = d.query(a.query)

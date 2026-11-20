@@ -1,11 +1,11 @@
 *==============================================================================
 * 03b_build_stacked_groups.do -- the stacked file for a subgroup of teens.  Same steps as 03, on a subset.
 *   Usage:  do "stata2/03b_build_stacked_groups.do" lowses      (one word: the group name below)
-*   Groups: lowses highses female male white nonwhite lowsesrel highsesrel q1 q2 q3 q4 school
+*   Groups: lowses highses female male white nonwhite lowsesrel highsesrel q1 q2 q3 q4 t1 t2 t3 school
 *           school_lowses school_highses school_lowsesrel school_highsesrel (school months x income, for the dropout table)
 *           lowses/highses  = family income below / at or above $50,000 (missing excluded)
 *           lowsesrel/highsesrel = below / at or above the weighted median income category among 16-19 year olds
-*           q1..q4 = within-year weighted quartiles of the income category (missing income excluded)
+*           q1..q4 / t1..t3 = within-year quartiles / terciles of the income category (missing income excluded; nearest-bracket cuts)
 *                                  in the same survey year
 *           school          = September-May only (used for the dropout outcome and the school-months check)
 *   Output: data/clean/stacked2_<group>.dta
@@ -31,21 +31,44 @@ if inlist("`g'", "lowsesrel", "highsesrel") {
     gen highsesrel = faminc >= medcat if faminc < 900
 }
 
-* ---- income quartiles: within-year weighted quartiles of the income category among 16-19 year olds ----
-if inlist("`g'", "q1", "q2", "q3", "q4") {
-    gen c25 = .
-    gen c50 = .
-    gen c75 = .
-    forvalues y = 2010/2025 {
-        quietly _pctile faminc [pw = weight] if year == `y' & faminc < 900, p(25 50 75)
-        quietly replace c25 = r(r1) if year == `y'
-        quietly replace c50 = r(r2) if year == `y'
-        quietly replace c75 = r(r3) if year == `y'
+* ---- income quartiles (q1..q4) and terciles (t1..t3): within-year cuts of the income category among 16-19 year olds ----
+*   The CPS income brackets are coarse, so each bracket goes to the side that brings the cumulative share closest to
+*   the target (1/4, 1/2, 3/4 or 1/3, 2/3).  The cut is the first bracket of the upper group.
+if inlist("`g'", "q1", "q2", "q3", "q4", "t1", "t2", "t3") {
+    if substr("`g'", 1, 1) == "q" {
+        local targets 0.25 0.5 0.75
     }
-    gen q1 = faminc < c25               if faminc < 900    // bottom quarter
-    gen q2 = inrange(faminc, c25, c50 - 1) if faminc < 900 // second quarter (categories from c25 up to but excluding c50)
-    gen q3 = inrange(faminc, c50, c75 - 1) if faminc < 900 // third quarter
-    gen q4 = faminc >= c75              if faminc < 900    // top quarter
+    else {
+        local targets 0.33333 0.66667
+    }
+    tempfile cuts
+    preserve
+    keep if faminc < 900
+    collapse (sum) w = weight, by(year faminc)
+    bysort year (faminc): gen cum = sum(w)                           // cumulative weight through each bracket
+    bysort year (faminc): replace cum = cum / cum[_N]                // as a share of the year's total
+    bysort year (faminc): gen nextcat = cond(_n < _N, faminc[_n + 1], 9999)
+    local j = 0
+    foreach p of local targets {
+        local ++j
+        gen dist`j' = abs(cum - `p')
+        bysort year (dist`j'): gen cut`j' = nextcat[1]               // bracket after the one whose cumulative share is closest to the target
+    }
+    collapse (max) cut*, by(year)
+    save `cuts'
+    restore
+    merge m:1 year using `cuts', nogen
+    if substr("`g'", 1, 1) == "q" {
+        gen q1 = faminc < cut1                   if faminc < 900    // bottom quarter
+        gen q2 = inrange(faminc, cut1, cut2 - 1) if faminc < 900    // second quarter
+        gen q3 = inrange(faminc, cut2, cut3 - 1) if faminc < 900    // third quarter
+        gen q4 = faminc >= cut3                  if faminc < 900    // top quarter
+    }
+    else {
+        gen t1 = faminc < cut1                   if faminc < 900    // low income (bottom third)
+        gen t2 = inrange(faminc, cut1, cut2 - 1) if faminc < 900    // middle income
+        gen t3 = faminc >= cut2                  if faminc < 900    // upper income (top third)
+    }
 }
 gen male     = 1 - female
 gen nonwhite = 1 - white

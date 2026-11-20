@@ -44,6 +44,7 @@ are read as given here.
 | Appendix Table 32 TWFE diagnostics | `tabB_twfe_diag.do` | cps2, mwpanel2 |
 | Appendix D within-year median split (Tables 33-34, Figure 14) | `tabD_sesrel.do` | stacked2_lowsesrel, stacked2_highsesrel |
 | Family income quartiles (post averages and event studies, not yet in the paper) | `tabQ_quartiles.do` | stacked2_q1 .. stacked2_q4 |
+| Family income terciles, low / middle / upper third (post averages and event studies) | `tabT_terciles.do` | stacked2_t1 .. stacked2_t3 |
 | Appendix E dropout (Table 35) | `tabE_dropout.do` | stacked2, stacked2_school*, |
 
 ## 3. How the estimator in these files relates to the paper's numbers

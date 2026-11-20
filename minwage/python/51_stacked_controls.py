@@ -26,12 +26,19 @@ if "--tables" not in sys.argv:
     d["log_wage"] = np.log(d.hourwage.where((d.org == 1) & (d.paidhour == 1) & (d.hourwage > 0))); d["log_earnweek"] = np.log(d.earnweek.where((d.org == 1) & (d.earnweek > 0)))
     d["lowses"] = (d.faminc <= 740).astype(int); d["highses"] = ((d.faminc >= 820) & (d.faminc < 900)).astype(int); d["male"] = 1 - d.female; d["nonwhite"] = 1 - d.white
     d["nohs_school"] = ((d.hs_grad == 0) & ((d.month <= 5) | (d.month >= 9))).astype(int)
-    cuts = {}                                              # within-year weighted quartiles of the family income category among 16-19 year olds (missing excluded)
-    for yr, g in d[d.faminc < 900].groupby("year"):
-        g = g.sort_values("faminc"); cw = g.weight.cumsum() / g.weight.sum(); cuts[yr] = [int(g.faminc.values[np.searchsorted(cw.values, p)]) for p in (0.25, 0.5, 0.75)]
+    def wcuts(P):                                          # within-year cuts of the family income category among 16-19 year olds (missing excluded): each bracket goes to the side that brings the cumulative share closest to the target
+        out = {}
+        for yr, g in d[d.faminc < 900].groupby("year"):
+            sw = g.groupby("faminc").weight.sum().sort_index(); cw = (sw.cumsum() / sw.sum()).values; cats = list(sw.index)
+            out[yr] = [cats[j + 1] if (j := int(np.argmin(np.abs(cw - p)))) + 1 < len(cats) else 9999 for p in P]
+        return out
+    cuts = wcuts((0.25, 0.5, 0.75))                        # quartiles
     c25, c50, c75 = (d.year.map(lambda y, i=i: cuts[y][i]) for i in range(3)); ok = d.faminc < 900
     d["q1"] = (ok & (d.faminc < c25)).astype(int); d["q2"] = (ok & (d.faminc >= c25) & (d.faminc < c50)).astype(int)
     d["q3"] = (ok & (d.faminc >= c50) & (d.faminc < c75)).astype(int); d["q4"] = (ok & (d.faminc >= c75)).astype(int)
+    cuts3 = wcuts((1 / 3, 2 / 3))                          # terciles (low / middle / upper third)
+    c33, c67 = (d.year.map(lambda y, i=i: cuts3[y][i]) for i in range(2))
+    d["t1"] = (ok & (d.faminc < c33)).astype(int); d["t2"] = (ok & (d.faminc >= c33) & (d.faminc < c67)).astype(int); d["t3"] = (ok & (d.faminc >= c67)).astype(int)
     E = pd.read_csv(MW / "unit_events.csv"); E = E[(E.event_ym >= "2010-01") & (E.pct_window >= 0.05)]
     E = E[(E.event_ym >= "2013-01") & (E.event_ym <= "2025-01")].copy(); E["ymi"] = E.event_ym.str[:4].astype(int) * 12 + E.event_ym.str[5:7].astype(int) - 1  # full 36-month pre-period and 12 post months inside the 2010-2025 window, as in the event studies (70 events)
     geo_state = dict(zip(d.geo, d.state_fips)); CELL = ["geo", "ym", "age", "female", "race4", "finc"]
@@ -82,11 +89,13 @@ if "--tables" in sys.argv:
         if set(pair) <= have:
             cols = [(g, a) for a in AGES for g in pair]; tab(G4, f"tabR2b_groups_{tagn}_reg.tex", cols, heads); tab(W, f"tabR4b_wage_{tagn}_reg.tex", cols, heads)
     if "nohs_school" in have: tab(G6, "tabR1b_groups_reg_nohs.tex", [("nohs_school", a) for a in AGES])
-    if {"q1", "q2", "q3", "q4"} <= have:                   # income quartiles: one table per age band, four columns
+    for pre, grps, heads in (("Q", ("q1", "q2", "q3", "q4"), ("Bottom quarter", "Second quarter", "Third quarter", "Top quarter")),
+                             ("T", ("t1", "t2", "t3"), ("Low income", "Middle income", "Upper income"))):   # income quartiles / terciles: one table per age band
+        if not set(grps) <= have: continue
         for a, al in zip(AGES, ("16--17", "18--19", "16--19")):
             L = []
             for y in G4 + W:
                 l1, l2 = [LAB[y]], [""]
-                for g in ("q1", "q2", "q3", "q4"): b, se = get(g, a, y); l1.append(f"{b:.3f}{st(b, se)}"); l2.append(f"({se:.3f})")
+                for g in grps: b, se = get(g, a, y); l1.append(f"{b:.3f}{st(b, se)}"); l2.append(f"({se:.3f})")
                 L += [" & ".join(l1) + " \\\\", " & ".join(l2) + " \\\\"]
-            (PT / f"tabQ_reg_{a}.tex").write_text("\\begin{tabular}{lcccc}\n\\toprule\n & Bottom quarter & Second quarter & Third quarter & Top quarter \\\\\n\\midrule\n" + "\n".join(L) + "\n\\bottomrule\n\\end{tabular}\n"); print("wrote", f"tabQ_reg_{a}.tex")
+            (PT / f"tab{pre}_reg_{a}.tex").write_text("\\begin{tabular}{l" + "c" * len(grps) + "}\n\\toprule\n & " + " & ".join(heads) + " \\\\\n\\midrule\n" + "\n".join(L) + "\n\\bottomrule\n\\end{tabular}\n"); print("wrote", f"tab{pre}_reg_{a}.tex")
