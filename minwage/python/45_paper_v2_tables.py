@@ -80,6 +80,10 @@ for g, _ in SEX + RACE:
 table_ses(WAGE, SEX, "tabR4_wage_sex.tex", heads=("Girls", "Boys")); table_ses(WAGE, RACE, "tabR4_wage_race.tex", heads=("White", "Non-white"))
 for tagn, grp, ttl in (("sex", SEX, "girls vs boys"), ("race", RACE, "non-Hispanic white vs all other")):
     fig_grid(GROUPS + MEMO_FIG, ses_series("1619", grp, ""), f"figR2_groups_{tagn}.png", 3, f"School-work status by {tagn} ({ttl}), ages 16-19, 95% intervals", "Effect (share)")
+    for a, al in (("1617", "16-17"), ("1819", "18-19")):   # per-age versions of the pooled figure
+        fig_grid(GROUPS + MEMO_FIG, ses_series(a, grp, ""), f"figR2_groups_{tagn}_{a}.png", 3, f"School-work status by {tagn} ({ttl}), ages {al}, 95% intervals", "Effect (share)")
+for a, al in (("1617", "16-17"), ("1819", "18-19")):
+    fig_grid(GROUPS + MEMO_FIG, ses_series(a, SES), f"figR2_groups_ses_{a}.png", 3, f"School-work status by family income (below vs at or above $50,000), ages {al}, 95% intervals", "Effect (share)")
 fig_grid(GROUPS + MEMO_FIG, ses_series("1619", SES), "figR2_groups_ses.png", 3, "School-work status by family income (below vs at or above $50,000), ages 16-19, 95% intervals", "Effect (share)")
 fig_grid(GROUPS + MEMO_FIG, ses_series("1619", SESREL), "figA_groups_sesrel.png", 3, "School-work status by family income (within-year median split), ages 16-19, 95% intervals", "Effect (share)")
 # results, part 2: log wages
